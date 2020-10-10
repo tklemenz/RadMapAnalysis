@@ -11,6 +11,7 @@ include_directories(${ROOT_USE_FILE})
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS})
 add_definitions(${ROOT_CXX_FLAGS})
 
+
 set(SRCS
    src/Dummy.cxx
    )
@@ -24,5 +25,21 @@ add_library(RadMapAna SHARED ${SRCS} G__RMA)
 target_link_libraries(RadMapAna ${ROOT_LIBRARIES}) 
 
 # Create a main program using the library
-add_executable(runDummy macros/runDummy.C)
-target_link_libraries(runDummy RadMapAna)
+
+set(EXE_SRCS
+    macros/runDummy.C)
+
+set(EXE_NAMES
+    runDummy)
+
+list(LENGTH EXE_SRCS count)
+math(EXPR count "${count}-1")
+foreach(i RANGE ${count})
+  list(GET EXE_SRCS ${i} src)
+  list(GET EXE_NAMES ${i} name)
+  add_executable(${name} ${src})
+  set_target_properties(${name}
+                      PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+  target_link_libraries(${name} RadMapAna)
+endforeach()
