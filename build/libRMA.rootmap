@@ -1,0 +1,4 @@
+[ libRMA.so ]
+# List of selected classes
+class Dummy
+header Dummy.h
