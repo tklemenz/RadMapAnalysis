@@ -6,5 +6,6 @@
 
 #pragma link C++ class Dummy +;
 #pragma link C++ class Signal +;
+#pragma link C++ class Fiber +;
 
 #endif

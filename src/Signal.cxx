@@ -2,14 +2,6 @@
 
 ClassImp(Signal);
 
-Signal::Signal()
-: mTot(0),
-  mTimeStamp(0),
-  mSignalNr(0)
-{
-
-}
-
 //________________________________________________________________________________
 Signal::Signal(const Signal &signal)
 : mTot(signal.mTot),

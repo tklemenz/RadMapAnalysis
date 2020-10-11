@@ -6,7 +6,7 @@
 class Signal
 {
  public:
-  Signal();
+  Signal() = default;
   Signal(const Signal &signal);
   Signal(const Double_t tot, const Double_t timeStamp, const Int_t signalNr);
   virtual ~Signal();
@@ -21,9 +21,9 @@ class Signal
 
  private:
 
-	Double_t 	mTot;
-	Double_t 	mTimeStamp;
-	Int_t 		mSignalNr;
+	Double_t 	mTot;					///< time over threshold in seconds
+	Double_t 	mTimeStamp;		///< time stamp of rising edge in seconds
+	Int_t 		mSignalNr;		///< nth signal in given event and channel
 
 	ClassDef(Signal,1);
 };

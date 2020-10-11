@@ -15,11 +15,13 @@ add_definitions(${ROOT_CXX_FLAGS})
 set(SRCS
    src/Dummy.cxx
    src/Signal.cxx
+   src/Fiber.cxx
    )
 
 set(HEADERS
    include/Dummy.h
    include/Signal.h
+   include/Fiber.h
    )
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)
