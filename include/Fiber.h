@@ -17,8 +17,8 @@ class Fiber
   inline void setY      (Int_t y)     { mY = y; }
   inline void setTDC    (Int_t TDC)   { mTDC = TDC; }
 
-  void addSignal(Signal &signal);
-  void addSignals(std::vector<Signal> &signalVec) { mSignalVec = signalVec; }
+  inline void addSignal(Signal &signal)                  { mSignalVec.emplace_back(signal); }
+  inline void addSignals(std::vector<Signal> &signalVec) { mSignalVec = signalVec; }
 
   inline Int_t getLayer()    const { return mLayer; }
   inline Int_t getX()        const { return mX; }

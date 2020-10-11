@@ -18,9 +18,3 @@ Fiber::~Fiber()
 {
   // dtor
 }
-
-//________________________________________________________________________________
-void Fiber::addSignal(Signal &signal)
-{
-  mSignalVec.emplace_back(signal);
-}

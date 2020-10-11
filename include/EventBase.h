@@ -13,12 +13,15 @@ class EventBase
   inline void setEventNr      (Float_t eventNr) { mEventNr = eventNr; }
   inline void setPadiwaConfig (Int_t config)    { mPadiwaConfig = config; }
 
-  void addFiber(Fiber &fiber);
-  void addFibers(std::vector<Fiber> &fiberVec) { mFiberVec = fiberVec; }
+  inline void addFiber(Fiber &fiber)                  { mFiberVec.emplace_back(fiber); }
+  inline void addFibers(std::vector<Fiber> &fiberVec) { mFiberVec = fiberVec; }
 
   inline Float_t getEventNr()      const { return mEventNr; }
   inline Float_t getFiberMultiplicity()  { return mFiberVec.size(); }          ///< number of fibers with signal
   inline Float_t getSignalMultiplicity();                                      ///< overall number of signals
+
+  std::vector<Fiber>&       getFibers()       { return mFiberVec; }
+  const std::vector<Fiber>& getFibers() const { return mFiberVec; }
 
  private:
 

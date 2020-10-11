@@ -35,10 +35,12 @@ target_link_libraries(RadMapAna ${ROOT_LIBRARIES})
 # Create a main program using the library
 
 set(EXE_SRCS
-    macros/runDummy.C)
+    macros/runDummy.C
+    macros/crappyTest.C)
 
 set(EXE_NAMES
-    runDummy)
+    runDummy
+    runCrappyTest)
 
 list(LENGTH EXE_SRCS count)
 math(EXPR count "${count}-1")
