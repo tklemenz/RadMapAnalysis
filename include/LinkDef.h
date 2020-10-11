@@ -7,5 +7,7 @@
 #pragma link C++ class Dummy +;
 #pragma link C++ class Signal +;
 #pragma link C++ class Fiber +;
+#pragma link C++ class EventBase +;
+#pragma link C++ class CTSEvent +;
 
 #endif

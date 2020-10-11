@@ -2,7 +2,6 @@
 #define FIBER_H
 
 #include <vector>
-#include <Rtypes.h>
 
 #include "Signal.h"
 
@@ -19,11 +18,13 @@ class Fiber
   inline void setTDC    (Int_t TDC)   { mTDC = TDC; }
 
   void addSignal(Signal &signal);
+  void addSignals(std::vector<Signal> &signalVec) { mSignalVec = signalVec; }
 
-  inline Int_t getLayer()  const { return mLayer; }
-  inline Int_t getX()      const { return mX; }
-  inline Int_t getY()      const { return mY; }
-  inline Int_t getTDC()    const { return mTDC; }
+  inline Int_t getLayer()    const { return mLayer; }
+  inline Int_t getX()        const { return mX; }
+  inline Int_t getY()        const { return mY; }
+  inline Int_t getTDC()      const { return mTDC; }
+  inline Int_t getNSignals() const { return mSignalVec.size(); }
 
   std::vector<Signal>&       getSignals()       { return mSignalVec; }
   const std::vector<Signal>& getSignals() const { return mSignalVec; }

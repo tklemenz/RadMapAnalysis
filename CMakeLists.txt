@@ -16,12 +16,16 @@ set(SRCS
    src/Dummy.cxx
    src/Signal.cxx
    src/Fiber.cxx
+   src/EventBase.cxx
+   src/CTSEvent.cxx
    )
 
 set(HEADERS
    include/Dummy.h
    include/Signal.h
    include/Fiber.h
+   include/EventBase.h
+   include/CTSEvent.h
    )
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)
