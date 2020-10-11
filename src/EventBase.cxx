@@ -18,7 +18,7 @@ EventBase::~EventBase()
 }
 
 //________________________________________________________________________________
-Float_t EventBase::getSignalMultiplicity()
+Float_t EventBase::getNSignals()
 {
   Int_t multi = 0;
 

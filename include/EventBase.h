@@ -2,6 +2,18 @@
 #define EVENTBASE_H
 
 #include "Fiber.h"
+#include "Module.h"
+
+/// This class represents an "undefined" event from which specified event classes 
+/// (e.g. CTSEvent or physical event classe) can inherit from.
+/// 
+/// The philosophy still needs a bit of thought...
+/// For now the important members are:
+///                - EventNr
+///                - PadiwaConfig
+///                - Module
+///
+/// The module object contains all signal information. 
 
 class EventBase
 {
@@ -17,17 +29,22 @@ class EventBase
   inline void addFibers(std::vector<Fiber> &fiberVec) { mFiberVec = fiberVec; }
 
   inline Float_t getEventNr()      const { return mEventNr; }
-  inline Float_t getFiberMultiplicity()  { return mFiberVec.size(); }          ///< number of fibers with signal
-  inline Float_t getSignalMultiplicity();                                      ///< overall number of signals
+  inline Int_t   getPadiwaConfig() const { return mPadiwaConfig; }
+
+  inline Float_t getNSignals();                                                ///< overall number of signals
 
   std::vector<Fiber>&       getFibers()       { return mFiberVec; }
   const std::vector<Fiber>& getFibers() const { return mFiberVec; }
+
+  Module&                   getModule()       { return mModule; }
+  const Module&             getModule() const { return mModule; }
 
  private:
 
   std::vector<Fiber> mFiberVec{};          ///< fibers with signals
   Float_t            mEventNr;             ///< event number
   Int_t              mPadiwaConfig;        ///< padiwa configuration, 0-4
+  Module             mModule;              ///< containing all fibers and signals
 
   ClassDef(EventBase,1);
 };

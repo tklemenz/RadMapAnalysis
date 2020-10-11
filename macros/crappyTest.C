@@ -18,8 +18,6 @@ int main()
 
 	event.addFiber(fiber);
 
-	printf("fiber multi: %d\n", int(event.getFiberMultiplicity()));
-
   std::vector<Fiber> fiberVec;
 
   fiberVec = event.getFibers();

@@ -18,6 +18,8 @@ set(SRCS
    src/Fiber.cxx
    src/EventBase.cxx
    src/CTSEvent.cxx
+   src/Module.cxx
+   src/Utility.cxx
    )
 
 set(HEADERS
@@ -26,6 +28,8 @@ set(HEADERS
    include/Fiber.h
    include/EventBase.h
    include/CTSEvent.h
+   include/Module.h
+   include/Utility.h
    )
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)

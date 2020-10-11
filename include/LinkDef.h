@@ -9,5 +9,7 @@
 #pragma link C++ class Fiber +;
 #pragma link C++ class EventBase +;
 #pragma link C++ class CTSEvent +;
+#pragma link C++ class Module +;
+#pragma link C++ function mapping::getModuleSpot +;
 
 #endif
