@@ -22,5 +22,5 @@ Fiber::~Fiber()
 //________________________________________________________________________________
 void Fiber::addSignal(Signal &signal)
 {
-	mSignalVec.emplace_back(signal);
+  mSignalVec.emplace_back(signal);
 }

@@ -13,10 +13,10 @@ class Fiber
   Fiber(const Fiber &fiber);
   virtual ~Fiber();
 
-  inline void setLayer	(Int_t layer)	{ mLayer = layer; }
-  inline void setX			(Int_t x) 		{ mX = x; }
-  inline void setY		  (Int_t y) 		{ mY = y; }
-  inline void setTDC		(Int_t TDC) 	{ mTDC = TDC; }
+  inline void setLayer  (Int_t layer) { mLayer = layer; }
+  inline void setX      (Int_t x)     { mX = x; }
+  inline void setY      (Int_t y)     { mY = y; }
+  inline void setTDC    (Int_t TDC)   { mTDC = TDC; }
 
   void addSignal(Signal &signal);
 
@@ -30,11 +30,11 @@ class Fiber
 
  private:
 
- 	std::vector<Signal> mSignalVec{};		///< holds all signals recorded in the fiber
- 	Int_t 							mLayer;					///< layer the fiber is located in
- 	Int_t								mX;							///< xth fiber in vertical (odd) layers, counts from left to right
- 	Int_t								mY;							///< yth fiber in horizontal (even) layers, counts from bottom to top
- 	Int_t								mTDC;						///< TDC ID where the fiber was connected, depends on padiwa config, 0=1500, 1=1510, 2=1520, 3=1530
+ 	std::vector<Signal> mSignalVec{}; ///< holds all signals recorded in the fiber
+ 	Int_t               mLayer;       ///< layer the fiber is located in
+ 	Int_t               mX;           ///< xth fiber in vertical (odd) layers, counts from left to right
+ 	Int_t               mY;           ///< yth fiber in horizontal (even) layers, counts from bottom to top
+ 	Int_t               mTDC;         ///< TDC ID where the fiber was connected, depends on padiwa config, 0=1500, 1=1510, 2=1520, 3=1530
 
 	ClassDef(Fiber,1);
 };
