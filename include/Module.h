@@ -14,7 +14,7 @@ class Module
   virtual ~Module();
 
   /// add a signal to the module
-  inline void addSignal(Signal &signal);
+  void addSignal(Signal &signal);
 
   /// get the overall number of signals in the module
   Float_t getNSignals();

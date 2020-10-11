@@ -24,6 +24,7 @@ class EventBase
 
   inline void setEventNr      (Float_t eventNr) { mEventNr = eventNr; }
   inline void setPadiwaConfig (Int_t config)    { mPadiwaConfig = config; }
+  inline void setModule       (Module &module)  { mModule = module; }
 
   inline void addFiber(Fiber &fiber)                  { mFiberVec.emplace_back(fiber); }
   inline void addFibers(std::vector<Fiber> &fiberVec) { mFiberVec = fiberVec; }
