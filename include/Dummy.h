@@ -1,10 +1,10 @@
 #ifndef DUMMY_H
 #define DUMMY_H
 
-#include <TClonesArray.h>
-#include <TObject.h>
+#include <Rtypes.h>
 
-class Dummy{
+class Dummy
+{
 public:
   Dummy();
   Dummy(const Dummy &dummy);

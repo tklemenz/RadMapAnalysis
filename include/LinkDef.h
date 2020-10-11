@@ -5,4 +5,6 @@
 #pragma link off all functions;
 
 #pragma link C++ class Dummy +;
+#pragma link C++ class Signal +;
+
 #endif
