@@ -14,3 +14,7 @@ Do NOT commit:
 
 	- bin
 	- build 
+
+
+
+Feel free to not only add macros but also add missing functionality to the classes.
