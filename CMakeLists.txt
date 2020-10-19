@@ -20,6 +20,7 @@ set(SRCS
    src/CTSEvent.cxx
    src/Module.cxx
    src/Utility.cxx
+   src/Cluster.cxx
    )
 
 set(HEADERS
@@ -30,6 +31,7 @@ set(HEADERS
    include/CTSEvent.h
    include/Module.h
    include/Utility.h
+   include/Cluster.h
    )
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)

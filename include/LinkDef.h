@@ -10,6 +10,15 @@
 #pragma link C++ class EventBase +;
 #pragma link C++ class CTSEvent +;
 #pragma link C++ class Module +;
+#pragma link C++ class Cluster +;
 #pragma link C++ function mapping::getModuleSpot +;
+#pragma link C++ function mapping::odd0 +;
+#pragma link C++ function mapping::odd1 +;
+#pragma link C++ function mapping::revEven0 +;
+#pragma link C++ function mapping::revEven1 +;
+#pragma link C++ function mapping::getFiberNr +;
+#pragma link C++ function mapping::getLayerNr +;
+#pragma link C++ function mapping::getX +;
+#pragma link C++ function mapping::getY +;
 
 #endif
