@@ -22,6 +22,9 @@ class Module
   /// get the number of fibers that have a signal
   Int_t   getNFibers();
 
+  /// get the fiber vector
+  inline std::vector<Fiber> getFibers() { return mFibers; }
+
  private:
 
  	std::vector<Fiber>  mFibers{256}; ///< holds all fibers of the module
