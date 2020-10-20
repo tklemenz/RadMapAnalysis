@@ -1,6 +1,9 @@
 #include "Utility.h"
 
-Int_t mapping::getFiberNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
+namespace mapping
+{
+
+Int_t getFiberNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
 {
   if (chID == 0) { return 0; }
   switch (configuration) {
@@ -125,7 +128,7 @@ Int_t mapping::getFiberNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
   }
 }
 
-Int_t mapping::getLayerNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
+Int_t getLayerNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
 {
   switch (configuration) {
     case 0:
@@ -190,7 +193,7 @@ Int_t mapping::getLayerNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
   }
 }
 
-Int_t mapping::getX(Int_t fiber, Int_t layer)
+Int_t getX(Int_t fiber, Int_t layer)
 {
   if      ((layer == 1) || (layer == 3) || (layer == 5) || (layer == 7)) { return fiber; }
   else if ((layer == 2) || (layer == 4) || (layer == 6) || (layer == 8)) { return 0; }
@@ -200,7 +203,7 @@ Int_t mapping::getX(Int_t fiber, Int_t layer)
   }
 }
 
-Int_t mapping::getY(Int_t fiber, Int_t layer)
+Int_t getY(Int_t fiber, Int_t layer)
 {
   if      ((layer == 1) || (layer == 3) || (layer == 5) || (layer == 7)) { return 0; }
   else if ((layer == 2) || (layer == 4) || (layer == 6) || (layer == 8)) { return fiber; }
@@ -209,3 +212,5 @@ Int_t mapping::getY(Int_t fiber, Int_t layer)
     return -1;
   }
 }
+
+} /// namespace mapping
