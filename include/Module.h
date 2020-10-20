@@ -9,7 +9,7 @@
 class Module
 {
  public:
-  Module() = default;
+  Module();
   Module(const Module &module);
   virtual ~Module();
 
@@ -25,9 +25,14 @@ class Module
   /// get the fiber vector
   inline std::vector<Fiber> getFibers() { return mFibers; }
 
+  /// remove all signals from the module
+  void reset();
+
  private:
 
- 	std::vector<Fiber>  mFibers{256}; ///< holds all fibers of the module
+  void init();
+
+ 	std::vector<Fiber>  mFibers{}; ///< holds all fibers of the module
 
 	ClassDef(Module,1);
 };

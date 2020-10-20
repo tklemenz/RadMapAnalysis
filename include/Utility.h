@@ -2,13 +2,17 @@
 #define UTILITY_H
 
 #include <Rtypes.h>
-#include <string>
+#include <utility>
 
 namespace mapping
 {
 
-  /// get the fiber number (0 - 255) that the layer+chID combination takes in the module 
-  inline Int_t getModuleSpot(Int_t layer, Int_t chID) { return ((chID + (layer-1)*32)-1); }
+  /// get the fiber number (0 - 255) that the layer+fiber combination takes in the module 
+  inline Int_t getModuleSpot(Int_t layer, Int_t fiber) { return ((fiber + (layer-1)*32)-1); }
+
+  /// get the layer and fiber number from the module spot
+  /// returns std::pair<layer,fiber>
+  std::pair<Int_t, Int_t> getFiberInfoFromModSpot(Int_t modSpot);
 
   /// mapping functions from channel number to fiber
   /// odd maps channel number to odd numbers from 1-31
@@ -27,10 +31,10 @@ namespace mapping
   Int_t getLayerNr(UInt_t configuration, UInt_t chID, UInt_t tdcID);
 
   /// get the fiber number in x-direction from the fiber number and layer number. returns 0 for even layers.
-  Int_t getX(Int_t fiber, Int_t layer);
+  Int_t getX(Int_t layer, Int_t fiber);
 
   /// get the fiber number in y-direction from the fiber number and layer number. returns 0 for odd layers.
-  Int_t getY(Int_t fiber, Int_t layer);
+  Int_t getY(Int_t layer, Int_t fiber);
 
 } /// namespace mapping
 

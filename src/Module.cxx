@@ -3,6 +3,11 @@
 
 ClassImp(Module);
 
+Module::Module()
+{
+  Module::init();
+}
+
 //________________________________________________________________________________
 Module::Module(const Module &module)
 : mFibers(module.mFibers)
@@ -19,7 +24,7 @@ Module::~Module()
 //________________________________________________________________________________
 void Module::addSignal(Signal &signal)
 {
-  mFibers.at(mapping::getModuleSpot(signal.getLayer(), signal.getChannelID())).addSignal(signal);
+  mFibers.at(mapping::getModuleSpot(signal.getLayer(), mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()))).addSignal(signal);
 }
 
 //________________________________________________________________________________
@@ -46,4 +51,23 @@ Int_t Module::getNFibers()
   }
 
   return nFibers;
+}
+
+//________________________________________________________________________________
+void Module::reset()
+{
+  for(auto& fiber : mFibers) {
+    fiber.reset();
+  }
+}
+
+//________________________________________________________________________________
+void Module::init()
+{
+  for(Int_t i=0; i<256; i++) {
+
+    std::pair<Int_t, Int_t> layFib = mapping::getFiberInfoFromModSpot(i);
+
+    mFibers.emplace_back(Fiber(layFib.first, mapping::getX(layFib.first, layFib.second), mapping::getY(layFib.first, layFib.second)));
+  }
 }

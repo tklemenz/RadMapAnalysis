@@ -42,7 +42,7 @@ class EventBase
 
  private:
 
-  std::vector<Fiber> mFiberVec{};          ///< fibers with signals
+  std::vector<Fiber> mFiberVec{};          ///< fibers with signals   --->   abandoned for now because the info is in the module
   Float_t            mEventNr;             ///< event number
   Int_t              mPadiwaConfig;        ///< padiwa configuration, 0-4
   Module             mModule;              ///< containing all fibers and signals
