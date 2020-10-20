@@ -13,7 +13,7 @@ cd ${DIR}/build
 
 FILE=${DIR}/build/Makefile
 if [ -f "$FILE" ]; then
-    echo ""
+  echo ""
 	echo ""
 	echo -e "${BLUE}cleaning...${NOCOL}"
 	make clean
@@ -29,9 +29,9 @@ if [ $CMAKE -ne 0 ]; then
 	cd ${WD}
 	echo""
 	echo""
-    echo -e "${RED}cmake failed!!${NOCOL}"
-    echo""
-    echo""
+  echo -e "${RED}cmake failed!!${NOCOL}"
+  echo""
+  echo""
 fi
 
 echo ""
@@ -44,9 +44,9 @@ if [ $MAKE -ne 0 ]; then
 	cd ${WD}
 	echo""
 	echo""
-    echo -e "${RED}make failed!!${NOCOL}"
-    echo""
-    echo""
+  echo -e "${RED}make failed!!${NOCOL}"
+  echo""
+  echo""
 fi
 
 cd ${WD}

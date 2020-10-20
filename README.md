@@ -13,7 +13,7 @@ Please only commit the following files or files in the following folders if chan
 Do NOT commit:
 
 	- bin
-	- build 
+	- build
 
 
 Feel free to not only add macros but also add missing functionality to the classes.
