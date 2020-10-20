@@ -16,9 +16,9 @@ cd ${DIR}/build
 FILE=${DIR}/build/Makefile
 if [ -f "$FILE" ]; then
   echo ""
-	echo ""
-	echo -e "${BLUE}${BOLD}cleaning...${RST}"
-	make clean
+  echo ""
+  echo -e "${BLUE}${BOLD}cleaning...${RST}"
+  make clean
 fi
 
 echo ""
@@ -28,9 +28,9 @@ echo -e "${BLUE}${BOLD}running cmake...${RST}"
 cmake ..
 CMAKE=$?
 if [ $CMAKE -ne 0 ]; then
-	cd ${WD}
-	echo""
-	echo""
+  cd ${WD}
+  echo""
+  echo""
   echo -e "${RED}${BOLD}cmake failed!!${RST}"
   echo""
   echo""
@@ -43,9 +43,9 @@ echo -e "${BLUE}${BOLD}running make...${RST}"
 make
 MAKE=$?
 if [ $MAKE -ne 0 ]; then
-	cd ${WD}
-	echo""
-	echo""
+  cd ${WD}
+  echo""
+  echo""
   echo -e "${RED}${BOLD}make failed!!${RST}"
   echo""
   echo""
@@ -55,9 +55,9 @@ cd ${WD}
 echo ""
 echo ""
 if [ $CMAKE -ne 0 ] || [ $MAKE -ne 0 ]; then
-	echo -e "${RED}${BOLD}${BLINK}FAILED!${RST}"
+  echo -e "${RED}${BOLD}${BLINK}FAILED!${RST}"
 else
-	echo -e "${GREEN}${BOLD}${BLINK}SUCCESS!${RST}"
+  echo -e "${GREEN}${BOLD}${BLINK}SUCCESS!${RST}"
 fi
 echo ""
 echo ""
