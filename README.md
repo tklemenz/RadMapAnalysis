@@ -1,11 +1,11 @@
-#Install guide
+# Install guide
 
-##Prerequisites
+## Prerequisites
 
 * root
 * cmake
 
-##Installation
+## Installation
 
 1. Go to your favorite destination
 2. `git clone https://github.com/tklemenz/RadMapAnalysis`
@@ -13,7 +13,7 @@
 4. `source compile.sh`
 5. It's that easy
 
-#How to use it
+# How to use it
 
 When you want to open a root file containing objects from the framework you need to load the RadMapAnalysis.so shared library.
 
@@ -23,7 +23,7 @@ It could look something like this:
 
 Then you can simply call radROOT and the objects from the framework are known to root.
 
-#General stuff
+# General stuff
 
 * compile.sh should not be changed!
 * Executables will be located in the bin folder.
