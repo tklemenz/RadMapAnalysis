@@ -10,7 +10,7 @@
 1. Go to your favorite destination
 2. `git clone https://github.com/tklemenz/RadMapAnalysis`
 3. source your `thisroot.sh`
-4. `source compile.sh`
+4. `source RadMapAnalysis/compile.sh`
 5. It's that easy
 
 # How to use it
