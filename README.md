@@ -19,6 +19,7 @@ When you want to open a root file containing objects from the framework you need
 
 The easiest way I found for now is to create an alias in your `~/.bashrc` where the library is loaded when you call `root`.
 It could look something like this:
+
 `alias radROOT='root -l -e "gSystem->Load(\"/path/to/RadMapAnalysis/build/libRadMapAna.so\");"'`
 
 Then you can simply call radROOT and the objects from the framework are known to root.
