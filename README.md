@@ -46,4 +46,6 @@ Do NOT commit:
 
 Feel free to not only add macros but also add missing functionality to the classes or create new classes that you think are necessary.
 
+If you don't know how to add classes and/or macros just go along the lines of the Dummy (add to LinkDef and CMakeLists.txt etc...).
+
 Thanks for contributing!!
