@@ -46,7 +46,7 @@ class Cluster
   inline Int_t getNSignals() { return mSignals.size(); }
 
   /// returns the vector containing the signals in the cluster
-  inline std::vector<Signal> getSignals() { return mSignals; }
+  inline std::vector<Signal>& getSignals() { return mSignals; }
 
  private:
 

@@ -6,7 +6,8 @@ ClassImp(EventBase);
 EventBase::EventBase(const EventBase &event)
 : mFiberVec(event.mFiberVec),
   mEventNr(event.mEventNr),
-  mPadiwaConfig(event.mPadiwaConfig)
+  mPadiwaConfig(event.mPadiwaConfig),
+  mModule(event.mModule)
 {
   
 }

@@ -23,7 +23,7 @@ class Module
   Int_t   getNFibers();
 
   /// get the fiber vector
-  inline std::vector<Fiber> getFibers() { return mFibers; }
+  inline std::vector<Fiber>& getFibers() { return mFibers; }
 
   /// remove all signals from the module
   void reset();

@@ -46,13 +46,15 @@ target_link_libraries(RadMapAna ${ROOT_LIBRARIES})
 set(EXE_SRCS
     macros/runDummy.C
     macros/crappyTest.C
-    macros/convertToModules.C
+    macros/convertToEventBase.C
+    macros/readEventTree.C
     )
 
 set(EXE_NAMES
     runDummy
     runCrappyTest
-    convertToModules
+    convertToEventBase
+    readEventTree
     )
 
 list(LENGTH EXE_SRCS count)

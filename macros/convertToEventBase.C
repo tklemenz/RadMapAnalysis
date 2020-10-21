@@ -19,7 +19,7 @@
 
 extern char* optarg;
 
-void convertToModules(const char *inputFile, const char *outputFile, ULong_t procNr)
+void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -120,9 +120,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning convertToModules%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning convertToEventBase%s\n\n",text::BOLD,text::RESET);
   
-  convertToModules(inputFile,outputFile,procNr);
+  convertToEventBase(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }
