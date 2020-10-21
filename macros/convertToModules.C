@@ -84,7 +84,7 @@ void convertToModules(const char *inputFile, const char *outputFile, ULong_t pro
     prevEventNr = ULong_t(eventNr);
   }
 
-  fout->Write("data");
+  tree->Write("data");
   fout->Close();
 
   delete event;
