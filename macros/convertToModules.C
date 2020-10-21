@@ -8,6 +8,8 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
+#include <unistd.h>
 
 #include "EventBase.h"
 #include "Utility.h"
