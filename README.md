@@ -15,7 +15,7 @@
 
 # How to use it
 
-When you want to open a root file containing objects from the framework you need to load the RadMapAnalysis.so shared library.
+When you want to open a root file containing objects from the framework you need to load the RadMapAnalysis.so (.dylib if you're a mac disciple) library.
 
 The easiest way I found for now is to create an alias in your `~/.bashrc` where the library is loaded when you call `root`.
 It could look something like this:
