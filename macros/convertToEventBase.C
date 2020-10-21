@@ -96,7 +96,7 @@ void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t p
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="convertedToModules.root";
+  char    outputFile[512]="convertedToEventBase.root";
   ULong_t procNr=-1;
 
   int argsforloop;
