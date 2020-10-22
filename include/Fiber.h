@@ -14,9 +14,9 @@ class Fiber
 {
  public:
   Fiber() = default;
+  ~Fiber() = default;
   Fiber(const Fiber &fiber);
   Fiber(const Int_t layer, const Int_t x, const Int_t y);
-  virtual ~Fiber();
 
   inline void setLayer   (Int_t layer)                    { mLayer = layer; }
   inline void setX       (Int_t x)                        { mX = x; }

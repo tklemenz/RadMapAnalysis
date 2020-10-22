@@ -37,12 +37,6 @@ Cluster::Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFib
 }
 
 //________________________________________________________________________________
-Cluster::~Cluster()
-{
-  // dtor
-}
-
-//________________________________________________________________________________
 void Cluster::addSignal(const Signal &signal)
 {
   Double_t  meanFiber = 0;

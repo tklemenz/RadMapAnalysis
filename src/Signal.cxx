@@ -27,9 +27,3 @@ Signal::Signal(const Double_t tot, const Double_t timeStamp, const Int_t signalN
 {
   
 }
-
-//________________________________________________________________________________
-Signal::~Signal()
-{
-  // dtor
-}

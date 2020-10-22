@@ -19,8 +19,8 @@ class EventBase
 {
  public:
   EventBase() = default;
+  ~EventBase() = default;
   EventBase(const EventBase &event);
-  virtual ~EventBase();
 
   inline void setEventNr      (Float_t eventNr) { mEventNr = eventNr; }
   inline void setPadiwaConfig (Int_t config)    { mPadiwaConfig = config; }

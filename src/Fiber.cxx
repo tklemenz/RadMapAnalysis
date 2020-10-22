@@ -20,9 +20,3 @@ Fiber::Fiber(const Int_t layer, const Int_t x, const Int_t y)
 {
   
 }
-
-//________________________________________________________________________________
-Fiber::~Fiber()
-{
-  // dtor
-}

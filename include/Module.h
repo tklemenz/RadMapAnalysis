@@ -10,8 +10,8 @@ class Module
 {
  public:
   Module();
+  ~Module() = default;
   Module(const Module &module);
-  virtual ~Module();
 
   /// add a signal to the module
   void addSignal(Signal &signal);

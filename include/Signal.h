@@ -9,9 +9,9 @@ class Signal
 {
  public:
   Signal() = default;
+  ~Signal() = default;
   Signal(const Signal &signal);
   Signal(const Double_t tot, const Double_t timeStamp, const Int_t signalNr, const Int_t chID, const Int_t layer, const Int_t tdcID, const Int_t configuration);
-  virtual ~Signal();
 
   inline void setToT           (Double_t tot)        { mTot = tot; }
   inline void setTimeStamp     (Double_t timeStamp)  { mTimeStamp = timeStamp; }

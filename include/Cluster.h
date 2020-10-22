@@ -13,10 +13,10 @@ class Cluster
 {
  public:
   Cluster() = default;
+  ~Cluster() = default;
   Cluster(const Cluster &cluster);
   Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFiber, const Float_t sigmaFiber, const Double_t meanTimeStamp,
 	        const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID);
-  virtual ~Cluster();
 
   inline void setQTot           (Double_t &qTot)           { mQTot = qTot; }
   inline void setQMax           (Double_t &qMax)           { mQMax = qMax; }

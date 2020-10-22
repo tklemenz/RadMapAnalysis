@@ -13,12 +13,6 @@ EventBase::EventBase(const EventBase &event)
 }
 
 //________________________________________________________________________________
-EventBase::~EventBase()
-{
-  // dtor
-}
-
-//________________________________________________________________________________
 Float_t EventBase::getNSignals()
 {
   Int_t multi = 0;

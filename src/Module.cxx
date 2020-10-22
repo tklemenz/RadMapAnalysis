@@ -16,12 +16,6 @@ Module::Module(const Module &module)
 }
 
 //________________________________________________________________________________
-Module::~Module()
-{
-  // dtor
-}
-
-//________________________________________________________________________________
 void Module::addSignal(Signal &signal)
 {
   mFibers.at(mapping::getModuleSpot(signal.getLayer(), mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()))).addSignal(signal);
