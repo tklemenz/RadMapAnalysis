@@ -1,0 +1,12 @@
+bin/convertToEventBase
+bin/readEventTree
+bin/runCrappyTest
+bin/runDummy
+build/CMakeCache.txt
+build/CMakeFiles/
+build/G__RMA.cxx
+build/Makefile
+build/cmake_install.cmake
+build/libRMA.rootmap
+build/libRMA_rdict.pcm
+build/libRadMapAna.so
