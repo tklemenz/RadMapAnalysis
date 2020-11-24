@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Module.h"
 #include "Utility.h"
 
@@ -48,7 +50,22 @@ Int_t Module::getNFibers()
 }
 
 //________________________________________________________________________________
+void Module::removeEmpty()
+{
+  auto end = std::remove_if(mFibers.begin(), mFibers.end(), [](Fiber &fiber) {return fiber.getNSignals() == 0;});
+
+  mFibers.erase(end, mFibers.end());
+}
+
+//________________________________________________________________________________
 void Module::reset()
+{
+  mFibers.clear();
+  Module::init();
+}
+
+//________________________________________________________________________________
+void Module::refresh()
 {
   for(auto& fiber : mFibers) {
     fiber.reset();

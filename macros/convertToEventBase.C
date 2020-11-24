@@ -36,14 +36,14 @@ void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t p
   ULong_t nSignals = procNr;
 
   signals->SetBranchAddress("EventNr",      &eventNr);
-  signals->SetBranchAddress("timeStamp",    &timeStamp);		// in seconds
-  signals->SetBranchAddress("ToT",          &ToT);				  // in seconds
+  signals->SetBranchAddress("timeStamp",    &timeStamp);    // in seconds
+  signals->SetBranchAddress("ToT",          &ToT);          // in seconds
   signals->SetBranchAddress("chID",         &chID);
-  signals->SetBranchAddress("TDC",          &TDC);				  // 0 = TDC1500, 1= 1510 etc
-  signals->SetBranchAddress("layer",        &layer);			  // 1-8
-  signals->SetBranchAddress("x",            &x);				    // odd layers have  x != 0
-  signals->SetBranchAddress("y",            &y);				    // even layers have y != 0
-  signals->SetBranchAddress("signalNr",     &signalNr);			// Nth Signal per channel and event
+  signals->SetBranchAddress("TDC",          &TDC);          // 0 = TDC1500, 1= 1510 etc
+  signals->SetBranchAddress("layer",        &layer);        // 1-8
+  signals->SetBranchAddress("x",            &x);            // odd layers have  x != 0
+  signals->SetBranchAddress("y",            &y);            // even layers have y != 0
+  signals->SetBranchAddress("signalNr",     &signalNr);     // Nth Signal per channel and event
   signals->SetBranchAddress("padiwaConfig", &padiwaConfig);
 
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
@@ -71,7 +71,8 @@ void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t p
     signals->GetEntry(entry);
 
     if ((ULong_t(eventNr) != prevEventNr) && (prevEventNr !=1)) {
-    	event->setModule(module);
+      module.removeEmpty();
+      event->setModule(module);
       tree->Fill();
 
       module.reset();

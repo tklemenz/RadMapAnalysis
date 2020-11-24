@@ -16,7 +16,7 @@ class Cluster
   ~Cluster() = default;
   Cluster(const Cluster &cluster);
   Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFiber, const Float_t sigmaFiber, const Double_t meanTimeStamp,
-	        const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID);
+          const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID);
 
   inline void setQTot           (Double_t &qTot)           { mQTot = qTot; }
   inline void setQMax           (Double_t &qMax)           { mQMax = qMax; }
@@ -28,15 +28,15 @@ class Cluster
   inline void setLayer          (Int_t &layer)             { mLayer = layer; }
   inline void setTDCID          (Int_t &tdcID)             { mTDCID = tdcID; }
 
-  inline Double_t getQTot()            { return mQTot; }
-  inline Double_t getQMax()            { return mQMax; }
-  inline Float_t  getMeanFiber()       { return mMeanFiber; }
-  inline Float_t  getSigmaFiber()      { return mSigmaFiber; }
-  inline Double_t getMeanTimeStamp()   { return mMeanTimeStamp; }
-  inline Double_t getSigmaTimeStamp()  { return mSigmaTimeStamp; }
-  inline Double_t getFirstTimeStamp()  { return mFirstTimeStamp; }
-  inline Int_t    getLayer()           { return mLayer; }
-  inline Int_t    getTDCID()           { return mTDCID; }
+  inline Double_t getQTot()           { return mQTot; }
+  inline Double_t getQMax()           { return mQMax; }
+  inline Float_t  getMeanFiber()      { return mMeanFiber; }
+  inline Float_t  getSigmaFiber()     { return mSigmaFiber; }
+  inline Double_t getMeanTimeStamp()  { return mMeanTimeStamp; }
+  inline Double_t getSigmaTimeStamp() { return mSigmaTimeStamp; }
+  inline Double_t getFirstTimeStamp() { return mFirstTimeStamp; }
+  inline Int_t    getLayer()          { return mLayer; }
+  inline Int_t    getTDCID()          { return mTDCID; }
 
   /// add a signal to the cluster
   /// calculates all cluster properties and updates members
@@ -50,18 +50,18 @@ class Cluster
 
  private:
 
- 	std::vector<Signal>  mSignals{};       ///< holds all signals in the cluster
- 	Double_t             mQTot;            ///< sum of all ToT values (ToT corresponds to charge)
- 	Double_t             mQMax;            ///< largest ToT among signals in the cluster
- 	Float_t              mMeanFiber;       ///< arithmetic mean of fiber numbers weighted with the ToT of the corresponding signal
- 	Float_t              mSigmaFiber;      ///< standard deviation
- 	Double_t             mMeanTimeStamp;   ///< arithmetic mean of time stamps weighted with the ToT of the corresponding signal
- 	Double_t             mSigmaTimeStamp;  ///< standard deviation
- 	Double_t             mFirstTimeStamp;  ///< earliest time stamp among signals
- 	Int_t                mLayer;           ///< layer in which the cluster is located
- 	Int_t                mTDCID;           ///< TDC that is connected to the layer
+  std::vector<Signal>  mSignals{};       ///< holds all signals in the cluster
+  Double_t             mQTot;            ///< sum of all ToT values (ToT corresponds to charge)
+  Double_t             mQMax;            ///< largest ToT among signals in the cluster
+  Float_t              mMeanFiber;       ///< arithmetic mean of fiber numbers weighted with the ToT of the corresponding signal
+  Float_t              mSigmaFiber;      ///< standard deviation
+  Double_t             mMeanTimeStamp;   ///< arithmetic mean of time stamps weighted with the ToT of the corresponding signal
+  Double_t             mSigmaTimeStamp;  ///< standard deviation
+  Double_t             mFirstTimeStamp;  ///< earliest time stamp among signals
+  Int_t                mLayer;           ///< layer in which the cluster is located
+  Int_t                mTDCID;           ///< TDC that is connected to the layer
 
-	ClassDef(Cluster,1);
+  ClassDef(Cluster,1);
 };
 
 #endif

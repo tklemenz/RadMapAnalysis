@@ -38,12 +38,12 @@ class Fiber
 
  private:
 
- 	std::vector<Signal> mSignalVec{}; ///< holds all signals recorded in the fiber
- 	Int_t               mLayer;       ///< layer the fiber is located in
- 	Int_t               mX;           ///< xth fiber in vertical (odd) layers, counts from left to right
- 	Int_t               mY;           ///< yth fiber in horizontal (even) layers, counts from bottom to top
+  std::vector<Signal> mSignalVec{}; ///< holds all signals recorded in the fiber
+  Int_t               mLayer;       ///< layer the fiber is located in
+  Int_t               mX;           ///< xth fiber in vertical (odd) layers, counts from left to right
+  Int_t               mY;           ///< yth fiber in horizontal (even) layers, counts from bottom to top
 
-	ClassDef(Fiber,1);
+  ClassDef(Fiber,1);
 };
 
 #endif

@@ -21,13 +21,13 @@ class Signal
   inline void setTDCID         (Int_t tdcID)         { mTDCID = tdcID; }
   inline void setConfiguration (Int_t config)        { mConfig = config; }
 
-  inline Double_t getToT()                const { return mTot; }
-  inline Double_t getTimeStamp()          const { return mTimeStamp; }
-  inline Int_t    getSignalNr()           const { return mSignalNr; }
-  inline Int_t    getChannelID()          const { return mChID; }
-  inline Int_t    getLayer()              const { return mLayer; }
-  inline Int_t    getTDCID()              const { return mTDCID; }
-  inline Int_t    getConfiguration()      const { return mConfig; }
+  inline Double_t getToT()           const { return mTot; }
+  inline Double_t getTimeStamp()     const { return mTimeStamp; }
+  inline Int_t    getSignalNr()      const { return mSignalNr; }
+  inline Int_t    getChannelID()     const { return mChID; }
+  inline Int_t    getLayer()         const { return mLayer; }
+  inline Int_t    getTDCID()         const { return mTDCID; }
+  inline Int_t    getConfiguration() const { return mConfig; }
 
  private:
 

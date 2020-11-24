@@ -25,16 +25,22 @@ class Module
   /// get the fiber vector
   inline std::vector<Fiber>& getFibers() { return mFibers; }
 
-  /// remove all signals from the module
+  /// remove all empty fibers from the module
+  void removeEmpty();
+
+  /// remove all fibers from the module and make a fresh init()
   void reset();
+
+  /// remove all signals from the module
+  void refresh();
 
  private:
 
   void init();
 
- 	std::vector<Fiber>  mFibers{}; ///< holds all fibers of the module
+  std::vector<Fiber>  mFibers{}; ///< holds all fibers of the module
 
-	ClassDef(Module,1);
+  ClassDef(Module,1);
 };
 
 #endif
