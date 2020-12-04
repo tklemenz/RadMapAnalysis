@@ -75,4 +75,8 @@ void Cluster::addSignal(const Signal &signal)
   if (signal.getToT() > mQMax) { mQMax = signal.getToT(); }
 
   if ((signal.getTimeStamp() < mFirstTimeStamp) && (mFirstTimeStamp != 0))  { mFirstTimeStamp = signal.getTimeStamp(); }
-}
+} 
+
+
+
+// add this random comment
