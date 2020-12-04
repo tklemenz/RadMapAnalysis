@@ -22,7 +22,7 @@ Cluster::Cluster(const Cluster &cluster)
 
 //________________________________________________________________________________
 Cluster::Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFiber, const Float_t sigmaFiber, const Double_t meanTimeStamp,
-	               const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID)
+                 const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID)
 : mQTot(qTot),
   mQMax(qMax),
   mMeanFiber(meanFiber),
@@ -59,7 +59,7 @@ void Cluster::addSignal(const Signal &signal)
   }
 
   for (auto &sig : mSignals) {
-  	Int_t fiberNr = mapping::getFiberNr(sig.getConfiguration(), sig.getChannelID(), sig.getTDCID());
+    Int_t fiberNr = mapping::getFiberNr(sig.getConfiguration(), sig.getChannelID(), sig.getTDCID());
     meanFiber     += (fiberNr*sig.getToT())/weights;
     meanTimeStamp += (sig.getTimeStamp()*sig.getToT())/weights;
   }
@@ -70,7 +70,7 @@ void Cluster::addSignal(const Signal &signal)
   mMeanFiber = meanFiber;
   mMeanTimeStamp = meanTimeStamp;
   mSigmaFiber = 1/std::sqrt(weights);
-  mSigmaTimeStamp = 1/std::sqrt(weights);
+  mSigmaTimeStamp = 1/std::sqrt(weights);                          ///< TODO: get this figured out
 
   if (signal.getToT() > mQMax) { mQMax = signal.getToT(); }
 
