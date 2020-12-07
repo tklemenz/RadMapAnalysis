@@ -4,9 +4,12 @@
 #include "EventBase.h"
 #include "Module.h"
 
-/// This class represents a CTS event.
+/// This class represents a basic CTS event containing signals.
 ///
 /// The module object contains all signal information.
+///
+/// Before an event is written to file the removeEmpty funtion should be
+/// called on the module to reduce data size and increase performance.
 
 class CTSEvent : public EventBase
 {
@@ -21,7 +24,7 @@ class CTSEvent : public EventBase
   const Module& getModule() const { return mModule; }
 
  private:
-  Module mModule;  ///< containing all fibers and signals
+  Module mModule;  ///< contains all fibers and signals
 
   ClassDef(CTSEvent,1);
 };

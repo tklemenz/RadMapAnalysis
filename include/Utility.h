@@ -4,6 +4,11 @@
 #include <Rtypes.h>
 #include <utility>
 
+enum class ParticleType : char {
+  Pion,       ///< particle is a pion
+  Proton,     ///< particle is a proton
+};
+
 namespace mapping
 {
 

@@ -8,8 +8,8 @@
 /// 
 /// The philosophy still needs a bit of thought...
 /// The basic information the event holds is:
-///                                           EventNr
-///                                           PadiwaConfig
+///                                          - EventNr
+///                                          - PadiwaConfig
 
 class EventBase
 {
