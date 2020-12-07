@@ -5,6 +5,9 @@
 
 /// The Module class represents the whole module. 
 /// It has a vector member holding 256 Fiber Objects (whole module).
+///
+/// Before an event is written to file the removeEmpty funtion should be
+/// called on the module to reduce data size and increase performance.
 
 class Module
 {
