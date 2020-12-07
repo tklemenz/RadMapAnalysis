@@ -11,15 +11,15 @@
 #include <iomanip>
 #include <unistd.h>
 
-#include "EventBase.h"
+#include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./convertToModules -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
+///< usage: ./convertToCTSEvents -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 
 extern char* optarg;
 
-void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t procNr)
+void convertToCTSEvents(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -47,15 +47,15 @@ void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t p
   signals->SetBranchAddress("padiwaConfig", &padiwaConfig);
 
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
-  TTree *tree = new TTree("dummy","RadMap data in fancy objects -> Modules");
+  TTree *tree = new TTree("dummy","RadMap data in fancy objects -> CTSEvents");
 
   Signal    signal = Signal();
   Module    module = Module();
-  EventBase *event;
+  CTSEvent *event;
 
-  event = new EventBase();
+  event = new CTSEvent();
 
-  tree->Branch("Events","EventBase",&event,32000,1);
+  tree->Branch("Events","CTSEvent",&event,32000,1);
 
   if ((nSignals == -1) || (nSignals > signals->GetEntries())) { nSignals = signals->GetEntries(); }
 
@@ -97,7 +97,7 @@ void convertToEventBase(const char *inputFile, const char *outputFile, ULong_t p
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="convertedToEventBase.root";
+  char    outputFile[512]="convertToCTSEvents_output.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -121,9 +121,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning convertToEventBase%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning convertToCTSEvents%s\n\n",text::BOLD,text::RESET);
   
-  convertToEventBase(inputFile,outputFile,procNr);
+  convertToCTSEvents(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

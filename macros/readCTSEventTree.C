@@ -10,15 +10,15 @@
 #include <iomanip>
 #include <unistd.h>
 
-#include "EventBase.h"
+#include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./readEventTree -i inputfile -o outputfile -n numberOfEventsToBeProcessed
+///< usage: ./readCTSEventTree -i inputfile -o outputfile -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 
 extern char* optarg;
 
-void readEventTree(const char *inputFile, const char *outputFile, ULong_t procNr)
+void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -32,7 +32,7 @@ void readEventTree(const char *inputFile, const char *outputFile, ULong_t procNr
   ULong_t nEvents = procNr;
   if ((nEvents == -1) || (nEvents > data->GetEntries())) { nEvents = data->GetEntries(); }
 
-  EventBase *event = nullptr;
+  CTSEvent *event = nullptr;
 
   Float_t eventNr      = -1;
   Int_t   padiwaConfig = -1;
@@ -106,7 +106,7 @@ void readEventTree(const char *inputFile, const char *outputFile, ULong_t procNr
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="readEventTree_output.root";
+  char    outputFile[512]="readCTSEventTree_output.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -130,9 +130,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning readEventTree%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning readCTSEventTree%s\n\n",text::BOLD,text::RESET);
   
-  readEventTree(inputFile,outputFile,procNr);
+  readCTSEventTree(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

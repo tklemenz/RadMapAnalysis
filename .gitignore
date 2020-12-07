@@ -1,5 +1,5 @@
-bin/convertToEventBase
-bin/readEventTree
+bin/convertToCTSEvents
+bin/readCTSEventTree
 bin/runCrappyTest
 bin/runDummy
 build/CMakeCache.txt

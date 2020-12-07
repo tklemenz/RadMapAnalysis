@@ -30,7 +30,7 @@ Then you can simply call `radROOT` and the objects from the framework are known 
 * Executables will be located in the bin folder.
 * As the only style guide I would suggest to NOT use tab but only spaces. Otherwise the code looks horrible in different editors...
 
-Please only commit the following files or files in the following folders if changes were made:
+Please only commit the following files or files in the following folders if changes were made (gitignore should take care of that):
 
 	- CMakeLists.txt
 	- include

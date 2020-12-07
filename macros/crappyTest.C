@@ -1,31 +1,23 @@
-#include "EventBase.h"
+#include "CTSEvent.h"
 #include "Module.h"
 
 int main()
 {
-	EventBase event;
+  CTSEvent event;
 
-	Signal signal;
-	signal.setToT(5);
-	signal.setLayer(6);
+  Signal signal;
+  signal.setToT(5);
+  signal.setLayer(6);
   signal.setChannelID(15);
 
 
-	printf("ToT: %g\n", signal.getToT());
+  printf("ToT: %g\n", signal.getToT());
 
 
+  Fiber fiber;
+  fiber.addSignal(signal);
 
-	Fiber fiber;
-	fiber.addSignal(signal);
-
-	printf("nSignals: %d\n", fiber.getNSignals());
-
-	event.addFiber(fiber);
-
-  std::vector<Fiber> fiberVec;
-  fiberVec = event.getFibers();
-
-  printf("nFibers: %d\n", int(fiberVec.size()));
+  printf("nSignals: %d\n", fiber.getNSignals());
 
   Signal signal2;
   signal2.setLayer(3);
@@ -45,7 +37,7 @@ int main()
   module.addSignal(signal3);
   module.addSignal(signal4);
 
-  printf("signals in module: %g, fibers hit: %d\n", module.getNSignals(), module.getNFibers());
+  printf("signals in module: %g\n", module.getNSignals());
 
 
   return 0;
