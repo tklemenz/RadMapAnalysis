@@ -3,7 +3,9 @@
 
 #include <Rtypes.h>
 
-/// This class represents a signal
+///!
+///! This class represents a signal
+///!
 
 class Signal
 {

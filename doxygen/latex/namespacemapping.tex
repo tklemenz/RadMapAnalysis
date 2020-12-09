@@ -1,0 +1,60 @@
+\hypertarget{namespacemapping}{}\section{mapping Namespace Reference}
+\label{namespacemapping}\index{mapping@{mapping}}
+
+
+This namespace holds the mapping functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::pair$<$ Int\+\_\+t, Int\+\_\+t $>$ \hyperlink{namespacemapping_aa1474356b6c030e524bce7a388e20cd8}{get\+Fiber\+Info\+From\+Mod\+Spot} (Int\+\_\+t mod\+Spot)
+\item 
+\mbox{\Hypertarget{namespacemapping_a669c8c96499dd4cfc01a5fdf1bde8c41}\label{namespacemapping_a669c8c96499dd4cfc01a5fdf1bde8c41}} 
+Int\+\_\+t \hyperlink{namespacemapping_a669c8c96499dd4cfc01a5fdf1bde8c41}{get\+Fiber\+Nr} (U\+Int\+\_\+t configuration, U\+Int\+\_\+t ch\+ID, U\+Int\+\_\+t tdc\+ID)
+\begin{DoxyCompactList}\small\item\em get the fiber number within the layer from the padiwa configuration, channel ID, and T\+DC ID \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespacemapping_a43a9e5bffd76bc38c7db7eb18a6b70e0}\label{namespacemapping_a43a9e5bffd76bc38c7db7eb18a6b70e0}} 
+Int\+\_\+t \hyperlink{namespacemapping_a43a9e5bffd76bc38c7db7eb18a6b70e0}{get\+Layer\+Nr} (U\+Int\+\_\+t configuration, U\+Int\+\_\+t ch\+ID, U\+Int\+\_\+t tdc\+ID)
+\begin{DoxyCompactList}\small\item\em get the layer number from the padiwa configuration, channel ID, and T\+DC ID \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespacemapping_a02282299fd81a205ed060a81bdf12aaf}\label{namespacemapping_a02282299fd81a205ed060a81bdf12aaf}} 
+Int\+\_\+t \hyperlink{namespacemapping_a02282299fd81a205ed060a81bdf12aaf}{getX} (Int\+\_\+t layer, Int\+\_\+t fiber)
+\begin{DoxyCompactList}\small\item\em get the fiber number in x-\/direction from the fiber number and layer number. returns 0 for even layers. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespacemapping_a24d3fe7e5b7af74cd5215d2930a5c877}\label{namespacemapping_a24d3fe7e5b7af74cd5215d2930a5c877}} 
+Int\+\_\+t \hyperlink{namespacemapping_a24d3fe7e5b7af74cd5215d2930a5c877}{getY} (Int\+\_\+t layer, Int\+\_\+t fiber)
+\begin{DoxyCompactList}\small\item\em get the fiber number in y-\/direction from the fiber number and layer number. returns 0 for odd layers. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespacemapping_a4472aa4e6cd75914285a1c985c09b068}\label{namespacemapping_a4472aa4e6cd75914285a1c985c09b068}} 
+Int\+\_\+t \hyperlink{namespacemapping_a4472aa4e6cd75914285a1c985c09b068}{get\+Module\+Spot} (Int\+\_\+t layer, Int\+\_\+t fiber)
+\begin{DoxyCompactList}\small\item\em get the fiber number (0 -\/ 255) that the layer+fiber combination takes in the module \end{DoxyCompactList}\item 
+U\+Int\+\_\+t \hyperlink{namespacemapping_a00520b73ed7ad6ada40fe422bf20b4b7}{odd0} (U\+Int\+\_\+t ch\+ID)
+\item 
+\mbox{\Hypertarget{namespacemapping_ada62caaf027acc96d2491da32de8ad07}\label{namespacemapping_ada62caaf027acc96d2491da32de8ad07}} 
+U\+Int\+\_\+t {\bfseries odd1} (U\+Int\+\_\+t ch\+ID)
+\item 
+\mbox{\Hypertarget{namespacemapping_a64c663d1d62049966d0915d46abc55ba}\label{namespacemapping_a64c663d1d62049966d0915d46abc55ba}} 
+U\+Int\+\_\+t {\bfseries rev\+Even0} (U\+Int\+\_\+t ch\+ID)
+\item 
+\mbox{\Hypertarget{namespacemapping_a363de8de2a9ea380113fbe5f8d68aa4a}\label{namespacemapping_a363de8de2a9ea380113fbe5f8d68aa4a}} 
+U\+Int\+\_\+t {\bfseries rev\+Even1} (U\+Int\+\_\+t ch\+ID)
+\item 
+\mbox{\Hypertarget{namespacemapping_a3d99dd98372f99c279f77b9cfa250411}\label{namespacemapping_a3d99dd98372f99c279f77b9cfa250411}} 
+Float\+\_\+t \hyperlink{namespacemapping_a3d99dd98372f99c279f77b9cfa250411}{get\+Coord} (Float\+\_\+t mean\+Fiber)
+\begin{DoxyCompactList}\small\item\em get the actual spatial coordinate in mm \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This namespace holds the mapping functions. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacemapping_aa1474356b6c030e524bce7a388e20cd8}\label{namespacemapping_aa1474356b6c030e524bce7a388e20cd8}} 
+\index{mapping@{mapping}!get\+Fiber\+Info\+From\+Mod\+Spot@{get\+Fiber\+Info\+From\+Mod\+Spot}}
+\index{get\+Fiber\+Info\+From\+Mod\+Spot@{get\+Fiber\+Info\+From\+Mod\+Spot}!mapping@{mapping}}
+\subsubsection{\texorpdfstring{get\+Fiber\+Info\+From\+Mod\+Spot()}{getFiberInfoFromModSpot()}}
+{\footnotesize\ttfamily std\+::pair$<$ Int\+\_\+t, Int\+\_\+t $>$ mapping\+::get\+Fiber\+Info\+From\+Mod\+Spot (\begin{DoxyParamCaption}\item[{Int\+\_\+t}]{mod\+Spot }\end{DoxyParamCaption})}
+
+get the layer and fiber number from the module spot returns std\+::pair$<$layer,fiber$>$ $<$ 0 -\/ 31 --$>$ layer 1, fiber 1-\/32 32 -\/ 63 --$>$ layer 2, fiber 1-\/32 64 -\/ 95 --$>$ layer 3, fiber 1-\/32 96 -\/127 --$>$ layer 4, fiber 1-\/32 128 -\/159 --$>$ layer 5, fiber 1-\/32 160 -\/191 --$>$ layer 6, fiber 1-\/32 192 -\/223 --$>$ layer 7, fiber 1-\/32 224 -\/255 --$>$ layer 8, fiber 1-\/32 \mbox{\Hypertarget{namespacemapping_a00520b73ed7ad6ada40fe422bf20b4b7}\label{namespacemapping_a00520b73ed7ad6ada40fe422bf20b4b7}} 
+\index{mapping@{mapping}!odd0@{odd0}}
+\index{odd0@{odd0}!mapping@{mapping}}
+\subsubsection{\texorpdfstring{odd0()}{odd0()}}
+{\footnotesize\ttfamily U\+Int\+\_\+t mapping\+::odd0 (\begin{DoxyParamCaption}\item[{U\+Int\+\_\+t}]{ch\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+mapping functions from channel number to fiber odd maps channel number to odd numbers from 1-\/31 rev\+Even maps channel number to even numbers from 32-\/2 0 is for channel number 1-\/16 1 is for channel number 17-\/32 

@@ -2,6 +2,7 @@
 #define MODULE_H
 
 #include "Fiber.h"
+#include "Utility.h"
 
 /// The Module class represents the whole module. 
 /// It has a vector member holding 256 Fiber Objects (whole module).

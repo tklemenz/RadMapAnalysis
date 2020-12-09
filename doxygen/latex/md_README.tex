@@ -1,0 +1,62 @@
+\subsection*{Prerequisites}
+
+
+\begin{DoxyItemize}
+\item root
+\item cmake
+\end{DoxyItemize}
+
+\subsection*{Installation}
+
+
+\begin{DoxyEnumerate}
+\item Go to your favorite destination
+\item {\ttfamily git clone \href{https://github.com/tklemenz/RadMapAnalysis}{\tt https\+://github.\+com/tklemenz/\+Rad\+Map\+Analysis}}
+\item source your {\ttfamily thisroot.\+sh}
+\item {\ttfamily source Rad\+Map\+Analysis/compile.\+sh}
+\item It\textquotesingle{}s that easy
+\end{DoxyEnumerate}
+
+\section*{How to use it}
+
+When you want to open a root file containing objects from the framework you need to load the Rad\+Map\+Analysis.\+so (.dylib if you\textquotesingle{}re a mac disciple) library.
+
+The easiest way I found for now is to create an alias in your {\ttfamily $\sim$/.bashrc} where the library is loaded when you call {\ttfamily root}. It could look something like this\+:
+
+{\ttfamily alias rad\+R\+O\+OT=\textquotesingle{}root -\/l -\/e \char`\"{}g\+System-\/$>$\+Load(\textbackslash{}\char`\"{}/path/to/\+Rad\+Map\+Analysis/build/lib\+Rad\+Map\+Ana.so");"\textquotesingle{}}
+
+Then you can simply call {\ttfamily rad\+R\+O\+OT} and the objects from the framework are known to root.
+
+\section*{General stuff}
+
+
+\begin{DoxyItemize}
+\item compile.\+sh should not be changed!
+\item Executables will be located in the bin folder.
+\item As the only style guide I would suggest to N\+OT use tab but only spaces. Otherwise the code looks horrible in different editors...
+\end{DoxyItemize}
+
+Please only commit the following files or files in the following folders if changes were made (gitignore should take care of that)\+:
+
+
+\begin{DoxyItemize}
+\item C\+Make\+Lists.\+txt
+\item include
+\item src
+\item macros
+\item R\+E\+A\+D\+M\+E.\+md
+\end{DoxyItemize}
+
+Do N\+OT commit\+:
+
+
+\begin{DoxyItemize}
+\item bin
+\item build
+\end{DoxyItemize}
+
+Feel free to not only add macros but also add missing functionality to the classes or create new classes that you think are necessary.
+
+If you don\textquotesingle{}t know how to add classes and/or macros just go along the lines of the \hyperlink{classDummy}{Dummy} (add to Link\+Def and C\+Make\+Lists.\+txt etc...).
+
+Thanks for contributing!! 

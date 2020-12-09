@@ -1,0 +1,52 @@
+\hypertarget{classCTSEvent}{}\section{C\+T\+S\+Event Class Reference}
+\label{classCTSEvent}\index{C\+T\+S\+Event@{C\+T\+S\+Event}}
+
+
+{\ttfamily \#include $<$C\+T\+S\+Event.\+h$>$}
+
+
+
+Inheritance diagram for C\+T\+S\+Event\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classCTSEvent__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for C\+T\+S\+Event\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classCTSEvent__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCTSEvent_a9635121dd317e3a1f2c9dce8e8a62970}\label{classCTSEvent_a9635121dd317e3a1f2c9dce8e8a62970}} 
+{\bfseries C\+T\+S\+Event} (const \hyperlink{classCTSEvent}{C\+T\+S\+Event} \&event)
+\item 
+\mbox{\Hypertarget{classCTSEvent_a681a21060ad13d5843509989be2c345d}\label{classCTSEvent_a681a21060ad13d5843509989be2c345d}} 
+void {\bfseries set\+Module} (\hyperlink{classModule}{Module} \&module)
+\item 
+\mbox{\Hypertarget{classCTSEvent_a19b2ee23f6334def487ba09fc50af858}\label{classCTSEvent_a19b2ee23f6334def487ba09fc50af858}} 
+\hyperlink{classModule}{Module} \& {\bfseries get\+Module} ()
+\item 
+\mbox{\Hypertarget{classCTSEvent_a0f2195c2a65119e85b4cfc3a1bf72c0f}\label{classCTSEvent_a0f2195c2a65119e85b4cfc3a1bf72c0f}} 
+const \hyperlink{classModule}{Module} \& {\bfseries get\+Module} () const
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class represents a basic C\+TS event containing signals.
+
+The module object contains all signal information.
+
+Before an event is written to file the remove\+Empty funtion should be called on the module to reduce data size and increase performance. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+T\+S\+Event.\+h\item 
+C\+T\+S\+Event.\+cxx\end{DoxyCompactItemize}

@@ -1,7 +1,6 @@
 #include <algorithm>
 
 #include "Module.h"
-#include "Utility.h"
 
 ClassImp(Module);
 

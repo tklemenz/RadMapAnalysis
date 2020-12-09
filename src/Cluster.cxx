@@ -1,5 +1,4 @@
 #include "Cluster.h"
-#include "Utility.h"
 #include <cmath>
 
 ClassImp(Cluster);
@@ -15,14 +14,15 @@ Cluster::Cluster(const Cluster &cluster)
   mSigmaTimeStamp(cluster.mSigmaTimeStamp),
   mFirstTimeStamp(cluster.mFirstTimeStamp),
   mLayer(cluster.mLayer),
-  mTDCID(cluster.mTDCID)
+  mTDCID(cluster.mTDCID),
+  mFlags(cluster.mFlags)
 {
   
 }
 
 //________________________________________________________________________________
 Cluster::Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFiber, const Float_t sigmaFiber, const Double_t meanTimeStamp,
-                 const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID)
+                 const Double_t sigmaTimeStamp, const Double_t firstTimeStamp, const Int_t layer, const Int_t TDCID, const Short_t flags)
 : mQTot(qTot),
   mQMax(qMax),
   mMeanFiber(meanFiber),
@@ -31,7 +31,8 @@ Cluster::Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFib
   mSigmaTimeStamp(sigmaTimeStamp),
   mFirstTimeStamp(firstTimeStamp),
   mLayer(layer),
-  mTDCID(TDCID)
+  mTDCID(TDCID),
+  mFlags(flags)
 {
   
 }
@@ -70,7 +71,7 @@ void Cluster::addSignal(const Signal &signal)
   mMeanFiber = meanFiber;
   mMeanTimeStamp = meanTimeStamp;
   mSigmaFiber = 1/std::sqrt(weights);
-  mSigmaTimeStamp = 1/std::sqrt(weights);                          ///< TODO: get this figured out
+  mSigmaTimeStamp = 1/std::sqrt(weights);
 
   if (signal.getToT() > mQMax) { mQMax = signal.getToT(); }
 

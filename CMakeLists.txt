@@ -56,6 +56,7 @@ set(EXE_SRCS
     macros/crappyTest.C
     macros/convertToCTSEvents.C
     macros/readCTSEventTree.C
+    macros/tryAroundTracker.C
     )
 
 set(EXE_NAMES
@@ -63,6 +64,7 @@ set(EXE_NAMES
     runCrappyTest
     convertToCTSEvents
     readCTSEventTree
+    tryAroundTracker
     )
 
 list(LENGTH EXE_SRCS count)

@@ -4,11 +4,14 @@
 #include <Rtypes.h>
 #include <utility>
 
+/// ParticleType enum class
 enum class ParticleType : char {
   Pion,       ///< particle is a pion
   Proton,     ///< particle is a proton
+  Unknown     ///< unknown particle
 };
 
+/// This namespace holds the mapping functions.
 namespace mapping
 {
 
@@ -41,8 +44,12 @@ namespace mapping
   /// get the fiber number in y-direction from the fiber number and layer number. returns 0 for odd layers.
   Int_t getY(Int_t layer, Int_t fiber);
 
-} /// namespace mapping
+  /// get the actual spatial coordinate in mm
+  inline Float_t getCoord(Float_t meanFiber) { return 2*meanFiber-1; }
 
+} // namespace mapping
+
+/// This namespace holds some useless text modifications for terminal output.
 namespace text
 {
 
@@ -68,6 +75,6 @@ namespace text
   const char* const ULINE = "\e[4m";
   const char* const BLINK = "\e[5m";
 
-} /// namespace text
+} // namespace text
 
 #endif

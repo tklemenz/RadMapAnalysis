@@ -26,6 +26,7 @@
 #pragma link C++ function mapping::getLayerNr +;
 #pragma link C++ function mapping::getX +;
 #pragma link C++ function mapping::getY +;
+#pragma link C++ function mapping::getCoord +;
 
 
 #endif
