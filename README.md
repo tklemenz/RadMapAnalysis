@@ -58,6 +58,7 @@ Do NOT commit:
 
 	- bin
 	- build
+	- doxygen
 
 
 Feel free to not only add macros but also add missing functionality to the classes or create new classes that you think are necessary.
