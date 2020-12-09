@@ -33,9 +33,11 @@ Then you can simply call `radROOT` and the objects from the framework are known 
 
 ## Doxygen
 
-Open your browser (firefox works well in this case) and put `/path/to/RadMapAnalysis/doxygen/html/index.html` in the URL line. One of the most useful things is the TODO list. Things can be added by putting `/// @todo This needs to be done.` in the corresponding file. But appart from that it is also pretty useful for general documentation.
+Go to the root folder of the project (should be `/path/to/RadMapAnalysis`) and run `doxygen doxygen.conf`. This needs to be done whenever you made changes to the documentation and want to update the doxygen files.
 
-If changes in the documentation were made just go to the root folder of the project (should be `/path/to/RadMapAnalysis`) and run `doxygen doxygen.conf`.
+Then open your browser (firefox works well in this case) and put `/path/to/RadMapAnalysis/doxygen/html/index.html` in the URL line. One of the most useful things is the TODO list. Things can be added by putting `/// @todo This needs to be done.` in the corresponding file. But appart from that it is also pretty useful for general documentation.
+
+
 
 # General stuff
 
