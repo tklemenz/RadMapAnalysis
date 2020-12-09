@@ -10,3 +10,5 @@ build/cmake_install.cmake
 build/libRMA.rootmap
 build/libRMA_rdict.pcm
 build/libRadMapAna.so
+doxygen/html/
+doxygen/latex/
