@@ -45,14 +45,13 @@ Then open your browser (firefox works well in this case) and put `/path/to/RadMa
 * Executables will be located in the bin folder.
 * As the only style guide I would suggest to NOT use tab but only spaces. Otherwise the code looks horrible in different editors...
 
-Please only commit the following files or files in the following folders if changes were made (gitignore should take care of that):
+Please only commit the following files or files in the following folders if changes were made:
 
 	- CMakeLists.txt
 	- include
 	- src
 	- macros
 	- README.md
-	- doxygen
 	- doxygen.conf
 
 Do NOT commit:
