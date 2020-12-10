@@ -13,3 +13,4 @@ build/libRMA_rdict.pcm
 build/libRadMapAna.so
 doxygen/html/
 doxygen/latex/
+logger/
