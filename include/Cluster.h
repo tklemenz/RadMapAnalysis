@@ -62,27 +62,27 @@ class Cluster
   /// calculates all cluster properties and updates members
   /// @param Signal
   /// @todo Figure out how to properly calculate the sigmas of fiber and timeStamp
-  inline void addSignal(const Signal &signal);
+  inline void addSignal(Signal* signal);
 
   /// get the overall number of signals in the cluster
   inline Int_t getNSignals() { return mSignals.size(); }
 
   /// returns the vector containing the signals in the cluster
-  inline std::vector<Signal>& getSignals() { return mSignals; }
+  inline std::vector<Signal*>& getSignals() { return mSignals; }
 
  private:
 
-  std::vector<Signal>  mSignals{};       ///< holds all signals in the cluster
-  Double_t             mQTot;            ///< sum of all ToT values (ToT corresponds to charge)
-  Double_t             mQMax;            ///< largest ToT among signals in the cluster
-  Float_t              mMeanFiber;       ///< arithmetic mean of fiber numbers weighted with the ToT of the corresponding signal
-  Float_t              mSigmaFiber;      ///< standard deviation
-  Double_t             mMeanTimeStamp;   ///< arithmetic mean of time stamps weighted with the ToT of the corresponding signal
-  Double_t             mSigmaTimeStamp;  ///< standard deviation
-  Double_t             mFirstTimeStamp;  ///< earliest time stamp among signals
-  Int_t                mLayer;           ///< layer in which the cluster is located
-  Int_t                mTDCID;           ///< TDC that is connected to the layer
-  Short_t              mFlags;           ///< Associated to track or not. This might be useful for tracking.
+  std::vector<Signal*>  mSignals{};       ///< holds all signals in the cluster
+  Double_t              mQTot;            ///< sum of all ToT values (ToT corresponds to charge)
+  Double_t              mQMax;            ///< largest ToT among signals in the cluster
+  Float_t               mMeanFiber;       ///< arithmetic mean of fiber numbers weighted with the ToT of the corresponding signal
+  Float_t               mSigmaFiber;      ///< standard deviation
+  Double_t              mMeanTimeStamp;   ///< arithmetic mean of time stamps weighted with the ToT of the corresponding signal
+  Double_t              mSigmaTimeStamp;  ///< standard deviation
+  Double_t              mFirstTimeStamp;  ///< earliest time stamp among signals
+  Int_t                 mLayer;           ///< layer in which the cluster is located
+  Int_t                 mTDCID;           ///< TDC that is connected to the layer
+  Short_t               mFlags;           ///< Associated to track or not. This might be useful for tracking.
 
   ClassDef(Cluster,1);
 };

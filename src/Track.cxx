@@ -11,7 +11,7 @@ Track::Track(const Track &track)
 }
 
 //________________________________________________________________________________
-Track::Track(const std::vector<Cluster> &clusterVec, const ParticleType &type)
+Track::Track(std::vector<Cluster*> &clusterVec, const ParticleType &type)
 : mClusterVec(clusterVec),
   mParticleType(type)
 {

@@ -18,7 +18,7 @@ class Module
   Module(const Module &module);
 
   /// add a signal to the module
-  void addSignal(Signal &signal);
+  void addSignal(Signal* signal);
 
   /// get the overall number of signals in the module
   Float_t getNSignals();
@@ -27,7 +27,7 @@ class Module
   Int_t   getNFibers();
 
   /// get the fiber vector
-  inline std::vector<Fiber>& getFibers() { return mFibers; }
+  inline std::vector<Fiber*>& getFibers() { return mFibers; }
 
   /// remove all empty fibers from the module
   void removeEmpty();
@@ -42,7 +42,7 @@ class Module
 
   void init();
 
-  std::vector<Fiber>  mFibers{}; ///< holds all fibers of the module
+  std::vector<Fiber*>  mFibers{}; ///< holds all fibers of the module
 
   ClassDef(Module,1);
 };

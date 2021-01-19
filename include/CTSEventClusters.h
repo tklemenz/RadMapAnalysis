@@ -15,13 +15,13 @@ class CTSEventClusters : public EventBase
   ~CTSEventClusters() = default;
   CTSEventClusters(const CTSEventClusters &event);
 
-  inline void addCluster (Cluster &cluster)  { mClusterVec.emplace_back(cluster); }
+  inline void addCluster (Cluster* cluster)  { mClusterVec.emplace_back(cluster); }
 
-  std::vector<Cluster>&       getClusters()       { return mClusterVec; }
-  const std::vector<Cluster>& getClusters() const { return mClusterVec; }
+  std::vector<Cluster*>&       getClusters()       { return mClusterVec; }
+  const std::vector<Cluster*>& getClusters() const { return mClusterVec; }
 
  private:
-  std::vector<Cluster> mClusterVec {};  ///< contains all clusters in the event
+  std::vector<Cluster*> mClusterVec {};  ///< contains all clusters in the event
 
   ClassDef(CTSEventClusters,1);
 };

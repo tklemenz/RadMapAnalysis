@@ -33,22 +33,22 @@ class Track
   Track(const Track &track);
 
   /// This one would most likely be used. Gets all the track information directly.
-  Track(const std::vector<Cluster> &clusterVec, const ParticleType &type);
+  Track(std::vector<Cluster*> &clusterVec, const ParticleType &type);
 
   /// Get the clusters in a std::vector
-  inline std::vector<Cluster>& getClusters() { return mClusterVec; }
+  inline std::vector<Cluster*>& getClusters() { return mClusterVec; }
 
   /// Get the particle type
   inline ParticleType getType() { return mParticleType; }
 
  private:
 
-  std::vector<Cluster> mClusterVec{}; ///< holds all clusters that are assigned to the track
+  std::vector<Cluster*> mClusterVec{}; ///< holds all clusters that are assigned to the track
   ParticleType         mParticleType; ///< particle type: can be Pion, Proton or Unknown
 
   /// Associate a Cluster with the track.
   /// @param Cluster
-  inline void addCluster(const Cluster &cluster) { mClusterVec.emplace_back(cluster); }
+  inline void addCluster(Cluster* cluster) { mClusterVec.emplace_back(cluster); }
 
   /// Set the ParticleType
   /// @param ParticleType

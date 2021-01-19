@@ -49,11 +49,9 @@ void convertToCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
   TTree *tree = new TTree("dummy","RadMap data in fancy objects -> CTSEvents");
 
-  Signal    signal = Signal();
+  Signal*   signal;
   Module    module = Module();
-  CTSEvent *event;
-
-  event = new CTSEvent();
+  CTSEvent* event  = new CTSEvent();
 
   tree->Branch("Events","CTSEvent",&event,32000,1);
 
@@ -78,7 +76,7 @@ void convertToCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
       module.reset();
     }
 
-    signal = Signal(ToT,timeStamp,signalNr,chID,layer,TDC,padiwaConfig);
+    signal = new Signal(ToT,timeStamp,signalNr,chID,layer,TDC,padiwaConfig);
     module.addSignal(signal);
 
     event->setEventNr(ULong_t(eventNr));

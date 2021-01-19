@@ -38,7 +38,7 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
   Int_t   padiwaConfig = -1;
   Module  module       = Module();
 
-  std::vector<Fiber> fibers;
+  std::vector<Fiber*> fibers;
 
   Int_t fiberMult(0), layer(-1), x(-1), y(-1);
 
@@ -70,20 +70,20 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
 
     fiberMult = 0;
 
-    for(auto& fiber : fibers) {
-      if(fiber.getSignals().size() > 0) {
-        layer = fiber.getLayer();
-        x     = fiber.getX();
-        y     = fiber.getY();
+    for(auto fiber : fibers) {
+      if(fiber->getSignals().size() > 0) {
+        layer = fiber->getLayer();
+        x     = fiber->getX();
+        y     = fiber->getY();
         fiberMult++;
       }
 
-      for(auto& signal : fiber.getSignals()) {
-        if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()*1e9); }
-          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT()*1e9); }
+      for(auto signal : fiber->getSignals()) {
+        if(signal->getSignalNr() == 1) {
+          if     (layer == 1) { hToTfirstL1->Fill(x,signal->getToT()*1e9); }
+          else if(layer == 2) { hToTfirstL2->Fill(y,signal->getToT()*1e9); }
+          else if(layer == 3) { hToTfirstL3->Fill(x,signal->getToT()*1e9); }
+          else if(layer == 4) { hToTfirstL4->Fill(y,signal->getToT()*1e9); }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
         }
       } /// loop over signals in fiber

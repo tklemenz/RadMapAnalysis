@@ -29,14 +29,14 @@ class Tracker
 
   /// run the tracking
   void run(CTSEventClusters& event);
-  void run(std::vector<Cluster>& clusters);
+  void run(std::vector<Cluster*>& clusters);
 
-  std::vector<Track>&       getTracks()       { return mTrackVec; }
-  const std::vector<Track>& getTracks() const { return mTrackVec; }
+  std::vector<Track*>&       getTracks()       { return mTrackVec; }
+  const std::vector<Track*>& getTracks() const { return mTrackVec; }
 
  private:
 
-  std::vector<Track> mTrackVec{}; ///< contains all found tracks
+  std::vector<Track*> mTrackVec{}; ///< contains all found tracks
 
   ClassDef(Tracker,1);
 };

@@ -38,7 +38,7 @@ Cluster::Cluster(const Double_t qTot, const Double_t qMax, const Float_t meanFib
 }
 
 //________________________________________________________________________________
-void Cluster::addSignal(const Signal &signal)
+void Cluster::addSignal(Signal* signal)
 {
   Double_t  meanFiber = 0;
   Double_t  meanTimeStamp = 0;
@@ -47,33 +47,33 @@ void Cluster::addSignal(const Signal &signal)
 
   mSignals.emplace_back(signal);
 
-  for (auto &sig : mSignals) {
-    if (sig.getLayer() != signal.getLayer()) {
+  for (auto sig : mSignals) {
+    if (sig->getLayer() != signal->getLayer()) {
       printf("Signal is from another layer than the previous ones added to the cluster!\n Signal not added to the cluster.\n");
       mSignals.pop_back();
       return;
     }
 
     else {
-      weights += sig.getToT();
+      weights += sig->getToT();
     }
   }
 
-  for (auto &sig : mSignals) {
-    Int_t fiberNr = mapping::getFiberNr(sig.getConfiguration(), sig.getChannelID(), sig.getTDCID());
-    meanFiber     += (fiberNr*sig.getToT())/weights;
-    meanTimeStamp += (sig.getTimeStamp()*sig.getToT())/weights;
+  for (auto sig : mSignals) {
+    Int_t fiberNr  = mapping::getFiberNr(sig->getConfiguration(), sig->getChannelID(), sig->getTDCID());
+    meanFiber     += (fiberNr*sig->getToT())/weights;
+    meanTimeStamp += (sig->getTimeStamp()*sig->getToT())/weights;
   }
 
-  mLayer = signal.getLayer();
-  mTDCID = signal.getTDCID();
-  mQTot += signal.getToT();
+  mLayer = signal->getLayer();
+  mTDCID = signal->getTDCID();
+  mQTot += signal->getToT();
   mMeanFiber = meanFiber;
   mMeanTimeStamp = meanTimeStamp;
   mSigmaFiber = 1/std::sqrt(weights);
   mSigmaTimeStamp = 1/std::sqrt(weights);
 
-  if (signal.getToT() > mQMax) { mQMax = signal.getToT(); }
+  if (signal->getToT() > mQMax) { mQMax = signal->getToT(); }
 
-  if ((signal.getTimeStamp() < mFirstTimeStamp) && (mFirstTimeStamp != 0))  { mFirstTimeStamp = signal.getTimeStamp(); }
+  if ((signal->getTimeStamp() < mFirstTimeStamp) && (mFirstTimeStamp != 0))  { mFirstTimeStamp = signal->getTimeStamp(); }
 }

@@ -17,9 +17,9 @@ Module::Module(const Module &module)
 }
 
 //________________________________________________________________________________
-void Module::addSignal(Signal &signal)
+void Module::addSignal(Signal* signal)
 {
-  mFibers.at(mapping::getModuleSpot(signal.getLayer(), mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()))).addSignal(signal);
+  mFibers.at(mapping::getModuleSpot(signal->getLayer(), mapping::getFiberNr(signal->getConfiguration(),signal->getChannelID(),signal->getTDCID())))->addSignal(signal);
 }
 
 //________________________________________________________________________________
@@ -27,8 +27,8 @@ Float_t Module::getNSignals()
 {
   Float_t nSignals = 0;
 
-  for (auto &fiber : mFibers) {
-    nSignals += fiber.getNSignals();
+  for (auto fiber : mFibers) {
+    nSignals += fiber->getNSignals();
   }
 
   return nSignals;
@@ -39,8 +39,8 @@ Int_t Module::getNFibers()
 {
   Int_t nFibers = 0;
 
-  for (auto &fiber : mFibers) {
-    if (fiber.getNSignals() > 0) {
+  for (auto fiber : mFibers) {
+    if (fiber->getNSignals() > 0) {
       nFibers += 1;
     }
   }
@@ -51,7 +51,7 @@ Int_t Module::getNFibers()
 //________________________________________________________________________________
 void Module::removeEmpty()
 {
-  auto end = std::remove_if(mFibers.begin(), mFibers.end(), [](Fiber &fiber) {return fiber.getNSignals() == 0;});
+  auto end = std::remove_if(mFibers.begin(), mFibers.end(), [](Fiber *fiber) {return fiber->getNSignals() == 0;});
 
   mFibers.erase(end, mFibers.end());
 }
@@ -66,8 +66,8 @@ void Module::reset()
 //________________________________________________________________________________
 void Module::refresh()
 {
-  for(auto& fiber : mFibers) {
-    fiber.reset();
+  for(auto fiber : mFibers) {
+    fiber->reset();
   }
 }
 
@@ -78,6 +78,6 @@ void Module::init()
 
     std::pair<Int_t, Int_t> layFib = mapping::getFiberInfoFromModSpot(i);
 
-    mFibers.emplace_back(Fiber(layFib.first, mapping::getX(layFib.first, layFib.second), mapping::getY(layFib.first, layFib.second)));
+    mFibers.emplace_back(new Fiber(layFib.first, mapping::getX(layFib.first, layFib.second), mapping::getY(layFib.first, layFib.second)));
   }
 }

@@ -4,7 +4,7 @@
 ClassImp(Tracker);
 
 //________________________________________________________________________________
-void Tracker::run(std::vector<Cluster>& clusters)
+void Tracker::run(std::vector<Cluster*>& clusters)
 {
   /// - find the proper clusters and put them into a vector
   /// - put Track object in Track vector
@@ -32,19 +32,19 @@ void Tracker::run(std::vector<Cluster>& clusters)
   Int_t nClusters = clusters.size();
   Int_t used = 0;
 
-  std::vector<Cluster> inTrack{};
+  std::vector<Cluster*> inTrack{};
 
   while (clustersLeft) {
-    for (auto &cluster : clusters) {
-      if (!(cluster.isUsed()) && (std::experimental::randint(1,10) <= 5)) {
+    for (auto cluster : clusters) {
+      if (!(cluster->isUsed()) && (std::experimental::randint(1,10) <= 5)) {
         inTrack.emplace_back(cluster);
-        cluster.setIsUsed();
+        cluster->setIsUsed();
         used++;
       }
     }
 
     if (inTrack.size() > 0) {
-      mTrackVec.emplace_back(Track(std::move(inTrack), ParticleType(ParticleType::Unknown)));
+      mTrackVec.emplace_back(new Track(inTrack, ParticleType(ParticleType::Unknown)));
       inTrack.clear();
     }
 
