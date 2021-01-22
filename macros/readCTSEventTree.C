@@ -51,6 +51,10 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
   TH2D* hToTfirstL2  = new TH2D("hToTfirstL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL3  = new TH2D("hToTfirstL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL4  = new TH2D("hToTfirstL4","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
@@ -80,10 +84,18 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()*1e9); }
-          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT()*1e9); }
+          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()*1e9); 
+                                hTimefirstL1->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()*1e9); 
+                                hTimefirstL2->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()*1e9); 
+                                hTimefirstL3->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT()*1e9);
+                                hTimefirstL4->Fill(x,signal.getTimeStamp());
+                              }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
         }
       } /// loop over signals in fiber
@@ -99,6 +111,10 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
   fout->WriteObject(hToTfirstL2, "hToTfirstL2");
   fout->WriteObject(hToTfirstL3, "hToTfirstL3");
   fout->WriteObject(hToTfirstL4, "hToTfirstL4");
+  fout->WriteObject(hTimefirstL1, "hTimefirstL1");
+  fout->WriteObject(hTimefirstL2, "hTimefirstL2");
+  fout->WriteObject(hTimefirstL3, "hTimefirstL3");
+  fout->WriteObject(hTimefirstL4, "hTimefirstL4");
 
   fout->Close();
 }
