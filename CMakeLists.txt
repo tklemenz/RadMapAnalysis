@@ -55,6 +55,7 @@ set(EXE_SRCS
     macros/runDummy.C
     macros/crappyTest.C
     macros/convertToCTSEvents.C
+    macros/calibrateCTSEvents.C
     macros/readCTSEventTree.C
     macros/tryAroundTracker.C
     )
@@ -63,6 +64,7 @@ set(EXE_NAMES
     runDummy
     runCrappyTest
     convertToCTSEvents
+    calibrateCTSEvents
     readCTSEventTree
     tryAroundTracker
     )
