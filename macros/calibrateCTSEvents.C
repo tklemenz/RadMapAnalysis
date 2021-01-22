@@ -30,7 +30,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
 
   TNtupleD *signals = (TNtupleD*)f->Get("Signals");
 
-  Double_t eventNr(-1), chID(-1), TDC(-1), layer(-1), x(-1), y(-1), signalNr(-1), timeStamp(-1), ToT(-1), padiwaConfig(-1);
+  Double_t eventNr(-1), chID(-1), TDC(-1), layer(-1), x(-1), y(-1), signalNr(-1), timeStamp(-1), ToT(-1), padiwaConfig(-1), refTime(-1);
   Int_t prevSigNr(0), prevCh(-1), prevEventNr(-1), firstCounter(0), secondCounter(0);
 
   ULong_t nSignals = procNr;
@@ -45,6 +45,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
   signals->SetBranchAddress("y",            &y);            // even layers have y != 0
   signals->SetBranchAddress("signalNr",     &signalNr);     // Nth Signal per channel and event
   signals->SetBranchAddress("padiwaConfig", &padiwaConfig);
+  signals->SetBranchAddress("refTime",      &refTime);  
 
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
   TTree *tree = new TTree("dummy","RadMap data in fancy objects -> CTSEvents");
@@ -62,7 +63,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
 
   printf("signals to process: %lu\t %.1f%% of the file\n", nSignals, Float_t(100*nSignals)/Float_t(signals->GetEntries()));
 
-  double refTime(-1),totCalib(0),timeCalib(0);
+  double totCalib(0),timeCalib(0),ch1time(0);
 
   // -------------|| Hard Coded Calibration Data ||--------------------
 
@@ -112,12 +113,10 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
 
       module.reset();
     }
-
-    if (chID == 0) { 
-       refTime = timeStamp;
-       continue; }
-
-    timeCalib = ((timeStamp-refTime)*1e9)-time_calibration[int(layer)][int(chID)];
+   
+    timeCalib = (timeStamp-refTime)*1e9-time_calibration[int(layer)][int(chID)];
+    if(int(chID)==1) { ch1time = timeCalib; }
+    //printf("Layer:%g, ChID:%g,\t Timestamp:%1.15g,\t RefTime:%1.15g,\t timediff:%1.15g\t, timeToCh1:%1.15g\n",layer,chID,timeStamp,refTime,timeCalib,timeCalib-ch1time);
     ToT = ToT*1e9;
 
     //-----> Make channel mapping!

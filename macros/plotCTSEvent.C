@@ -51,10 +51,10 @@ void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
   TH2D* hToTfirstL2  = new TH2D("hToTfirstL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL3  = new TH2D("hToTfirstL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL4  = new TH2D("hToTfirstL4","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
-  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
-  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
-  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
