@@ -13,12 +13,12 @@
 #include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./readCTSEventTree -i inputfile -o outputfile -n numberOfEventsToBeProcessed
+///< usage: ./plotCTSEvent -i inputfile -o outputfile -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 
 extern char* optarg;
 
-void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t procNr)
+void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -51,6 +51,10 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
   TH2D* hToTfirstL2  = new TH2D("hToTfirstL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL3  = new TH2D("hToTfirstL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL4  = new TH2D("hToTfirstL4","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
+  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,20);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
@@ -80,10 +84,18 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()*1e9); }
-          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()*1e9); }
-          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT()*1e9); }
+          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()); 
+                                hTimefirstL1->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()); 
+                                hTimefirstL2->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()); 
+                                hTimefirstL3->Fill(x,signal.getTimeStamp());
+                              }
+          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT());
+                                hTimefirstL4->Fill(x,signal.getTimeStamp());
+                              }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
         }
       } /// loop over signals in fiber
@@ -99,6 +111,10 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
   fout->WriteObject(hToTfirstL2, "hToTfirstL2");
   fout->WriteObject(hToTfirstL3, "hToTfirstL3");
   fout->WriteObject(hToTfirstL4, "hToTfirstL4");
+  fout->WriteObject(hTimefirstL1, "hTimefirstL1");
+  fout->WriteObject(hTimefirstL2, "hTimefirstL2");
+  fout->WriteObject(hTimefirstL3, "hTimefirstL3");
+  fout->WriteObject(hTimefirstL4, "hTimefirstL4");
 
   fout->Close();
 }
@@ -106,7 +122,7 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="readCTSEventTree_output.root";
+  char    outputFile[512]="plotCTSEvent_output.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -130,9 +146,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning readCTSEventTree%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning plotCTSEvent%s\n\n",text::BOLD,text::RESET);
   
-  readCTSEventTree(inputFile,outputFile,procNr);
+  plotCTSEvent(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

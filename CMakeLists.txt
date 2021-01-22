@@ -58,9 +58,11 @@ set(EXE_SRCS
     macros/calibrateCTSEvents.C
     macros/readCTSEventTree.C
     macros/tryAroundTracker.C
+    macros/plotCTSEvent.C
     )
 
 set(EXE_NAMES
+    plotCTSEvent
     runDummy
     runCrappyTest
     convertToCTSEvents
