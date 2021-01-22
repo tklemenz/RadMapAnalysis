@@ -3,6 +3,7 @@ bin/readCTSEventTree
 bin/runCrappyTest
 bin/runDummy
 bin/tryAroundTracker
+bin/calibrateCTSEvents
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx

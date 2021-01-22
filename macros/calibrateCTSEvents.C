@@ -118,9 +118,10 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
        continue; }
 
     timeCalib = ((timeStamp-refTime)*1e9)-time_calibration[int(layer)][int(chID)];
+    ToT = ToT*1e9;
 
     //-----> Make channel mapping!
-    if (layer == 1){  
+    if (int(layer) == 1){  
       switch(int(x)) {
         case 1: totCalib=ToT*m_layer1[16]+y0_layer1[16]; break;
         case 2: totCalib=ToT*m_layer1[15]+y0_layer1[15]; break;
@@ -156,7 +157,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
         case 32: totCalib=ToT*m_layer1[0]+y0_layer1[0]; break;
         }
         
-      } else if (layer == 2){ 
+      } else if (int(layer) == 2){ 
       switch(int(y)) {
         case 1: totCalib=ToT*m_layer2[0]+y0_layer2[0]; break;
         case 2: totCalib=ToT*m_layer2[31]+y0_layer2[31]; break;
@@ -191,7 +192,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
         case 31: totCalib=ToT*m_layer2[15]+y0_layer2[15]; break;
         case 32: totCalib=ToT*m_layer2[16]+y0_layer2[16]; break;
         } 
-    }else if (layer == 3){   
+    }else if (int(layer) == 3){   
       switch(int(x)) {
         case 1: totCalib=ToT*m_layer3[16]+y0_layer3[16]; break;
         case 2: totCalib=ToT*m_layer3[15]+y0_layer3[15]; break;
@@ -226,7 +227,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
         case 31: totCalib=ToT*m_layer3[31]+y0_layer3[31]; break;
         case 32: totCalib=ToT*m_layer3[0]+y0_layer3[0]; break;   
         }
-      }else if (layer == 4){
+      }else if (int(layer) == 4){
       switch(int(y)) {
         case 1: totCalib=ToT*m_layer4[0]+y0_layer4[0]; break;
         case 2: totCalib=ToT*m_layer4[31]+y0_layer4[31]; break;
@@ -262,7 +263,6 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
         case 32: totCalib=ToT*m_layer4[16]+y0_layer4[16]; break;
       }      
     }
-
     signal = Signal(totCalib,timeCalib,signalNr,chID,layer,TDC,padiwaConfig);
     module.addSignal(signal);
 
