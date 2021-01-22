@@ -84,16 +84,16 @@ void readCTSEventTree(const char *inputFile, const char *outputFile, ULong_t pro
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()*1e9); 
+          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()); 
                                 hTimefirstL1->Fill(x,signal.getTimeStamp());
                               }
-          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()*1e9); 
+          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()); 
                                 hTimefirstL2->Fill(x,signal.getTimeStamp());
                               }
-          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()*1e9); 
+          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()); 
                                 hTimefirstL3->Fill(x,signal.getTimeStamp());
                               }
-          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT()*1e9);
+          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT());
                                 hTimefirstL4->Fill(x,signal.getTimeStamp());
                               }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
