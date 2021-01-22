@@ -62,13 +62,13 @@ set(EXE_SRCS
     )
 
 set(EXE_NAMES
-    plotCTSEvent
     runDummy
     runCrappyTest
     convertToCTSEvents
     calibrateCTSEvents
     readCTSEventTree
     tryAroundTracker
+    plotCTSEvent
     )
 
 list(LENGTH EXE_SRCS count)
