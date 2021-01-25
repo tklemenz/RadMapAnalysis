@@ -6,6 +6,7 @@ bin/tryAroundTracker
 bin/calibrateCTSEvents
 bin/plotCTSEvent
 bin/convertToClusterEvents
+bin/plotClusterEvent
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx

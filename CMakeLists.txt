@@ -60,7 +60,7 @@ set(EXE_SRCS
     macros/tryAroundTracker.C
     macros/plotCTSEvent.C
     macros/convertToClusterEvents.C
-
+    macros/plotClusterEvent.C
     )
 
 set(EXE_NAMES
@@ -72,6 +72,7 @@ set(EXE_NAMES
     tryAroundTracker
     plotCTSEvent
     convertToClusterEvents
+    plotClusterEvent
     )
 
 list(LENGTH EXE_SRCS count)
