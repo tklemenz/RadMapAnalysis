@@ -62,7 +62,7 @@ class Cluster
   /// calculates all cluster properties and updates members
   /// @param Signal
   /// @todo Figure out how to properly calculate the sigmas of fiber and timeStamp
-  inline void addSignal(const Signal &signal);
+  void addSignal(const Signal &signal);
 
   /// get the overall number of signals in the cluster
   inline Int_t getNSignals() { return mSignals.size(); }
