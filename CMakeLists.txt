@@ -59,6 +59,8 @@ set(EXE_SRCS
     macros/readCTSEventTree.C
     macros/tryAroundTracker.C
     macros/plotCTSEvent.C
+    macros/convertToClusterEvents.C
+
     )
 
 set(EXE_NAMES
@@ -69,6 +71,7 @@ set(EXE_NAMES
     readCTSEventTree
     tryAroundTracker
     plotCTSEvent
+    convertToClusterEvents
     )
 
 list(LENGTH EXE_SRCS count)
