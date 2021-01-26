@@ -39,7 +39,7 @@ void Clusterer::findClusters(CTSEvent& event)
                       layer1cluster.addSignal(signal);
                     }
                     break;
-            case 2: if(layer2cluster.getNSignals()==0 || abs(x-layer2cluster.getMeanFiber())<cluster_fib_range){
+            case 2: if(layer2cluster.getNSignals()==0 || abs(y-layer2cluster.getMeanFiber())<cluster_fib_range){
                       layer2cluster.addSignal(signal); 
                     }
                     break;
@@ -47,7 +47,7 @@ void Clusterer::findClusters(CTSEvent& event)
                      layer3cluster.addSignal(signal); 
                     }
                     break;
-            case 4: if(layer4cluster.getNSignals()==0 || abs(x-layer4cluster.getMeanFiber())<cluster_fib_range){
+            case 4: if(layer4cluster.getNSignals()==0 || abs(y-layer4cluster.getMeanFiber())<cluster_fib_range){
                       layer4cluster.addSignal(signal); 
                     }
                     break;
