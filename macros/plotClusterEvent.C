@@ -44,6 +44,10 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   Int_t     clusterNSignal(-1), layer(-1);
   Double_t  qTot(-1), qMax(-1), timeMean(-1);
   Float_t   fibMean(-1);
+  Bool_t    layerseen[4];
+  Int_t     total(0),multi1(0),multi2(0),multi3(0),multi4(0),only1(0),only2(0),only3(0),only4(0),both34(0),buffer(0);
+  Int_t     l12(0),l13(0),l14(0),l23(0),l24(0),l34(0);
+  Int_t     l123(0),l124(0),l134(0),l234(0);
 
   data->SetBranchAddress("ClusterEvents", &clusterEvent);
 
@@ -66,6 +70,7 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
     data->GetEntry(entry);
 
     clusters = clusterEvent->getClusters();
+    for(int i=0;i<4;i++){ layerseen[i]=false; }
 
     for(auto& cluster : clusters) {
 
@@ -75,15 +80,53 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
       qMax = cluster.getQMax();
       timeMean = cluster.getMeanTimeStamp();
       fibMean = cluster.getMeanFiber();
-      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax*1e9); }
-      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax*1e9); }
-      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax*1e9); }
-      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax*1e9); }
+      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax); layerseen[0] = true;}
+      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax); layerseen[1] = true;}
+      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax); layerseen[2] = true;}
+      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax); layerseen[3] = true;}
       else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
 
     } /// loop over fibers in module
 
+    if(layerseen[0] == true && layerseen[1] == false && layerseen[2] == false && layerseen[3] == false) { only1++; }
+    if(layerseen[0] == false && layerseen[1] == true && layerseen[2] == false && layerseen[3] == false) { only2++; }
+    if(layerseen[0] == false && layerseen[1] == false && layerseen[2] == true && layerseen[3] == false) { only3++; }
+    if(layerseen[0] == false && layerseen[1] == false && layerseen[2] == false && layerseen[3] == true) { only4++; }
+
+    if(layerseen[0] == true && layerseen[1] == true && layerseen[2] == true && layerseen[3] == false) { l123++; }
+    if(layerseen[0] == true && layerseen[1] == true && layerseen[2] == false && layerseen[3] == true) { l124++; }
+    if(layerseen[0] == true && layerseen[1] == false && layerseen[2] == true && layerseen[3] == true) { l134++; }
+    if(layerseen[0] == false && layerseen[1] == true && layerseen[2] == true && layerseen[3] == true) { l234++; }
+
+    for(int i=0;i<4;i++){ if(layerseen[i]==true) { buffer++; } }
+    switch(buffer){
+      case 1: multi1++; break;
+      case 2: multi2++; break;
+      case 3: multi3++; break;
+      case 4: multi4++; break;
+    }
+
+    if(buffer==2){
+      if(layerseen[0] == true && layerseen[1] == true){ l12++; }
+      if(layerseen[0] == true && layerseen[2] == true){ l13++; }
+      if(layerseen[0] == true && layerseen[3] == true){ l14++; }
+      if(layerseen[1] == true && layerseen[2] == true){ l23++; }
+      if(layerseen[1] == true && layerseen[3] == true){ l24++; }
+      if(layerseen[2] == true && layerseen[3] == true){ l34++; }
+    }
+    total+=buffer;
+    buffer=0;
+
+
   } /// loop over file
+
+  printf("\n\n");
+  printf("Events: %i, Total:%i\n",int(nEvents), int(total));
+  printf("Multiplicity=1:%i,Multiplicity=2:%i,Multiplicity=3:%i,Multiplicity=4:%i\n",multi1,multi2,multi3,multi4);
+  printf("Only 1: %i,Only 2: %i,Only 3: %i,Only 4: %i\n", only1,only2,only3,only4);
+  printf("L12:%i,L13:%i,L14:%i,L23:%i,L24:%i,L34:%i\n",l12,l13,l14,l23,l24,l34);
+  printf("L123:%i, L124:%i L134:%i, L234:%i\n", l123,l124,l134,l234);
+  printf("\n\n");
 
   fout->WriteObject(hToTfibL1, "hToTfibL1");
   fout->WriteObject(hToTfibL2, "hToTfibL2");
