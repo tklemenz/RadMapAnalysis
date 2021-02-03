@@ -84,17 +84,17 @@ void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(x,signal.getToT()); 
+          if     (layer == 1) { hToTfirstL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
                                 hTimefirstL1->Fill(x,signal.getTimeStamp());
                               }
-          else if(layer == 2) { hToTfirstL2->Fill(y,signal.getToT()); 
-                                hTimefirstL2->Fill(x,signal.getTimeStamp());
+          else if(layer == 2) { hToTfirstL2->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
+                                hTimefirstL2->Fill(y,signal.getTimeStamp());
                               }
-          else if(layer == 3) { hToTfirstL3->Fill(x,signal.getToT()); 
+          else if(layer == 3) { hToTfirstL3->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
                                 hTimefirstL3->Fill(x,signal.getTimeStamp());
                               }
-          else if(layer == 4) { hToTfirstL4->Fill(y,signal.getToT());
-                                hTimefirstL4->Fill(x,signal.getTimeStamp());
+          else if(layer == 4) { hToTfirstL4->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT());
+                                hTimefirstL4->Fill(y,signal.getTimeStamp());
                               }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
         }

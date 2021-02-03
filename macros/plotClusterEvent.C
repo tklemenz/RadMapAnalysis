@@ -42,8 +42,8 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   std::vector<Cluster> clusters;
 
   Int_t     clusterNSignal(-1), layer(-1);
-  Double_t  qTot(-1), qMax(-1), timeMean(-1);
-  Float_t   fibMean(-1);
+  Double_t  qTot(-1), qMax(-1), timeMean(-1), qMaxBuffer[4];
+  Float_t   fibMean(-1), fibMeanBuffer[4];
   Bool_t    layerseen[4];
   Int_t     total(0),multi1(0),multi2(0),multi3(0),multi4(0),only1(0),only2(0),only3(0),only4(0),both34(0),buffer(0);
   Int_t     l12(0),l13(0),l14(0),l23(0),l24(0),l34(0);
@@ -57,6 +57,23 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   TH2D* hToTfibL2  = new TH2D("hToTfibL2","ToT distribution of clusters vs fiber;fiber;ToT",33,0,33,1000,0,50);
   TH2D* hToTfibL3  = new TH2D("hToTfibL3","ToT distribution of clusters vs fiber;fiber;ToT",33,0,33,1000,0,50);
   TH2D* hToTfibL4  = new TH2D("hToTfibL4","ToT distribution of clusters vs fiber;fiber;ToT",33,0,33,1000,0,50);
+
+  TH1D* hFibMeanL1 = new TH1D("hFibMeanL1","Fiber Mean Layer 1;fiber",330,0,33);
+  TH1D* hFibMeanL2 = new TH1D("hFibMeanL2","Fiber Mean Layer 2;fiber",330,0,33);
+  TH1D* hFibMeanL3 = new TH1D("hFibMeanL3","Fiber Mean Layer 3;fiber",330,0,33);
+  TH1D* hFibMeanL4 = new TH1D("hFibMeanL4","Fiber Mean Layer 4;fiber",330,0,33);
+
+  TH1D* hSigFibL1 = new TH1D("hSigFibL1","Signal Fiber Layer 1;fiber",330,0,33);
+  TH1D* hSigFibL2 = new TH1D("hSigFibL2","Signal Fiber Layer 2;fiber",330,0,33);
+  TH1D* hSigFibL3 = new TH1D("hSigFibL3","Signal Fiber Layer 3;fiber",330,0,33);
+  TH1D* hSigFibL4 = new TH1D("hSigFibL4","Signal Fiber Layer 4;fiber",330,0,33);
+
+  TH2D* hMulti2L12  = new TH2D("hMulti2L12","Multiplicity 2 - Layer 1&2;fiber distance;ToT",66,-33,33,100,0,35);
+  TH2D* hMulti2L13  = new TH2D("hMulti2L13","Multiplicity 2 - Layer 1&3;fiber distance;ToT",66,-33,33,100,0,35);
+  TH2D* hMulti2L14  = new TH2D("hMulti2L14","Multiplicity 2 - Layer 1&4;fiber distance;ToT",66,-33,33,100,0,35);
+  TH2D* hMulti2L23  = new TH2D("hMulti2L23","Multiplicity 2 - Layer 2&3;fiber distance;ToT",66,-33,33,100,0,35);
+  TH2D* hMulti2L24  = new TH2D("hMulti2L24","Multiplicity 2 - Layer 2&4;fiber distance;ToT",66,-33,33,100,0,35);
+  TH2D* hMulti2L34  = new TH2D("hMulti2L34","Multiplicity 2 - Layer 3&4;fiber distance;ToT",66,-33,33,100,0,35);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
@@ -80,10 +97,23 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
       qMax = cluster.getQMax();
       timeMean = cluster.getMeanTimeStamp();
       fibMean = cluster.getMeanFiber();
-      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax); layerseen[0] = true;}
-      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax); layerseen[1] = true;}
-      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax); layerseen[2] = true;}
-      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax); layerseen[3] = true;}
+
+      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax); hFibMeanL1->Fill(fibMean); layerseen[0] = true; fibMeanBuffer[0] = fibMean; qMaxBuffer[0] = qMax; 
+                            for(auto& signal : cluster.getSignals())
+                              { hSigFibL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
+                          }
+      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax); hFibMeanL2->Fill(fibMean); layerseen[1] = true; fibMeanBuffer[1] = fibMean; qMaxBuffer[1] = qMax; 
+                            for(auto& signal : cluster.getSignals())
+                              { hSigFibL2->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
+                          }
+      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax); hFibMeanL3->Fill(fibMean); layerseen[2] = true; fibMeanBuffer[2] = fibMean; qMaxBuffer[2] = qMax;
+                            for(auto& signal : cluster.getSignals())
+                              { hSigFibL3->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
+                          }
+      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax); hFibMeanL4->Fill(fibMean); layerseen[3] = true; fibMeanBuffer[3] = fibMean; qMaxBuffer[3] = qMax;
+                            for(auto& signal : cluster.getSignals())
+                              { hSigFibL4->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
+                          }
       else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
 
     } /// loop over fibers in module
@@ -107,15 +137,16 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
     }
 
     if(buffer==2){
-      if(layerseen[0] == true && layerseen[1] == true){ l12++; }
-      if(layerseen[0] == true && layerseen[2] == true){ l13++; }
-      if(layerseen[0] == true && layerseen[3] == true){ l14++; }
-      if(layerseen[1] == true && layerseen[2] == true){ l23++; }
-      if(layerseen[1] == true && layerseen[3] == true){ l24++; }
-      if(layerseen[2] == true && layerseen[3] == true){ l34++; }
+      if(layerseen[0] == true && layerseen[1] == true){ l12++; hMulti2L12->Fill(fibMeanBuffer[0]-fibMeanBuffer[1],qMaxBuffer[0]);}
+      if(layerseen[0] == true && layerseen[2] == true){ l13++; hMulti2L13->Fill(fibMeanBuffer[0]-fibMeanBuffer[2],qMaxBuffer[0]);}
+      if(layerseen[0] == true && layerseen[3] == true){ l14++; hMulti2L14->Fill(fibMeanBuffer[0]-fibMeanBuffer[3],qMaxBuffer[0]);}
+      if(layerseen[1] == true && layerseen[2] == true){ l23++; hMulti2L23->Fill(fibMeanBuffer[1]-fibMeanBuffer[2],qMaxBuffer[1]);}
+      if(layerseen[1] == true && layerseen[3] == true){ l24++; hMulti2L24->Fill(fibMeanBuffer[1]-fibMeanBuffer[3],qMaxBuffer[1]);}
+      if(layerseen[2] == true && layerseen[3] == true){ l34++; hMulti2L34->Fill(fibMeanBuffer[2]-fibMeanBuffer[3],qMaxBuffer[2]);}
     }
     total+=buffer;
     buffer=0;
+    for(int i=0;i<4;i++){ qMaxBuffer[i]=0; fibMeanBuffer[i]=0; }
 
 
   } /// loop over file
@@ -128,10 +159,48 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   printf("L123:%i, L124:%i L134:%i, L234:%i\n", l123,l124,l134,l234);
   printf("\n\n");
 
+  
+
+  TCanvas *c1 = new TCanvas("c1","M2", 1500, 700);
+  c1->Divide(3,2);
+  c1->cd(1);
+  gPad->SetLogz();
+  hMulti2L12->Draw("COLZ");
+  c1->cd(2);
+  gPad->SetLogz();
+  hMulti2L13->Draw("COLZ");
+  c1->cd(3);
+  gPad->SetLogz();
+  hMulti2L14->Draw("COLZ");
+  c1->cd(4);
+  gPad->SetLogz();
+  hMulti2L23->Draw("COLZ");
+  c1->cd(5);
+  gPad->SetLogz();
+  hMulti2L24->Draw("COLZ");
+  c1->cd(6);
+  gPad->SetLogz();
+  hMulti2L34->Draw("COLZ");
+
   fout->WriteObject(hToTfibL1, "hToTfibL1");
   fout->WriteObject(hToTfibL2, "hToTfibL2");
   fout->WriteObject(hToTfibL3, "hToTfibL3");
   fout->WriteObject(hToTfibL4, "hToTfibL4");
+  fout->WriteObject(hMulti2L12, "hMulti2L12");
+  fout->WriteObject(hMulti2L13, "hMulti2L13");
+  fout->WriteObject(hMulti2L14, "hMulti2L14");
+  fout->WriteObject(hMulti2L23, "hMulti2L23");
+  fout->WriteObject(hMulti2L24, "hMulti2L24");
+  fout->WriteObject(hMulti2L34, "hMulti2L34");
+  fout->WriteObject(hFibMeanL1, "hFibMeanL1");
+  fout->WriteObject(hFibMeanL2, "hFibMeanL2");
+  fout->WriteObject(hFibMeanL3, "hFibMeanL3");
+  fout->WriteObject(hFibMeanL4, "hFibMeanL4");
+  fout->WriteObject(hSigFibL1, "hSigFibL1");
+  fout->WriteObject(hSigFibL2, "hSigFibL2");
+  fout->WriteObject(hSigFibL3, "hSigFibL3");
+  fout->WriteObject(hSigFibL4, "hSigFibL4");
+  fout->WriteObject(c1, "Multi2canvas");
 
   fout->Close();
 }
