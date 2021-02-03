@@ -1,4 +1,8 @@
 #include "Clusterer.h"
+#include "Utility.h"
+
+#include <vector> 
+#include <algorithm>
 
 ClassImp(Clusterer);
 
@@ -13,17 +17,19 @@ void Clusterer::findClusters(CTSEvent& event)
   padiwaConfig = event.getPadiwaConfig();
   module       = event.getModule();
   fibers       = module.getFibers();
+  std::vector<Double_t> distances;
+  Double_t min_dist_index=-1;
 
   Int_t x(-1), y(-1), layer(-1);
 
-  Double_t cluster_fib_range = 2; // The allowed range in fiber distance for cluster building
+  Double_t cluster_fib_range = 1.5; // The allowed range in fiber distance for cluster building
 
   // Clusters can only contain signals from the same layer
   // That's why I made 4 buffer cluster containers (1 for each layer)
-  Cluster layer1cluster = Cluster();
-  Cluster layer2cluster = Cluster();
-  Cluster layer3cluster = Cluster();
-  Cluster layer4cluster = Cluster();
+  std::vector<Cluster> layer1clusters;
+  std::vector<Cluster> layer2clusters;
+  std::vector<Cluster> layer3clusters;
+  std::vector<Cluster> layer4clusters;
 
   for(auto& fiber : fibers) {
     if(fiber.getNSignals() > 0) {
@@ -35,20 +41,76 @@ void Clusterer::findClusters(CTSEvent& event)
           // Since the signals are separeted in fibers but not layer,
           // this switch makes sure only signals from same layer are compared
           switch(layer){  
-            case 1: if(layer1cluster.getNSignals()==0 || abs(x-layer1cluster.getMeanFiber())<cluster_fib_range){ // Cuts are Work in Progress
-                      layer1cluster.addSignal(signal);
+            case 1: if(layer1clusters.size()==0){
+                      layer1clusters.emplace_back(Cluster());
+                      layer1clusters.at(0).addSignal(signal);
+                    }
+                    else{
+                      distances.clear();
+                      min_dist_index=-1;
+                      for(auto& cluster : layer1clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-x)); }
+                      min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
+                      if(distances.at(min_dist_index)<cluster_fib_range){
+                        layer1clusters.at(min_dist_index).addSignal(signal);
+                      }
+                      else{
+                        layer1clusters.emplace_back(Cluster());
+                        layer1clusters.back().addSignal(signal);
+                      }
                     }
                     break;
-            case 2: if(layer2cluster.getNSignals()==0 || abs(y-layer2cluster.getMeanFiber())<cluster_fib_range){
-                      layer2cluster.addSignal(signal); 
+            case 2: if(layer2clusters.size()==0){
+                      layer2clusters.emplace_back(Cluster());
+                      layer2clusters.at(0).addSignal(signal);
+                    }
+                    else{
+                      distances.clear();
+                      min_dist_index=-1;
+                      for(auto& cluster : layer2clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-y)); }
+                      min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
+                      if(distances.at(min_dist_index)<cluster_fib_range){
+                        layer2clusters.at(min_dist_index).addSignal(signal);
+                      }
+                      else{
+                        layer2clusters.emplace_back(Cluster());
+                        layer2clusters.back().addSignal(signal);
+                      }
                     }
                     break;
-            case 3: if(layer3cluster.getNSignals()==0 || abs(x-layer3cluster.getMeanFiber())<cluster_fib_range){
-                     layer3cluster.addSignal(signal); 
+            case 3: if(layer3clusters.size()==0){
+                      layer3clusters.emplace_back(Cluster());
+                      layer3clusters.at(0).addSignal(signal);
+                    }
+                    else{
+                      distances.clear();
+                      min_dist_index=-1;
+                      for(auto& cluster : layer3clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-x)); }
+                      min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
+                      if(distances.at(min_dist_index)<cluster_fib_range){
+                        layer3clusters.at(min_dist_index).addSignal(signal);
+                      }
+                      else{
+                        layer3clusters.emplace_back(Cluster());
+                        layer3clusters.back().addSignal(signal);
+                      }
                     }
                     break;
-            case 4: if(layer4cluster.getNSignals()==0 || abs(y-layer4cluster.getMeanFiber())<cluster_fib_range){
-                      layer4cluster.addSignal(signal); 
+            case 4: if(layer4clusters.size()==0){
+                      layer4clusters.emplace_back(Cluster());
+                      layer4clusters.at(0).addSignal(signal);
+                    }
+                    else{
+                      distances.clear();
+                      min_dist_index=-1;
+                      for(auto& cluster : layer4clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-y)); }
+                      min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
+                      if(distances.at(min_dist_index)<cluster_fib_range){
+                        layer4clusters.at(min_dist_index).addSignal(signal);
+                      }
+                      else{
+                        layer4clusters.emplace_back(Cluster());
+                        layer4clusters.back().addSignal(signal);
+                      }
                     }
                     break;
           } 
@@ -58,9 +120,9 @@ void Clusterer::findClusters(CTSEvent& event)
   } /// loop over fibers in module
 
   // Add clusters to final vector if they are not empty
-  if(layer1cluster.getNSignals()>0) { mClusterVec.emplace_back(layer1cluster); }
-  if(layer2cluster.getNSignals()>0) { mClusterVec.emplace_back(layer2cluster); }
-  if(layer3cluster.getNSignals()>0) { mClusterVec.emplace_back(layer3cluster); }
-  if(layer4cluster.getNSignals()>0) { mClusterVec.emplace_back(layer4cluster); }
+  if(layer1clusters.size()>0) { for(auto& cluster : layer1clusters) { mClusterVec.emplace_back(cluster); } }
+  if(layer2clusters.size()>0) { for(auto& cluster : layer2clusters) { mClusterVec.emplace_back(cluster); } }
+  if(layer3clusters.size()>0) { for(auto& cluster : layer3clusters) { mClusterVec.emplace_back(cluster); } }
+  if(layer4clusters.size()>0) { for(auto& cluster : layer4clusters) { mClusterVec.emplace_back(cluster); } }
   ///-----------------------------------------
 }
