@@ -3,6 +3,7 @@
 
 #include "CTSEvent.h"
 #include "Cluster.h"
+#include <TH1.h>
 #include <vector>
 
 /// Clusterer class to assign signals from CTSEvents to clusters.
@@ -28,6 +29,8 @@ class Clusterer
   // Useful when calling this function iteratively in macro so that your cluster container doesn't grow indefinetely
   // Try to guess how I found out that this was needed
   inline void reset() { mClusterVec.clear(); }
+
+  TH1D* MhTimeDiff = new TH1D("hTimeDiff","y;x",3000,0,3000);
 
  private:
   std::vector<Cluster> mClusterVec{}; //holds clusters 

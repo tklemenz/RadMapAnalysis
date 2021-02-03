@@ -88,12 +88,15 @@ void convertToClusterEvents(const char *inputFile, const char *outputFile, ULong
   } /// loop over file
 
   treeout->Write("data");
+  fout->WriteObject(clusterer.MhTimeDiff,"MhTimeDiff");
+
   fout->Close();
 
   delete clusterEvent;
   clusterEvent=nullptr;
 
   printf("\n\n High multiplicity cluster counter:%i\n\n", clusterCounter);
+
 }
 
 int main(int argc, char** argv)
