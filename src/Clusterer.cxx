@@ -25,8 +25,8 @@ void Clusterer::findClusters(CTSEvent& event)
   
   Int_t x(-1), y(-1), layer(-1);
 
-  Double_t cluster_fib_range = 1.5; // The allowed range in fiber distance for cluster building
-  Double_t cluster_time_range = 1*1e30; // The allowed time window for cluster building [ns]
+  Double_t cluster_fib_range = 2; // The allowed range in fiber distance for cluster building
+  Double_t cluster_time_range = 12*1e-9; // The allowed time window for cluster building [s]
 
   // Clusters can only contain signals from the same layer
   // That's why I made 4 buffer cluster containers (1 for each layer)
@@ -51,8 +51,8 @@ void Clusterer::findClusters(CTSEvent& event)
                     }
                     else{
                       distances.clear();
-                      time_distances.clear();
                       min_dist_index=-1;
+                      time_distances.clear();
                       min_time_index=-1;
                       for(auto& cluster : layer1clusters){ 
                         distances.emplace_back(std::abs(cluster.getMeanFiber()-x));
@@ -77,9 +77,16 @@ void Clusterer::findClusters(CTSEvent& event)
                     else{
                       distances.clear();
                       min_dist_index=-1;
-                      for(auto& cluster : layer2clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-y)); }
+                      time_distances.clear();
+                      min_time_index=-1;
+                      for(auto& cluster : layer2clusters){ 
+                        distances.emplace_back(std::abs(cluster.getMeanFiber()-x));
+                        time_distances.emplace_back(std::abs(cluster.getMeanTimeStamp()-signal.getTimeStamp()));
+                      }
                       min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
-                      if(distances.at(min_dist_index)<cluster_fib_range){
+                      min_time_index = std::min_element(time_distances.begin(),time_distances.end())-time_distances.begin();
+                      MhTimeDiff->Fill(time_distances.at(min_time_index));
+                      if(distances.at(min_dist_index)<cluster_fib_range && time_distances.at(min_time_index)<cluster_time_range && min_dist_index==min_time_index){
                         layer2clusters.at(min_dist_index).addSignal(signal);
                       }
                       else{
@@ -95,9 +102,16 @@ void Clusterer::findClusters(CTSEvent& event)
                     else{
                       distances.clear();
                       min_dist_index=-1;
-                      for(auto& cluster : layer3clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-x)); }
+                      time_distances.clear();
+                      min_time_index=-1;
+                      for(auto& cluster : layer3clusters){ 
+                        distances.emplace_back(std::abs(cluster.getMeanFiber()-x));
+                        time_distances.emplace_back(std::abs(cluster.getMeanTimeStamp()-signal.getTimeStamp()));
+                      }
                       min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
-                      if(distances.at(min_dist_index)<cluster_fib_range){
+                      min_time_index = std::min_element(time_distances.begin(),time_distances.end())-time_distances.begin();
+                      MhTimeDiff->Fill(time_distances.at(min_time_index));
+                      if(distances.at(min_dist_index)<cluster_fib_range && time_distances.at(min_time_index)<cluster_time_range && min_dist_index==min_time_index){
                         layer3clusters.at(min_dist_index).addSignal(signal);
                       }
                       else{
@@ -113,9 +127,16 @@ void Clusterer::findClusters(CTSEvent& event)
                     else{
                       distances.clear();
                       min_dist_index=-1;
-                      for(auto& cluster : layer4clusters){ distances.emplace_back(std::abs(cluster.getMeanFiber()-y)); }
+                      time_distances.clear();
+                      min_time_index=-1;
+                      for(auto& cluster : layer4clusters){ 
+                        distances.emplace_back(std::abs(cluster.getMeanFiber()-x));
+                        time_distances.emplace_back(std::abs(cluster.getMeanTimeStamp()-signal.getTimeStamp()));
+                      }
                       min_dist_index = std::min_element(distances.begin(),distances.end())-distances.begin();
-                      if(distances.at(min_dist_index)<cluster_fib_range){
+                      min_time_index = std::min_element(time_distances.begin(),time_distances.end())-time_distances.begin();
+                      MhTimeDiff->Fill(time_distances.at(min_time_index));
+                      if(distances.at(min_dist_index)<cluster_fib_range && time_distances.at(min_time_index)<cluster_time_range && min_dist_index==min_time_index){
                         layer4clusters.at(min_dist_index).addSignal(signal);
                       }
                       else{

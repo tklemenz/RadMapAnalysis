@@ -70,7 +70,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
   // Time shift on each channel relative to chID=1.
   // Measured with pulser on Padiwa.
   // These values are subtracted from timeStamp value to get calibrated time.
-  double time_calibration[4][33] = {
+  Double_t time_calibration[4][33] = {
     {0,6.93889E-16,1.11542,0.8119,2.251916,-0.922404,-0.453114,0.8883776,0.155795,-0.938464,-1.540544,-0.809134,-1.552644,-0.692764,-0.464704,-2.004604,-2.406544,
       2.517826,2.66,3.397055,4.096766,2.263641,1.699249,0.276526,1.177086,-1.945154,-0.044184,-1.795594,-1.466974,5.072366,5.563236,3.990506,1.566279},
     {0,6.93889E-16,1.11542,1.24223,2.67931,-0.456091,-0.0149989,1.3712,0.504082,-0.370934,-1.08655,-0.454727,-1.31195,-0.195293,-0.0461142,-1.59216,-1.91812,
@@ -93,8 +93,6 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
   float y0_layer3[33]={-3.89, 2.46, -1.88, -4.09, -2.92, -6.09, -5.11, -1.42, -0.59, -2.47, -3.89, -3.66, -3.03, -4.23, -3.34, -4.73, -5.15, -5.66, -7.47, -6.34, -6.16, 14.12, -5.35, -5.09, -3.56, -3.58, -3.05, -4.27, -2.02, -3.65, -4.7, -2.97};
   float m_layer4[33]={1.14, 1.21, 1.15, 1.19, 1.09, 1.12, 1.08, 1.15, 1.16, 1.07, 1.05, 1.12, 1.13, 1.11, 1.09, 1.03, 1.22, 1.17, 1.19, 1.2, 1.19, 1.18, 1.14, 1.15, 1.15, 1.15, 1.14, 1.05, 1.13, 1.19, 1.16, 1.04};
   float y0_layer4[33]={-1.72, -5.08, -0.94, -3.44, -0.9, -3.02, -3.14, -3.65, -2.13, -1.14, 0.34, -1.86, -2.78, -2.01, -1.03, -1.16, -5.06, -3.55, -3.31, -4.24, -3.01, -3.39, -1.93, -2.53, -1.21, -4.04, -1.84, 0.15, -0.92, -3.89, -3.16, 0.22};
-  
-
 
   // The loop
   for (ULong_t entry = 0; entry < nSignals; entry++) {
@@ -114,7 +112,8 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
       module.reset();
     }
    
-    timeCalib = (timeStamp-refTime)*1e9-time_calibration[int(layer)][int(chID)];
+    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[int(layer)-1][int(chID)];
+    //if(timeCalib<-1e10) { printf("Layer: %g, ChID: %g, TimeStamp: %g, Calibrated: %g, refTime: %g, Calibration: %g\n",layer,chID,timeStamp,timeCalib,refTime,time_calibration[int(layer)-1][int(chID)]);}
     if(int(chID)==1) { ch1time = timeCalib; }
     //printf("Layer:%g, ChID:%g,\t Timestamp:%1.15g,\t RefTime:%1.15g,\t timediff:%1.15g\t, timeToCh1:%1.15g\n",layer,chID,timeStamp,refTime,timeCalib,timeCalib-ch1time);
     ToT = ToT*1e9;

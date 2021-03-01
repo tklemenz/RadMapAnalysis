@@ -9,9 +9,11 @@
 #include <iostream>
 #include <iomanip>
 #include <unistd.h>
+#include <math.h>
 
 #include "CTSEvent.h"
 #include "CTSEventClusters.h"
+#include "ClusterEvent.h"
 #include "Utility.h"
 
 ///< usage: ./convertToClusterEvents -i inputfile -o outputfile -n numberOfEventsToBeProcessed
@@ -33,27 +35,29 @@ void convertToClusterEvents(const char *inputFile, const char *outputFile, ULong
   ULong_t nEvents = procNr;
   if ((nEvents == -1) || (nEvents > data->GetEntries())) { nEvents = data->GetEntries(); }
 
-  Float_t eventNr      = -1;
+  Int_t eventNrCluster = -1;
   Int_t   padiwaConfig = -1;
-  Module  module       = Module();
-  Clusterer clusterer = Clusterer();
+  Int_t   correctEvent = -1;
+  Int_t   numDeleted = -1;
 
-  std::vector<Cluster> clusters; 
-  std::vector<Fiber> fibers;
+  Double_t   timeWindow = 15;
 
-  Int_t fiberMult(0), layer(-1), x(-1), y(-1), clusterCounter(0);
+  std::vector<Cluster> clusters;
+  std::vector<Cluster> clusterBuffer;
+  std::vector<Double_t> eventTime;
+  std::vector<Int_t> foundClusters;
 
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
-  TTree *treeout = new TTree("dummy","RadMap data in fancy objects -> Cluster Events");
+  TTree *treeout = new TTree("dummy","RadMap data in CTSEventClusters -> ClusterEvents");
 
-  CTSEvent *event;
-  CTSEvent eventBuffer;
-  event = new CTSEvent();
-  eventBuffer = CTSEvent();
-  CTSEventClusters *clusterEvent;
-  clusterEvent = new CTSEventClusters();
+  CTSEventClusters *ctsEventCluster;
+  ctsEventCluster = new CTSEventClusters();
+  ClusterEvent *clusterEvent;
+  clusterEvent = new ClusterEvent();
 
-  data->SetBranchAddress("Events", &event);
+  TH1D* hTimeDiff = new TH1D("hTimeDiff","hTimeDiff;Time [ns]",10000,0,1000);
+
+  data->SetBranchAddress("CTSEventsCluster", &ctsEventCluster);
   treeout->Branch("ClusterEvents","ClusterEvent",clusterEvent,32000,1);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
@@ -65,37 +69,61 @@ void convertToClusterEvents(const char *inputFile, const char *outputFile, ULong
       fflush(stdout);
       std::cout<<std::setw(5)<<std::setiosflags(std::ios::fixed)<<std::setprecision(1)<<" "<<(100.*(entry+1))/nEvents<<" % done\r"<<std::flush;
     }
-    clusterCounter = 0;
     data->GetEntry(entry);
-    eventNr      = event->getEventNr();
-    padiwaConfig = event->getPadiwaConfig();
-    module       = event->getModule();
-    fibers       = module.getFibers();
-    eventBuffer.setModule(module);
-
-    clusterer.findClusters(eventBuffer);
-    clusters = clusterer.getClusters();
-
+    eventTime.clear();
+    clusterBuffer.clear();
+    correctEvent = -1;  
+    //printf("New event:\n");
+    clusters = ctsEventCluster->getClusters(); //get all clusters in CTSEventsCluster 
+    //printf("0. Found clusters in event:%i &&&&&&&&&&&&&&&&&&&&&&&&&&&\n", int(clusters.size()));
     for(auto& cluster : clusters){
-      if(cluster.getNSignals() > clusterCounter) { clusterCounter = cluster.getNSignals();}
-      //clusterEvent->addCluster(cluster);  
+      if(!isnan(cluster.getMeanTimeStamp()) && cluster.getMeanTimeStamp()<1e6){
+        eventTime.emplace_back(cluster.getMeanTimeStamp()); 
+        clusterBuffer.emplace_back(cluster);
+      }
+      else{printf("Layer:%i, Fib:%1.2f, Time:%g, ToT:%g \n", cluster.getLayer(), cluster.getMeanFiber(), cluster.getMeanTimeStamp(), cluster.getQMax());}
+    } // Make a list of cluster timestamps
+    
+    while(!eventTime.empty()){ //Do while there are clusters to distribute to an event 
+      eventNrCluster++;
+      //printf("1. EventNr: %i\n", eventNrCluster);
+      clusterEvent->reset();
+      foundClusters.clear();
+      // Make a list of the positions of clusters that are within the time window
+      for(int i=0; i<eventTime.size(); i++){ if(std::abs(eventTime.front()-eventTime.at(i))<timeWindow){ foundClusters.emplace_back(i); } }
+      //printf("2. #of clusters in time window: %i\n", int(foundClusters.size()));
+
+      // Add found clusters to an event  
+      for(auto& position : foundClusters){ clusterEvent->addCluster(clusterBuffer.at(position)); }
+        //printf("3. #of clusters in event: %i\n", int(clusterEvent->getClusters().size()));
+
+      // Remove added clusters from clusters list and their timestamps from the time list
+      numDeleted=0;
+      for(auto& position : foundClusters){ 
+        clusterBuffer.erase(clusterBuffer.begin()+position-numDeleted); 
+        eventTime.erase(eventTime.begin()+position-numDeleted); 
+        numDeleted++;
+        //printf("4. #of remaining clusters: %i\n", int(clusterBuffer.size()));
+      }
+      //printf("5. #of remaining clusters: %i\n", int(clusterBuffer.size()));
+
+      // Add created event to the tree
+      clusterEvent->setEventNrCluster(eventNrCluster);
+      treeout->Fill();
+
+      for(int i=1; i<clusterEvent->getClusters().size();i++){
+        hTimeDiff->Fill(std::abs(clusterEvent->getClusters().at(i).getMeanTimeStamp()-clusterEvent->getClusters().front().getMeanTimeStamp()));
+      }
     }
-    clusterEvent->addCluster(clusters);
-    treeout->Fill();
-    module.reset();
-    clusterer.reset();
     
   } /// loop over file
-
+  printf("\n\nCTSEvents: %i, ClusterEvents: %i\n\n", int(nEvents), int(eventNrCluster));
   treeout->Write("data");
-  fout->WriteObject(clusterer.MhTimeDiff,"MhTimeDiff");
-
+  fout->WriteObject(hTimeDiff,"hTimeDiff");
   fout->Close();
 
   delete clusterEvent;
   clusterEvent=nullptr;
-
-  printf("\n\n High multiplicity cluster counter:%i\n\n", clusterCounter);
 
 }
 

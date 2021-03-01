@@ -7,6 +7,8 @@ bin/calibrateCTSEvents
 bin/plotCTSEvent
 bin/convertToClusterEvents
 bin/plotClusterEvent
+bin/convertToCTSEventsCluster
+bin/plotCtsEventCluster
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx
