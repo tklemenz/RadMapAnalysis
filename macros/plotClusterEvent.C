@@ -10,8 +10,7 @@
 #include <iomanip>
 #include <unistd.h>
 
-#include "CTSEvent.h"
-#include "CTSEventClusters.h"
+#include "ClusterEvent.h"
 #include "Utility.h"
 
 ///< usage: ./plotClusterEvent -i inputfile -o outputfile -n numberOfEventsToBeProcessed
@@ -33,7 +32,7 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   ULong_t nEvents = procNr;
   if ((nEvents == -1) || (nEvents > data->GetEntries())) { nEvents = data->GetEntries(); }
 
-  CTSEventClusters *clusterEvent = nullptr;
+  ClusterEvent *clusterEvent = nullptr;
 
   Float_t eventNr      = -1;
   Int_t   padiwaConfig = -1;
@@ -41,7 +40,7 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
 
   std::vector<Cluster> clusters;
 
-  Int_t     clusterNSignal(-1), layer(-1);
+  Int_t     clusterNSignal(-1), layer(-1), clusterNSignalbuffer[4];
   Double_t  qTot(-1), qMax(-1), timeMean(-1), qMaxBuffer[4];
   Float_t   fibMean(-1), fibMeanBuffer[4];
   Bool_t    layerseen[4];
@@ -75,6 +74,20 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   TH2D* hMulti2L24  = new TH2D("hMulti2L24","Multiplicity 2 - Layer 2&4;fiber distance;ToT",66,-33,33,100,0,35);
   TH2D* hMulti2L34  = new TH2D("hMulti2L34","Multiplicity 2 - Layer 3&4;fiber distance;ToT",66,-33,33,100,0,35);
 
+  TH2D* hMulti2L12tot  = new TH2D("hMulti2L12tot","Multiplicity 2 - Layer 1&2;ToT L1;ToT L2",100,0,35,100,0,35);
+  TH2D* hMulti2L13tot  = new TH2D("hMulti2L13tot","Multiplicity 2 - Layer 1&3;ToT L1;ToT L3",100,0,35,100,0,35);
+  TH2D* hMulti2L14tot  = new TH2D("hMulti2L14tot","Multiplicity 2 - Layer 1&4;ToT L1;ToT L4",100,0,35,100,0,35);
+  TH2D* hMulti2L23tot  = new TH2D("hMulti2L23tot","Multiplicity 2 - Layer 2&3;ToT L2;ToT L3",100,0,35,100,0,35);
+  TH2D* hMulti2L24tot  = new TH2D("hMulti2L24tot","Multiplicity 2 - Layer 2&4;ToT L2;ToT L4",100,0,35,100,0,35);
+  TH2D* hMulti2L34tot  = new TH2D("hMulti2L34tot","Multiplicity 2 - Layer 3&4;ToT L3;ToT L4",100,0,35,100,0,35);
+
+  TH2D* hMulti2L12sigcount  = new TH2D("hMulti2L12sigcount","Multiplicity 2 - Layer 1&2;Signal count L1; Signal count L2",7,0,6,7,0,6);
+  TH2D* hMulti2L13sigcount  = new TH2D("hMulti2L13sigcount","Multiplicity 2 - Layer 1&3;Signal count L1; Signal count L3",7,0,6,7,0,6);
+  TH2D* hMulti2L14sigcount  = new TH2D("hMulti2L14sigcount","Multiplicity 2 - Layer 1&4;Signal count L1; Signal count L4",7,0,6,7,0,6);
+  TH2D* hMulti2L23sigcount  = new TH2D("hMulti2L23sigcount","Multiplicity 2 - Layer 2&3;Signal count L2; Signal count L3",7,0,6,7,0,6);
+  TH2D* hMulti2L24sigcount  = new TH2D("hMulti2L24sigcount","Multiplicity 2 - Layer 2&4;Signal count L2; Signal count L4",7,0,6,7,0,6);
+  TH2D* hMulti2L34sigcount  = new TH2D("hMulti2L34sigcount","Multiplicity 2 - Layer 3&4;Signal count L3; Signal count L4",7,0,6,7,0,6);
+
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
   for (ULong_t entry = 0; entry < nEvents; entry++) {
@@ -98,19 +111,19 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
       timeMean = cluster.getMeanTimeStamp();
       fibMean = cluster.getMeanFiber();
 
-      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax); hFibMeanL1->Fill(fibMean); layerseen[0] = true; fibMeanBuffer[0] = fibMean; qMaxBuffer[0] = qMax; 
+      if     (layer == 1) { hToTfibL1->Fill(fibMean,qMax); hFibMeanL1->Fill(fibMean); layerseen[0] = true; fibMeanBuffer[0] = fibMean; qMaxBuffer[0] = qMax; clusterNSignalbuffer[0] = clusterNSignal;
                             for(auto& signal : cluster.getSignals())
                               { hSigFibL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
                           }
-      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax); hFibMeanL2->Fill(fibMean); layerseen[1] = true; fibMeanBuffer[1] = fibMean; qMaxBuffer[1] = qMax; 
+      else if(layer == 2) { hToTfibL2->Fill(fibMean,qMax); hFibMeanL2->Fill(fibMean); layerseen[1] = true; fibMeanBuffer[1] = fibMean; qMaxBuffer[1] = qMax; clusterNSignalbuffer[1] = clusterNSignal;
                             for(auto& signal : cluster.getSignals())
                               { hSigFibL2->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
                           }
-      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax); hFibMeanL3->Fill(fibMean); layerseen[2] = true; fibMeanBuffer[2] = fibMean; qMaxBuffer[2] = qMax;
+      else if(layer == 3) { hToTfibL3->Fill(fibMean,qMax); hFibMeanL3->Fill(fibMean); layerseen[2] = true; fibMeanBuffer[2] = fibMean; qMaxBuffer[2] = qMax; clusterNSignalbuffer[2] = clusterNSignal;
                             for(auto& signal : cluster.getSignals())
                               { hSigFibL3->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
                           }
-      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax); hFibMeanL4->Fill(fibMean); layerseen[3] = true; fibMeanBuffer[3] = fibMean; qMaxBuffer[3] = qMax;
+      else if(layer == 4) { hToTfibL4->Fill(fibMean,qMax); hFibMeanL4->Fill(fibMean); layerseen[3] = true; fibMeanBuffer[3] = fibMean; qMaxBuffer[3] = qMax; clusterNSignalbuffer[3] = clusterNSignal;
                             for(auto& signal : cluster.getSignals())
                               { hSigFibL4->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID())); }
                           }
@@ -137,12 +150,24 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
     }
 
     if(buffer==2){
-      if(layerseen[0] == true && layerseen[1] == true){ l12++; hMulti2L12->Fill(fibMeanBuffer[0]-fibMeanBuffer[1],qMaxBuffer[0]);}
-      if(layerseen[0] == true && layerseen[2] == true){ l13++; hMulti2L13->Fill(fibMeanBuffer[0]-fibMeanBuffer[2],qMaxBuffer[0]);}
-      if(layerseen[0] == true && layerseen[3] == true){ l14++; hMulti2L14->Fill(fibMeanBuffer[0]-fibMeanBuffer[3],qMaxBuffer[0]);}
-      if(layerseen[1] == true && layerseen[2] == true){ l23++; hMulti2L23->Fill(fibMeanBuffer[1]-fibMeanBuffer[2],qMaxBuffer[1]);}
-      if(layerseen[1] == true && layerseen[3] == true){ l24++; hMulti2L24->Fill(fibMeanBuffer[1]-fibMeanBuffer[3],qMaxBuffer[1]);}
-      if(layerseen[2] == true && layerseen[3] == true){ l34++; hMulti2L34->Fill(fibMeanBuffer[2]-fibMeanBuffer[3],qMaxBuffer[2]);}
+      if(layerseen[0] == true && layerseen[1] == true){ l12++; hMulti2L12->Fill(fibMeanBuffer[0]-fibMeanBuffer[1],qMaxBuffer[0]);
+                                                               hMulti2L12tot->Fill(qMaxBuffer[0],qMaxBuffer[1]);
+                                                               hMulti2L12sigcount->Fill(clusterNSignalbuffer[0],clusterNSignalbuffer[1]);}
+      if(layerseen[0] == true && layerseen[2] == true){ l13++; hMulti2L13->Fill(fibMeanBuffer[0]-fibMeanBuffer[2],qMaxBuffer[0]);
+                                                               hMulti2L13tot->Fill(qMaxBuffer[0],qMaxBuffer[2]);
+                                                               hMulti2L13sigcount->Fill(clusterNSignalbuffer[0],clusterNSignalbuffer[2]);}
+      if(layerseen[0] == true && layerseen[3] == true){ l14++; hMulti2L14->Fill(fibMeanBuffer[0]-fibMeanBuffer[3],qMaxBuffer[0]);
+                                                               hMulti2L14tot->Fill(qMaxBuffer[0],qMaxBuffer[3]);
+                                                               hMulti2L14sigcount->Fill(clusterNSignalbuffer[0],clusterNSignalbuffer[3]);}
+      if(layerseen[1] == true && layerseen[2] == true){ l23++; hMulti2L23->Fill(fibMeanBuffer[1]-fibMeanBuffer[2],qMaxBuffer[1]);
+                                                               hMulti2L23tot->Fill(qMaxBuffer[1],qMaxBuffer[2]);
+                                                               hMulti2L23sigcount->Fill(clusterNSignalbuffer[1],clusterNSignalbuffer[2]);}
+      if(layerseen[1] == true && layerseen[3] == true){ l24++; hMulti2L24->Fill(fibMeanBuffer[1]-fibMeanBuffer[3],qMaxBuffer[1]);
+                                                               hMulti2L24tot->Fill(qMaxBuffer[1],qMaxBuffer[3]);
+                                                               hMulti2L24sigcount->Fill(clusterNSignalbuffer[1],clusterNSignalbuffer[3]);}
+      if(layerseen[2] == true && layerseen[3] == true){ l34++; hMulti2L34->Fill(fibMeanBuffer[2]-fibMeanBuffer[3],qMaxBuffer[2]);
+                                                               hMulti2L34tot->Fill(qMaxBuffer[2],qMaxBuffer[3]);
+                                                               hMulti2L34sigcount->Fill(clusterNSignalbuffer[2],clusterNSignalbuffer[3]);}
     }
     total+=buffer;
     buffer=0;
@@ -182,16 +207,53 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   gPad->SetLogz();
   hMulti2L34->Draw("COLZ");
 
-  fout->WriteObject(hToTfibL1, "hToTfibL1");
-  fout->WriteObject(hToTfibL2, "hToTfibL2");
-  fout->WriteObject(hToTfibL3, "hToTfibL3");
-  fout->WriteObject(hToTfibL4, "hToTfibL4");
-  fout->WriteObject(hMulti2L12, "hMulti2L12");
-  fout->WriteObject(hMulti2L13, "hMulti2L13");
-  fout->WriteObject(hMulti2L14, "hMulti2L14");
-  fout->WriteObject(hMulti2L23, "hMulti2L23");
-  fout->WriteObject(hMulti2L24, "hMulti2L24");
-  fout->WriteObject(hMulti2L34, "hMulti2L34");
+  TCanvas *c2 = new TCanvas("c2","M2ToT", 1500, 700);
+  c2->Divide(3,2);
+  c2->cd(1);
+  //gPad->SetLogz();
+  hMulti2L12tot->Draw("COLZ");
+  c2->cd(2);
+  //gPad->SetLogz();
+  hMulti2L13tot->Draw("COLZ");
+  c2->cd(3);
+  //gPad->SetLogz();
+  hMulti2L14tot->Draw("COLZ");
+  c2->cd(4);
+  //gPad->SetLogz();
+  hMulti2L23tot->Draw("COLZ");
+  c2->cd(5);
+  //gPad->SetLogz();
+  hMulti2L24tot->Draw("COLZ");
+  c2->cd(6);
+  //gPad->SetLogz();
+  hMulti2L34tot->Draw("COLZ");
+
+  TCanvas *c3 = new TCanvas("c3","M2SigCount", 1500, 700);
+  c3->Divide(3,2);
+  c3->cd(1);
+  hMulti2L12sigcount->Draw("COLZ");
+  c3->cd(2);
+  hMulti2L13sigcount->Draw("COLZ");
+  c3->cd(3);
+  hMulti2L14sigcount->Draw("COLZ");
+  c3->cd(4);
+  hMulti2L23sigcount->Draw("COLZ");
+  c3->cd(5);
+  hMulti2L24sigcount->Draw("COLZ");
+  c3->cd(6);
+  hMulti2L34sigcount->Draw("COLZ");
+
+  TCanvas *c4 = new TCanvas("c4","LayerToT", 1500, 700);
+  c4->Divide(4,1);
+  c4->cd(1);
+  hToTfibL1->Draw("COLZ");
+  c4->cd(2);
+  hToTfibL2->Draw("COLZ");
+  c4->cd(3);
+  hToTfibL3->Draw("COLZ");
+  c4->cd(4);
+  hToTfibL4->Draw("COLZ");
+
   fout->WriteObject(hFibMeanL1, "hFibMeanL1");
   fout->WriteObject(hFibMeanL2, "hFibMeanL2");
   fout->WriteObject(hFibMeanL3, "hFibMeanL3");
@@ -200,8 +262,12 @@ void plotClusterEvent(const char *inputFile, const char *outputFile, ULong_t pro
   fout->WriteObject(hSigFibL2, "hSigFibL2");
   fout->WriteObject(hSigFibL3, "hSigFibL3");
   fout->WriteObject(hSigFibL4, "hSigFibL4");
-  fout->WriteObject(c1, "Multi2canvas");
 
+  fout->WriteObject(c1, "Multi2canvas");
+  fout->WriteObject(c2, "Multi2ToTcanvas");
+  fout->WriteObject(c3, "Multi2SigCountcanvas");
+  fout->WriteObject(c4, "LayerToT");
+  
   fout->Close();
 }
 

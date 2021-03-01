@@ -47,14 +47,14 @@ void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
 
   TH1F* hFiberMult   = new TH1F("hFiberMult","Number of fibers with at least one signal;n fibers",128,0,128);
-  TH2D* hToTfirstL1  = new TH2D("hToTfirstL1","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hToTfirstL1  = new TH2D("hToTfirstL1","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,10);
   TH2D* hToTfirstL2  = new TH2D("hToTfirstL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL3  = new TH2D("hToTfirstL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
   TH2D* hToTfirstL4  = new TH2D("hToTfirstL4","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  TH2D* hTimefirstL1  = new TH2D("hTimefirstL1","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1e4,0,2e10);
+  TH2D* hTimefirstL2  = new TH2D("hTimefirstL2","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1e4,0,2e10);
+  TH2D* hTimefirstL3  = new TH2D("hTimefirstL3","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1e4,0,2e10);
+  TH2D* hTimefirstL4  = new TH2D("hTimefirstL4","TimeStamp distribution of first signals vs fiber;fiber;ToT",33,0,33,1e4,0,2e10);
 
   printf("events to process: %lu\t %.1f%% of the file\n", nEvents, Float_t(100*nEvents)/Float_t(data->GetEntries()));
 
@@ -84,17 +84,18 @@ void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
-          if     (layer == 1) { hToTfirstL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
-                                hTimefirstL1->Fill(x,signal.getTimeStamp());
+          if(signal.getTimeStamp()*-1>1e10){ printf("Layer: %i, ChID: %i, TimeStamp: %g\n",layer,signal.getTDCID(),signal.getTimeStamp() ); }
+          if     (layer == 1) { hToTfirstL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()*1e9); 
+                                hTimefirstL1->Fill(x,signal.getTimeStamp()*-1);
                               }
           else if(layer == 2) { hToTfirstL2->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
-                                hTimefirstL2->Fill(y,signal.getTimeStamp());
+                                hTimefirstL2->Fill(y,signal.getTimeStamp()*-1);
                               }
           else if(layer == 3) { hToTfirstL3->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()); 
-                                hTimefirstL3->Fill(x,signal.getTimeStamp());
+                                hTimefirstL3->Fill(x,signal.getTimeStamp()*-1);
                               }
           else if(layer == 4) { hToTfirstL4->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT());
-                                hTimefirstL4->Fill(y,signal.getTimeStamp());
+                                hTimefirstL4->Fill(y,signal.getTimeStamp()*-1);
                               }
           else { printf("\n\n%sNo histogram for given layer!%s", text::BLU, text::RESET); }
         }

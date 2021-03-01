@@ -25,6 +25,7 @@ set(SRCS
    src/Track.cxx
    src/Tracker.cxx
    src/Clusterer.cxx
+   src/ClusterEvent.cxx
    )
 
 set(HEADERS
@@ -40,6 +41,7 @@ set(HEADERS
    include/Track.h
    include/Tracker.h
    include/Clusterer.h
+   include/ClusterEvent.h
    )
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)
@@ -59,8 +61,10 @@ set(EXE_SRCS
     macros/readCTSEventTree.C
     macros/tryAroundTracker.C
     macros/plotCTSEvent.C
-    macros/convertToClusterEvents.C
+    macros/convertToCTSEventsCluster.C
     macros/plotClusterEvent.C
+    macros/convertToClusterEvents.C
+    macros/plotCtsEventCluster.C
     )
 
 set(EXE_NAMES
@@ -71,8 +75,10 @@ set(EXE_NAMES
     readCTSEventTree
     tryAroundTracker
     plotCTSEvent
-    convertToClusterEvents
+    convertToCTSEventsCluster
     plotClusterEvent
+    convertToClusterEvents
+    plotCtsEventCluster
     )
 
 list(LENGTH EXE_SRCS count)
