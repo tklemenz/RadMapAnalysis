@@ -79,7 +79,7 @@ class Cluster
   Float_t              mSigmaFiber;      ///< standard deviation
   Double_t             mMeanTimeStamp;   ///< arithmetic mean of time stamps weighted with the ToT of the corresponding signal
   Double_t             mSigmaTimeStamp;  ///< standard deviation
-  Double_t             mFirstTimeStamp;  ///< earliest time stamp among signals
+  Double_t             mFirstTimeStamp = 0;  ///< earliest time stamp among signals
   Int_t                mLayer;           ///< layer in which the cluster is located
   Int_t                mTDCID;           ///< TDC that is connected to the layer
   Short_t              mFlags;           ///< Associated to track or not. This might be useful for tracking.

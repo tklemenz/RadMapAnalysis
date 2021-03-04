@@ -89,6 +89,7 @@ void convertToCTSEventsCluster(const char *inputFile, const char *outputFile, UL
 
   treeout->Write("data");
   fout->WriteObject(clusterer.MhTimeDiff,"MhTimeDiff");
+  fout->WriteObject(clusterer.MhSpaceDiff,"MhSpaceDiff");
 
   fout->Close();
 

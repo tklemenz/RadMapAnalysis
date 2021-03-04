@@ -84,6 +84,7 @@ void plotCTSEvent(const char *inputFile, const char *outputFile, ULong_t procNr)
 
       for(auto& signal : fiber.getSignals()) {
         if(signal.getSignalNr() == 1) {
+          //if (signal.getToT()<0) { printf("ToT: %g\n", signal.getToT()); }
           if(signal.getTimeStamp()*-1>1e10){ printf("Layer: %i, ChID: %i, TimeStamp: %g\n",layer,signal.getTDCID(),signal.getTimeStamp() ); }
           if     (layer == 1) { hToTfirstL1->Fill(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()),signal.getToT()*1e9); 
                                 hTimefirstL1->Fill(x,signal.getTimeStamp()*-1);

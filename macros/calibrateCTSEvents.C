@@ -63,7 +63,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
 
   printf("signals to process: %lu\t %.1f%% of the file\n", nSignals, Float_t(100*nSignals)/Float_t(signals->GetEntries()));
 
-  double totCalib(0),timeCalib(0),ch1time(0);
+  Double_t totCalib(0),timeCalib(0),ch1time(0);
 
   // -------------|| Hard Coded Calibration Data ||--------------------
 
@@ -262,6 +262,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
       }      
     }
     signal = Signal(totCalib,timeCalib,signalNr,chID,layer,TDC,padiwaConfig);
+    //printf("timestamp: %g, calibStamp: %g, ToT: %g, calibToT: %g\n", timeStamp, timeCalib, ToT, totCalib);
     module.addSignal(signal);
 
     event->setEventNr(ULong_t(eventNr));

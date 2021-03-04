@@ -30,7 +30,8 @@ class Clusterer
   // Try to guess how I found out that this was needed
   inline void reset() { mClusterVec.clear(); }
 
-  TH1D* MhTimeDiff = new TH1D("hTimeDiff","y;x",3000,0,3000);
+  TH1D* MhTimeDiff  = new TH1D("hTimeDiff","time difference of signal to closest cluster;timeDiff [ns]",500,0,50);
+  TH1D* MhSpaceDiff = new TH1D("hSpaceDiff","space difference of signal to closest cluster;spaceDiff [fiber]",320,0,32);
 
  private:
   std::vector<Cluster> mClusterVec{}; //holds clusters 

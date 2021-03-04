@@ -67,7 +67,7 @@ Int_t getFiberNr(UInt_t configuration, UInt_t chID, UInt_t tdcID)
       else if (tdcID == 2) {
         if (chID<=16) { return revEven0(chID); }
         else { return odd1(chID); }
-	  }
+    }
       else if (tdcID == 3) {
         if (chID<=16) { return odd0(chID); }
         else { return revEven1(chID); }
