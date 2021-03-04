@@ -9,6 +9,9 @@ bin/convertToClusterEvents
 bin/plotClusterEvent
 bin/convertToCTSEventsCluster
 bin/plotCtsEventCluster
+bin/convertToCalibratedCTSEventsConfig2
+bin/getCalibrationValuesForPionData
+bin/getEfficiency
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx
