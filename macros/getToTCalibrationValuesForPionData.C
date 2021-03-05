@@ -12,8 +12,6 @@
 #include <iomanip>
 #include <unistd.h>
 
-//#include <fmt/format.h>
-
 #include "Utility.h"
 
 ///< usage: ./getToTCalibrationValuesForPionData -i inputfile -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
@@ -25,7 +23,8 @@
 
 extern char* optarg;
 
-static Int_t totCut = 8;
+static Int_t   totCut = 8;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
+static Float_t pullTo = 15;  // calib value that is written to file is pullTo/gausMean
 
 void getToTCalibrationValuesForPionData(const char *inputFile, const char *outputFile, const char *outputCalib, ULong_t procNr)
 {
@@ -57,7 +56,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
   Double_t refTime      = -1;
 
   Int_t fiberNr         = -1;
-  Int_t layerIter       = 0;
+  Int_t layerIter       =  0;
 
   /*========================================================
   ==========================================================*/
@@ -109,6 +108,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
 
     ToT *= 1e9; // convert ToT value to ns
     if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
+    if (signalNr != 1) { continue; }
     fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
 
     switch(Int_t(layer)){
@@ -137,28 +137,31 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
         totLayerVec.at(7)->Fill(fiberNr, ToT);
         break;
       default:
-        printf("%s%sThis layer should not appear in PADIWA config 2!%s", text::RED, text::BOLD, text::RESET);
+        printf("%s%sThis layer should not appear!%s", text::RED, text::BOLD, text::RESET);
         break;
       }// end layer switch
   }// end of loop over file
 
-  for(auto& hist : totLayerVec) {
+  // loop over TH2D from above, fit 1D ToT distribution for all fibers and extract the mean value
+  // meanwhile only take the layers that actually have data and leave the rest ignored
+  for(auto& hist : totLayerVec) {                                                             // loop over histos
     layerIter++;
     if(hist->GetEntries() != 0) {
-      layerMarker.emplace_back(layerIter);
-      fout->WriteObject(hist, hist->GetName());
-      hist->FitSlicesY(0,2,33);
-      totLayerGausMean.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));
-      fout->WriteObject(totLayerGausMean.back(), totLayerGausMean.back()->GetName());
-      fitContent.emplace_back(std::vector<Float_t>());
+      layerMarker.emplace_back(layerIter);                                                    // write down which layers are used
+      fout->WriteObject(hist, hist->GetName());                                               // write ToT vs fiber to file
+      hist->FitSlicesY(0,2,33);                                                               // fit 1D distributions with gaus
+      totLayerGausMean.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
+      fout->WriteObject(totLayerGausMean.back(), totLayerGausMean.back()->GetName());         // write fit results to file
+      fitContent.emplace_back(std::vector<Float_t>());                                        // prepare extraction of fit results
       for(Int_t i=0; i<totLayerGausMean.back()->GetSize(); i++) {
-        fitContent.back().emplace_back((*totLayerGausMean.back())[i]);
+        fitContent.back().emplace_back((*totLayerGausMean.back())[i]);                        // extract fit results
       }
     }
   }
 
   fout->Close();
 
+  // write fit results to file
   std::ofstream calibOutput;
   calibOutput.open(outputCalib);
   calibOutput << "Multiply the value for each fiber with the uncalibrated ToT value to pull everything to 15 ns.\n";
@@ -169,7 +172,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
     calibOutput << layerMarker.at(fitIter);
     calibOutput << "\n";
     for (Int_t i=2;i<content.size()-1;i++) {
-      calibOutput << 15/content.at(i);
+      calibOutput << pullTo/content.at(i);
       calibOutput << ", ";
     }
     calibOutput << "\n";

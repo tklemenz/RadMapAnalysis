@@ -12,6 +12,7 @@ bin/plotCtsEventCluster
 bin/convertToCalibratedCTSEvents
 bin/getToTCalibrationValuesForPionData
 bin/getEfficiency
+bin/getPadiwaGainMap
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx

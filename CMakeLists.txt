@@ -68,6 +68,7 @@ set(EXE_SRCS
     macros/getEfficiency.C
     macros/getToTCalibrationValuesForPionData.C
     macros/convertToCalibratedCTSEvents.C
+    macros/getPadiwaGainMap.C
     )
 
 set(EXE_NAMES
@@ -85,6 +86,7 @@ set(EXE_NAMES
     getEfficiency
     getToTCalibrationValuesForPionData
     convertToCalibratedCTSEvents
+    getPadiwaGainMap
     )
 
 list(LENGTH EXE_SRCS count)

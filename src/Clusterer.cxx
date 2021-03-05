@@ -6,6 +6,11 @@
 
 ClassImp(Clusterer);
 
+static Double_t cluster_fib_range  = 2;   // The allowed range in fiber distance for cluster building
+static Double_t cluster_time_range = 12;  // The allowed time window for cluster building [ns], since the calibrated data is already in ns
+static Double_t tot_uppercut       = 23;  // Make sure there is no total BS
+static Double_t tot_lowercut       = 10;  // Get rid of noise
+
 void Clusterer::findClusters(CTSEvent& event)
 {
   // Data available within the CTS event
@@ -24,11 +29,6 @@ void Clusterer::findClusters(CTSEvent& event)
   Double_t min_time_index=-1; 
   
   Int_t x(-1), y(-1), layer(-1);
-
-  Double_t cluster_fib_range  = 2;   // The allowed range in fiber distance for cluster building
-  Double_t cluster_time_range = 12;  // The allowed time window for cluster building [ns], since the calibrated data is already in ns
-  Double_t tot_uppercut       = 23; // Make sure there is no total BS
-  Double_t tot_lowercut       = 10;  // Get rid of noise
 
   // Clusters can only contain signals from the same layer
   // Depending on the padiwa configuration a few of the vectors will always be empty

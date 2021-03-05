@@ -117,7 +117,7 @@ void getEfficiency(const char *inputFile, const char *outputFile, ULong_t procNr
                 hToTL5->Fill(fiberNr, tot);
                 break;
               default:
-                printf("%s%sThis layer should not appear in PADIWA config 2!%s", text::RED, text::BOLD, text::RESET);
+                printf("%s%sLayer %i should not appear in PADIWA config 2!%s", text::RED, text::BOLD, layer, text::RESET);
                 break;
             } // end layer switch
           } // end if first signal
