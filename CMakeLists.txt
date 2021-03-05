@@ -66,8 +66,8 @@ set(EXE_SRCS
     macros/convertToClusterEvents.C
     macros/plotCtsEventCluster.C
     macros/getEfficiency.C
-    macros/getCalibrationValuesForPionData.C
-    macros/convertToCalibratedCTSEventsConfig2.C
+    macros/getToTCalibrationValuesForPionData.C
+    macros/convertToCalibratedCTSEvents.C
     )
 
 set(EXE_NAMES
@@ -83,8 +83,8 @@ set(EXE_NAMES
     convertToClusterEvents
     plotCtsEventCluster
     getEfficiency
-    getCalibrationValuesForPionData
-    convertToCalibratedCTSEventsConfig2
+    getToTCalibrationValuesForPionData
+    convertToCalibratedCTSEvents
     )
 
 list(LENGTH EXE_SRCS count)

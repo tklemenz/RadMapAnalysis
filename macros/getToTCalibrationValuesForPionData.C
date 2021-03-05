@@ -16,7 +16,7 @@
 
 #include "Utility.h"
 
-///< usage: ./getCalibrationValuesForPionData -i inputfile -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
+///< usage: ./getToTCalibrationValuesForPionData -i inputfile -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 ///< Get calibration data for all fibers to pull the mean ToT to 15 ns.
 ///< This macro should be used to get the calibration data for different PADIWA configs.
@@ -25,7 +25,9 @@
 
 extern char* optarg;
 
-void getCalibrationValuesForPionData(const char *inputFile, const char *outputFile, const char *outputCalib, ULong_t procNr)
+static Int_t totCut = 8;
+
+void getToTCalibrationValuesForPionData(const char *inputFile, const char *outputFile, const char *outputCalib, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -106,6 +108,7 @@ void getCalibrationValuesForPionData(const char *inputFile, const char *outputFi
     signals->GetEntry(entry);
 
     ToT *= 1e9; // convert ToT value to ns
+    if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
     fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
 
     switch(Int_t(layer)){
@@ -179,9 +182,9 @@ void getCalibrationValuesForPionData(const char *inputFile, const char *outputFi
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="getCalibrationValuesForPionData_output.root";
+  char    outputFile[512]="getToTCalibrationValuesForPionData_output.root";
   ULong_t procNr=-1;
-  char    outputCalib[512]="getCalibrationValuesForPionData_output.txt";
+  char    outputCalib[512]="getToTCalibrationValuesForPionData_output.txt";
 
   int argsforloop;
   while ((argsforloop = getopt(argc, argv, "hi:o:n:c:")) != -1) {
@@ -207,9 +210,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning getCalibrationValuesForPionData%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning getToTCalibrationValuesForPionData%s\n\n",text::BOLD,text::RESET);
   
-  getCalibrationValuesForPionData(inputFile,outputFile,outputCalib,procNr);
+  getToTCalibrationValuesForPionData(inputFile,outputFile,outputCalib,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

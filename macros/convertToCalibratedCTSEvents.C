@@ -14,12 +14,19 @@
 #include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./convertToCalibratedCTSEventsConfig2 -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
+///< usage: ./convertToCalibratedCTSEvents -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
+
+///< Put the ToT calibration values obtained from getToTCalibrationValuesForPionData in 
+///< the m_layer vectors in line 94ff.
+
+///< ****************************DISCLAIMER************************************
+///< This macro should only be used for configurations where we have no proton data.
+///< If you are using config 0 data, used the macro calibrateCTSEvents instead!!
 
 extern char* optarg;
 
-void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outputFile, ULong_t procNr)
+void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -31,7 +38,8 @@ void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outp
   TNtupleD *signals = (TNtupleD*)f->Get("Signals");
 
   Double_t eventNr(-1), chID(-1), TDC(-1), layer(-1), x(-1), y(-1), signalNr(-1), timeStamp(-1), ToT(-1), padiwaConfig(-1), refTime(-1);
-  Int_t prevSigNr(0), prevCh(-1), prevEventNr(-1), firstCounter(0), secondCounter(0);
+  Int_t prevEventNr(-1);
+  std::vector<bool> validCalib{true, true, true, true, true, true, true, true};
 
   ULong_t nSignals = procNr;
 
@@ -81,14 +89,19 @@ void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outp
       2.517826,3.275819,4.234145,4.983406,3.082846,2.491707,1.043966,2.101356,-1.143034,0.760086,-0.998524,-0.563224,5.807756,6.502226,4.881126,2.503614}
   };
 
-  // ToT calibration with linear fit.
-  // Using both pion and proton data to calibrate the ToT values.
-  // m_values for the slope and y0_values for teh shift of each channel
-  // chID starts from 1, ref channel (chID=0) not calibratred!
-  float m_layer1[33]={0, 0.975106, 1.09125, 0.906774, 0.988923, 0.966477, 1.00902, 0.932432, 1.01097, 0.979082, 1.02142, 0.941, 1.04641, 0.997607, 1.02764, 0.908964, 1.03419, 1.00324, 0.971538, 0.925964, 0.987523, 0.914487, 0.938877, 0.994346, 0.933565, 0.949536, 0.985283, 1.00796, 0.968422, 0.929738, 0.989346, 1.01149, 0.965194};
-  float m_layer2[33]={0, 1.04855, 0.990932, 0.962627, 1.03055, 1.00831, 0.971632, 1.06059, 0.99613, 1.0197, 0.947494, 0.997609, 0.995147, 1.01973, 0.987422, 0.973528, 0.996918, 1.02655, 0.965132, 0.987713, 1.01601, 0.994695, 0.944142, 0.955496, 0.955997, 1.03921, 0.950993, 1.04568, 0.942561, 1.03856, 0.958633, 1.03989, 0.9636};
-  float m_layer3[33]={0, 0.76377, 0.961713, 0.758617, 0.968433, 0.745293, 0.961146, 0.76199, 1.00553, 0.764594, 0.987596, 5.62301, 0.971614, 0.735597, 0.995886, 0.776896, 1.07954, 0.816225, 1.0636, 0.862682, 0.97399, 0.818613, 0.967282, 0.835445, 0.987879, 0.829486, 0.999452, 0.839513, 1.13684, 0.754693, 0.772621, 0.818451, 0.978579};
-  float m_layer5[33]={0, 0.899763, 1.0084, 0.929395, 1.06833, 0.930941, 1.05063, 0.872938, 0.960517, 0.908892, 1.0441, 0.931786, 1.00519, 0.986032, 0.979411, 0.911216, 0.950648, 0.979689, 0.935476, 0.972321, 0.908471, 0.979762, 0.914682, 0.967147, 0.998851, 0.967698, 0.995074, 0.928137, 1.00586, 0.96538, 0.944436, 0.985556, 0.921549};
+  // These values are generated with getToTCalibrationValuesForPionData
+  // 8ns ToT cut before gaus fit
+  // Always start with 0! This 0 is NOT included in the file from getToTCalibrationValuesForPionData!
+  // This is a quick and dirty workaround to get the fiber mapping easily, since fibers count from 1-32.
+  std::vector<Float_t> m_layer1={0, 0.973623, 1.08884, 0.906606, 0.988692, 0.965917, 1.00841, 0.932258, 1.0104, 0.978365, 1.02079, 0.940607, 1.04544, 0.996903, 1.02625, 0.908814, 1.03361, 1.00199, 0.971239, 0.92579, 0.987413, 0.914471, 0.938814, 0.993366, 0.933484, 0.949151, 0.984715, 1.00621, 0.968344, 0.929649, 0.989006, 1.01015, 0.965033};
+  std::vector<Float_t> m_layer2={0, 1.0468, 0.99013, 0.961835, 1.03008, 1.00682, 0.971521, 1.05855, 0.995901, 1.01866, 0.947466, 0.996692, 0.994994, 1.01873, 0.987281, 0.973199, 0.996706, 1.02566, 0.964769, 0.987154, 1.01531, 0.994223, 0.944047, 0.95533, 0.955714, 1.03778, 0.950734, 1.04406, 0.942525, 1.03755, 0.95852, 1.03678, 0.963331};
+  std::vector<Float_t> m_layer3={0, 0.763727, 0.96156, 0.758461, 0.968221, 0.74528, 0.961028, 0.761833, 1.00513, 0.764522, 0.987437, 1.78224, 0.971418, 0.735598, 0.995543, 0.776752, 1.07689, 0.815314, 1.06239, 0.860992, 0.97387, 0.817949, 0.967225, 0.834694, 0.987269, 0.828428, 0.999144, 0.838402, 1.13491, 0.754524, 0.772622, 0.817306, 0.977953};
+  std::vector<Float_t> m_layer4={};
+  std::vector<Float_t> m_layer5={0, 0.899585, 1.00759, 0.929334, 1.06754, 0.930478, 1.0497, 0.872915, 0.960402, 0.908676, 1.04326, 0.931423, 1.0049, 0.984783, 0.979128, 0.910883, 0.950631, 0.978994, 0.93545, 0.972078, 0.908462, 0.978967, 0.914649, 0.966401, 0.998615, 0.967059, 0.99463, 0.927711, 1.00524, 0.964449, 0.944301, 0.984086, 0.921494};
+  std::vector<Float_t> m_layer6={};
+  std::vector<Float_t> m_layer7={};
+  std::vector<Float_t> m_layer8={};
+  // ------------------------------------------------------------------
 
   // The loop
   for (ULong_t entry = 0; entry < nSignals; entry++) {
@@ -108,24 +121,41 @@ void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outp
       module.reset();
     }
    
-    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[int(layer)-1][int(chID)];
+    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[Int_t(layer)-1][Int_t(chID)];
     //if(timeCalib<-1e10) { printf("Layer: %g, ChID: %g, TimeStamp: %g, Calibrated: %g, refTime: %g, Calibration: %g\n",layer,chID,timeStamp,timeCalib,refTime,time_calibration[int(layer)-1][int(chID)]);}
-    if(int(chID)==1) { ch1time = timeCalib; }
+    if(Int_t(chID)==1) { ch1time = timeCalib; }
     //printf("Layer:%g, ChID:%g,\t Timestamp:%1.15g,\t RefTime:%1.15g,\t timediff:%1.15g\t, timeToCh1:%1.15g\n",layer,chID,timeStamp,refTime,timeCalib,timeCalib-ch1time);
     ToT = ToT*1e9;
 
     Int_t fiberNr = mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID());
 
     //-----> Make channel mapping!
-    if (int(layer) == 1){
-      totCalib=ToT*m_layer1[fiberNr];
-    } else if (int(layer) == 2){
-      totCalib=ToT*m_layer2[fiberNr];
-    }else if (int(layer) == 3){
-      totCalib=ToT*m_layer3[fiberNr];
-    }else if (int(layer) == 5){
-      totCalib=ToT*m_layer5[fiberNr];
-    }
+    if (Int_t(layer) == 1){
+      if (m_layer1.size()==33) { totCalib=ToT*m_layer1.at(fiberNr); }
+      else { validCalib.at(0) = false; }
+    } else if (Int_t(layer) == 2){
+      if (m_layer2.size()==33) { totCalib=ToT*m_layer2.at(fiberNr); }
+      else { validCalib.at(1) = false; }
+    } else if (Int_t(layer) == 3){
+      if (m_layer3.size()==33) { totCalib=ToT*m_layer3.at(fiberNr); }
+      else { validCalib.at(2) = false; }
+    } else if (Int_t(layer) == 4){
+      if (m_layer4.size()==33) { totCalib=ToT*m_layer4.at(fiberNr); }
+      else { validCalib.at(3) = false; }
+    } else if (Int_t(layer) == 5){
+      if (m_layer5.size()==33) { totCalib=ToT*m_layer5.at(fiberNr); }
+      else { validCalib.at(4) = false; }
+    } else if (Int_t(layer) == 6){
+      if (m_layer6.size()==33) { totCalib=ToT*m_layer6.at(fiberNr); }
+      else { validCalib.at(5) = false; }
+    } else if (Int_t(layer) == 7){
+      if (m_layer7.size()==33) { totCalib=ToT*m_layer7.at(fiberNr); }
+      else { validCalib.at(6) = false; }
+    } else if (Int_t(layer) == 8){
+      if (m_layer8.size()==33) { totCalib=ToT*m_layer8.at(fiberNr); }
+      else { validCalib.at(7) = false; }
+    } else { printf("Unknown layer: %i! Something went REALLY wrong...\n", Int_t(layer)); }
+
     signal = Signal(totCalib,timeCalib,signalNr,chID,layer,TDC,padiwaConfig);
     //printf("timestamp: %g, calibStamp: %g, ToT: %g, calibToT: %g\n", timeStamp, timeCalib, ToT, totCalib);
     module.addSignal(signal);
@@ -139,6 +169,12 @@ void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outp
   tree->Write("data");
   fout->Close();
 
+  Int_t layerIter = 0;
+  for(const auto& indicator : validCalib) {
+    layerIter++;
+    if (indicator == false) { printf("No ToT calibration provided for layer %i!\n", layerIter); }
+  }
+
   delete event;
   event=nullptr;
 }
@@ -146,7 +182,7 @@ void convertToCalibratedCTSEventsConfig2(const char *inputFile, const char *outp
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="convertToCalibratedCTSEventsConfig2_output.root";
+  char    outputFile[512]="convertToCalibratedCTSEvents_output.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -170,9 +206,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning convertToCalibratedCTSEventsConfig2%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning convertToCalibratedCTSEvents%s\n\n",text::BOLD,text::RESET);
   
-  convertToCalibratedCTSEventsConfig2(inputFile,outputFile,procNr);
+  convertToCalibratedCTSEvents(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }
