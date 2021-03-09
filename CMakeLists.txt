@@ -57,7 +57,7 @@ set(EXE_SRCS
     macros/runDummy.C
     macros/crappyTest.C
     macros/convertToCTSEvents.C
-    macros/calibrateCTSEvents.C
+    macros/calibrateCTSEventsConfig0.C
     macros/readCTSEventTree.C
     macros/tryAroundTracker.C
     macros/plotCTSEvent.C
@@ -65,17 +65,18 @@ set(EXE_SRCS
     macros/plotClusterEvent.C
     macros/convertToClusterEvents.C
     macros/plotCtsEventCluster.C
-    macros/getEfficiency.C
     macros/getToTCalibrationValuesForPionData.C
     macros/convertToCalibratedCTSEvents.C
     macros/getPadiwaGainMap.C
+    macros/getEfficiencyFromConfig0.C
+    macros/getEfficiencyFromConfig3.C
     )
 
 set(EXE_NAMES
     runDummy
     runCrappyTest
     convertToCTSEvents
-    calibrateCTSEvents
+    calibrateCTSEventsConfig0
     readCTSEventTree
     tryAroundTracker
     plotCTSEvent
@@ -83,10 +84,11 @@ set(EXE_NAMES
     plotClusterEvent
     convertToClusterEvents
     plotCtsEventCluster
-    getEfficiency
     getToTCalibrationValuesForPionData
     convertToCalibratedCTSEvents
     getPadiwaGainMap
+    getEfficiencyFromConfig0
+    getEfficiencyFromConfig3
     )
 
 list(LENGTH EXE_SRCS count)

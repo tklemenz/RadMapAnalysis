@@ -53,7 +53,7 @@ void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile,
   signals->SetBranchAddress("y",            &y);            // even layers have y != 0
   signals->SetBranchAddress("signalNr",     &signalNr);     // Nth Signal per channel and event
   signals->SetBranchAddress("padiwaConfig", &padiwaConfig);
-  signals->SetBranchAddress("refTime",      &refTime);  
+  signals->SetBranchAddress("refTime",      &refTime);
 
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
   TTree *tree = new TTree("dummy","RadMap data in fancy objects -> CTSEvents");

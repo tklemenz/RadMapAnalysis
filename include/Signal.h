@@ -15,6 +15,16 @@ class Signal
   Signal(const Signal &signal);
   Signal(const Double_t tot, const Double_t timeStamp, const Int_t signalNr, const Int_t chID, const Int_t layer, const Int_t tdcID, const Int_t configuration);
 
+  enum Flags : unsigned short {
+    usedInTrack = 0x1 << 0,         ///< Check if the Signal is already associated to a Track.
+  };
+
+  /// Check if the Signal was already associated to a Track.
+  inline bool isUsed() const { return mFlags & usedInTrack; }
+
+  /// Set the usedInTrack flag for the Tracker.
+  inline void setIsUsed() { mFlags |= usedInTrack; }
+
   inline void setToT           (Double_t tot)        { mTot = tot; }
   inline void setTimeStamp     (Double_t timeStamp)  { mTimeStamp = timeStamp; }
   inline void setSignalNr      (Int_t signalNr)      { mSignalNr = signalNr; }
@@ -33,15 +43,16 @@ class Signal
 
  private:
 
-  Double_t mTot;         ///< time over threshold in seconds
-  Double_t mTimeStamp;   ///< time stamp of rising edge in seconds
+  Double_t mTot;         ///< time over threshold in seconds,        calibrated data is in ns
+  Double_t mTimeStamp;   ///< time stamp of rising edge in seconds,  calibrated data is in ns
   Int_t    mSignalNr;    ///< nth signal in given event and channel
   Int_t    mChID;        ///< channel number
-  Int_t    mLayer;       ///< layer of the hit fiber
+  Int_t    mLayer = 0;   ///< layer of the hit fiber
   Int_t    mTDCID;       ///< TDC ID of the hit fiber
   Int_t    mConfig;      ///< padiwa configuration
+  Short_t  mFlags;       ///< Associated to track or not. This might be useful for tracking.
 
-  ClassDef(Signal,1);
+  ClassDef(Signal,2);
 };
 
 #endif

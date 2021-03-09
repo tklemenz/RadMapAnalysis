@@ -13,13 +13,13 @@
 #include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./getEfficiency -i inputfile -o outputfile -n numberOfEventsToBeProcessed
+///< usage: ./getEfficiencyFromConfig3 -i inputfile -o outputfile -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 ///< This macro runs on PADIWA config 2 data --> 3 full layers in Y-direction (1, 3, 5) and one fill layer in X-direction (2)
 
 extern char* optarg;
 
-void getEfficiency(const char *inputFile, const char *outputFile, ULong_t procNr)
+void getEfficiencyFromConfig3(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -138,7 +138,7 @@ void getEfficiency(const char *inputFile, const char *outputFile, ULong_t procNr
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="getEfficiency_output.root";
+  char    outputFile[512]="getEfficiencyFromConfig3_output.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -162,9 +162,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning getEfficiency%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning getEfficiencyFromConfig3%s\n\n",text::BOLD,text::RESET);
   
-  getEfficiency(inputFile,outputFile,procNr);
+  getEfficiencyFromConfig3(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

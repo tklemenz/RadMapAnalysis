@@ -294,6 +294,8 @@ void getPadiwaGainMap(const char *inputFilePi0, const char *inputFilePi3, const 
 
   // loop over TH2D from above, fit 1D ToT distribution for all fibers and extract the mean value
   // meanwhile only take the layers that actually have data and leave the rest ignored
+  // @todo Fix landau fit if protons should be used. Landau fits much better than gaus.
+  //       At the moment the fit does nothing.
   TF1 *landau = new TF1("landau","TMath::Landau(x,[0],[1],0)");
   for(auto& hist : totLayerVecPro0) {                                                            // loop over histos
     if(hist->GetEntries() != 0) {

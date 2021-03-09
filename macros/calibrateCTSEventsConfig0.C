@@ -14,12 +14,12 @@
 #include "CTSEvent.h"
 #include "Utility.h"
 
-///< usage: ./calibrateCTSEvents -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
+///< usage: ./calibrateCTSEventsConfig0 -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 
 extern char* optarg;
 
-void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t procNr)
+void calibrateCTSEventsConfig0(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
   TFile* f = TFile::Open(inputFile);
 
@@ -281,7 +281,7 @@ void calibrateCTSEvents(const char *inputFile, const char *outputFile, ULong_t p
 int main(int argc, char** argv)
 {
   char    inputFile[512]="";
-  char    outputFile[512]="calibratedCTSEvents.root";
+  char    outputFile[512]="calibratedCTSEventsConfig0.root";
   ULong_t procNr=-1;
 
   int argsforloop;
@@ -305,9 +305,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printf("\n\n%sRunning calibrateCTSEvents%s\n\n",text::BOLD,text::RESET);
+  printf("\n\n%sRunning calibrateCTSEventsConfig0%s\n\n",text::BOLD,text::RESET);
   
-  calibrateCTSEvents(inputFile,outputFile,procNr);
+  calibrateCTSEventsConfig0(inputFile,outputFile,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }
