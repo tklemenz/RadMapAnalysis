@@ -121,7 +121,7 @@ void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile,
       module.reset();
     }
    
-    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[Int_t(layer)-1][Int_t(chID)];
+    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[Int_t(TDC)][Int_t(chID)];
     //if(timeCalib<-1e10) { printf("Layer: %g, ChID: %g, TimeStamp: %g, Calibrated: %g, refTime: %g, Calibration: %g\n",layer,chID,timeStamp,timeCalib,refTime,time_calibration[int(layer)-1][int(chID)]);}
     if(Int_t(chID)==1) { ch1time = timeCalib; }
     //printf("Layer:%g, ChID:%g,\t Timestamp:%1.15g,\t RefTime:%1.15g,\t timediff:%1.15g\t, timeToCh1:%1.15g\n",layer,chID,timeStamp,refTime,timeCalib,timeCalib-ch1time);

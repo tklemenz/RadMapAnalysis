@@ -14,7 +14,7 @@ bin/getToTCalibrationValuesForPionData
 bin/getEfficiency
 bin/getPadiwaGainMap
 bin/calibrateCTSEventsConfig0
-bin/getEfficiencyFromConfig3
+bin/getEfficiencyFromConfig2
 bin/getEfficiencyFromConfig0
 build/CMakeCache.txt
 build/CMakeFiles/

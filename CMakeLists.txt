@@ -69,7 +69,7 @@ set(EXE_SRCS
     macros/convertToCalibratedCTSEvents.C
     macros/getPadiwaGainMap.C
     macros/getEfficiencyFromConfig0.C
-    macros/getEfficiencyFromConfig3.C
+    macros/getEfficiencyFromConfig2.C
     )
 
 set(EXE_NAMES
@@ -88,7 +88,7 @@ set(EXE_NAMES
     convertToCalibratedCTSEvents
     getPadiwaGainMap
     getEfficiencyFromConfig0
-    getEfficiencyFromConfig3
+    getEfficiencyFromConfig2
     )
 
 list(LENGTH EXE_SRCS count)

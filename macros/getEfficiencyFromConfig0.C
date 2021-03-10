@@ -22,10 +22,11 @@
 extern char* optarg;
 
 static Int_t   totCut = 4;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
-static Float_t synchrotronTimeWindow = 4.2; // 3 sigma von da Vadeilung
+static Float_t synchrotronTimeWindow = 2.1; // 3 sigma von da Vadeilung
 static Int_t   spaceCut = 2;
 static Int_t   fiberLowerCut = 5;
 static Int_t   fiberUpperCut = 27;
+static bool    useFiberCuts  = true;
 
 void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULong_t procNr)
 {
@@ -100,20 +101,20 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
   std::vector<TH1I*> nSigPerEventPerLayerVec{};
 
   for(int i = 0; i<4; i++) {
-    timeDiffVec.emplace_back(new TH1D(Form("hTimeDiffL%i", i+1),Form("time diff to first sig in layer %i;time diff [ns]", i+1),1000,-10,10));
-    totLayerVec.emplace_back(new TH2D(Form("hToTL%i", i+1),"ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-    nSigPerEventPerLayerVec.emplace_back(new TH1I(Form("hNSigPerEventL%i", i+1),Form("number of signals per event Layer %i;n signals;n events", i+1),50,0,50));
+    timeDiffVec.emplace_back(new TH1D(Form("hTimeDiffL%i", i+1),Form("time diff of L%i sig to first sig in layer 1;time diff [ns]", i+1),1000,-10,10));
+    totLayerVec.emplace_back(new TH2D(Form("hToTL%i", i+1),Form("ToT distribution of first signals vs fiber in L%i;fiber;ToT", i+1),33,0,33,500,0,50));
+    nSigPerEventPerLayerVec.emplace_back(new TH1I(Form("hNSigPerEventL%i", i+1),Form("number of signals per CTS event Layer %i;n signals;n events", i+1),50,0,50));
   }
 
   TH3D* hTimeDiffDistMultL2 = new TH3D("hTimeDiffDistMultL2","TimeDiff btw L1 and L2 vs L1 sig number;sig nr;time diff",50,0,50,40,-25,25, 1.7e4, 0, 1.7e4);
   TH3D* hTimeDiffDistMultL3 = new TH3D("hTimeDiffDistMultL3","TimeDiff btw L1 and L3 vs L1 sig number;sig nr;time diff",50,0,50,40,-25,25, 1.7e4, 0, 1.7e4);
   TH3D* hTimeDiffDistMultL4 = new TH3D("hTimeDiffDistMultL4","TimeDiff btw L1 and L4 vs L1 sig number;sig nr;time diff",50,0,50,40,-25,25, 1.7e4, 0, 1.7e4);
 
-  TH1I* eventNumbers = new TH1I("EventNumbers",";eventNr;counts",2000000,0,2000000);
+  TH1I* eventNumbers  = new TH1I("EventNumbers",";eventNr;counts",2000000,0,2000000);
   TH1I* hNSigPerLayer = new TH1I("hNSigPerLayer","number of valid signals per layer;layer;counts",8,0,8);
-  TH1I* hNMultDistL2 = new TH1I("hNMultDistL2","N sig in layer per event within +- 15 ns;n sig;counts",50,0,50);
-  TH1I* hNMultDistL3 = new TH1I("hNMultDistL3","N sig in layer per event within +- 15 ns;n sig;counts",50,0,50);
-  TH1I* hNMultDistL4 = new TH1I("hNMultDistL4","N sig in layer per event within +- 15 ns;n sig;counts",50,0,50);
+  TH1I* hNMultDistL2  = new TH1I("hNMultDistL2",Form("N sig in layer 2 within +- %i ns of layer 1 signal;n sig;counts", Int_t(synchrotronTimeWindow)),50,0,50);
+  TH1I* hNMultDistL3  = new TH1I("hNMultDistL3",Form("N sig in layer 3 within +- %i ns of layer 1 signal;n sig;counts", Int_t(synchrotronTimeWindow)),50,0,50);
+  TH1I* hNMultDistL4  = new TH1I("hNMultDistL4",Form("N sig in layer 4 within +- %i ns of layer 1 signal;n sig;counts", Int_t(synchrotronTimeWindow)),50,0,50);
 
   ///< bin 0: exactly 3 layers have a signal within time window
   ///< bin 1: all layers have a signal within space and time windows
@@ -157,6 +158,7 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
           ToT  = signal.getToT();
           if(ToT < totCut) { continue; }
           fiberNr = mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID());
+          if (useFiberCuts) { if(fiberNr > fiberUpperCut || fiberNr < fiberLowerCut) { continue; } } // get rid of rim fibers
           time = signal.getTimeStamp();
           switch(layer){
             case 1:
@@ -219,7 +221,6 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
       goodL4=1;
       std::vector<Signal> goodSignalVec{Signal(),Signal(),Signal(),Signal()};
       time = signal1.getTimeStamp();
-      fiberNr = mapping::getFiberNr(signal1.getConfiguration(),signal1.getChannelID(),signal1.getTDCID());
       signalCounter++;
 
       goodSignalVec.at(0) = signal1;
@@ -231,7 +232,6 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
           if(sigInWindowCounterL2 == 1 ) { goodSignalVec.at(1) = signal2; goodL2=0; }
           if(sigInWindowCounterL2 >1) { goodL2=1; }
         }
-
       }
       for(auto& signal3 : sigBufferL3) {
         ((TH3D*)hTimeDiffDistMultL3)->Fill(signalCounter,time-signal3.getTimeStamp(), eventNr);
@@ -280,8 +280,6 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
       Int_t sigInWindowCounterL3 = 0;
       Int_t sigInWindowCounterL4 = 0;
       time = signal2.getTimeStamp();
-      fiberNr = mapping::getFiberNr(signal2.getConfiguration(),signal2.getChannelID(),signal2.getTDCID());
-
       for(auto& signal1 : sigBufferL1) {
         if(std::abs(time-signal1.getTimeStamp()) < synchrotronTimeWindow) { 
           sigInWindowCounterL1++;
@@ -308,7 +306,7 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
       if(howgood == 1 && goodL1 == 1) { // layer 2-4 have exactly 1 signal, layer 1 has 0 or more than 1
         if(sigInWindowCounterL1 == 0) { hEventQuality->Fill(0); bin0Counter++; } // layer 1 has no signal
         else if (sigInWindowCounterL1 > 1) { /*hEventQuality->Fill(3); bin3Counter++;*/ } // layer 1 has more than one signal
-                                                                                          //(this is already loopen over in the layer 1 loop)
+                                                                                          //(this is already looped over in the layer 1 loop)
         else { printf("This should never happen!\n"); } // layer 1 has exactly 1 signal
       }
     }
@@ -338,10 +336,56 @@ void getEfficiencyFromConfig0(const char *inputFile, const char *outputFile, ULo
     if (hist->GetEntries() > 0) { fout->WriteObject(hist, hist->GetName()); }
   }
 
+  TCanvas *c1 = new TCanvas("cToTDists","cToTDists", 1500, 700);
+  c1->Divide(2,2);
+  c1->cd(1);
+  gPad->SetLogz();
+  totLayerVec.at(0)->Draw("COLZ");
+  c1->cd(2);
+  gPad->SetLogz();
+  totLayerVec.at(1)->Draw("COLZ");
+  c1->cd(3);
+  gPad->SetLogz();
+  totLayerVec.at(2)->Draw("COLZ");
+  c1->cd(4);
+  gPad->SetLogz();
+  totLayerVec.at(3)->Draw("COLZ");
+
+  TCanvas *c2 = new TCanvas("cTimeDiff","cTimeDiff", 1500, 700);
+  c2->Divide(2,2);
+  c2->cd(1);
+  gPad->SetLogy();
+  timeDiffVec.at(0)->Draw();
+  c2->cd(2);
+  gPad->SetLogy();
+  timeDiffVec.at(1)->Draw();
+  c2->cd(3);
+  gPad->SetLogy();
+  timeDiffVec.at(2)->Draw();
+  c2->cd(4);
+  gPad->SetLogy();
+  timeDiffVec.at(3)->Draw();
+
+  TCanvas *c3 = new TCanvas("cNMultDist","cNMultDist", 1500, 700);
+  c3->Divide(3,1);
+  c3->cd(1);
+  gPad->SetLogy();
+  hNMultDistL2->Draw();
+  c3->cd(2);
+  gPad->SetLogy();
+  hNMultDistL3->Draw();
+  c3->cd(3);
+  gPad->SetLogy();
+  hNMultDistL4->Draw();
+
+  fout->WriteObject(c1, c1->GetName());
+  fout->WriteObject(c2, c2->GetName());
+  fout->WriteObject(c3, c3->GetName());
+
   fout->Close();
 
   printf("\n\nhEventquality 0: Number of events with exactly one signal on three layers, meeting time cuts, but no signal on the other layer:\n%s%i%s\n\n", text::BOLD,bin0Counter,text::RESET);
-  printf("hEventQuality 1:Number of events with exactly one signal meeting time and space cuts in each layer:\n%s%i%s\n\n", text::BOLD,bin1Counter,text::RESET);
+  printf("hEventQuality 1: Number of events with exactly one signal meeting time and space cuts in each layer:\n%s%i%s\n\n", text::BOLD,bin1Counter,text::RESET);
   printf("hEventQuality 2: Number of events with exactly one signal in each layer meeting time cut but not meeting space cuts:\n%s%i%s\n\n", text::BOLD,bin2Counter,text::RESET);
   printf("hEventQuality 3: Number of events with exactly one signal on three layers but the other layer has more than one signal, all meet time cuts:\n%s%i%s\n\n", text::BOLD,bin3Counter,text::RESET);
   printf("SUM:\n%s%i%s\n", text::BOLD,bin0Counter+bin1Counter+bin2Counter+bin3Counter,text::RESET);

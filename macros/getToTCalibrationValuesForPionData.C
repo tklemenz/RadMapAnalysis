@@ -77,14 +77,9 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
   ==========================================================
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
-  totLayerVec.emplace_back(new TH2D("hToTL1","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL4","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL5","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL6","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL7","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
-  totLayerVec.emplace_back(new TH2D("hToTL8","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
+  for(Int_t i = 0; i<8; i++) {
+    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
+  }
 
   std::vector<TH1D*> totLayerGausMean{};
   std::vector<std::vector<Float_t>> fitContent{};
