@@ -29,5 +29,7 @@
 #pragma link C++ function mapping::getY +;
 #pragma link C++ function mapping::getCoord +;
 
+#pragma link C++ function beautify::setStyle +;
+#pragma link C++ function beautify::setStyleHisto +;
 
 #endif

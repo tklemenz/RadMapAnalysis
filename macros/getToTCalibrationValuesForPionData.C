@@ -24,7 +24,7 @@
 extern char* optarg;
 
 static Int_t   totCut = 8;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
-static Float_t pullTo = 15;  // calib value that is written to file is pullTo/gausMean
+static Float_t pullTo = 65;  // calib value that is written to file is pullTo/gausMean
 
 void getToTCalibrationValuesForPionData(const char *inputFile, const char *outputFile, const char *outputCalib, ULong_t procNr)
 {
@@ -78,7 +78,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
   for(Int_t i = 0; i<8; i++) {
-    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,500,0,50));
+    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,600,40,70));
   }
 
   std::vector<TH1D*> totLayerGausMean{};

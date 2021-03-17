@@ -296,11 +296,11 @@ void getPadiwaGainMap(const char *inputFilePi0, const char *inputFilePi3, const 
   // meanwhile only take the layers that actually have data and leave the rest ignored
   // @todo Fix landau fit if protons should be used. Landau fits much better than gaus.
   //       At the moment the fit does nothing.
-  TF1 *landau = new TF1("landau","TMath::Landau(x,[0],[1],0)");
+  //TF1 *landau = new TF1("landau","TMath::Landau(x,[0],[1],0)");
   for(auto& hist : totLayerVecPro0) {                                                            // loop over histos
     if(hist->GetEntries() != 0) {
       fout->WriteObject(hist, hist->GetName());                                                  // write ToT vs fiber to file
-      hist->FitSlicesY(landau,2,33);                                                                  // fit 1D distributions with gaus
+      hist->FitSlicesY(0,2,33);                                                                  // fit 1D distributions with gaus
       totLayerGausMeanPro0.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));  // get fit mean values (written to 1D histos)
       fout->WriteObject(totLayerGausMeanPro0.back(), totLayerGausMeanPro0.back()->GetName());    // write fit results to file
       fitContentPro0.emplace_back(std::vector<Float_t>());                                       // prepare extraction of fit results

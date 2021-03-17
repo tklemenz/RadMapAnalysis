@@ -88,11 +88,13 @@ void getEfficiencyFromConfig2(const char *inputFile, const char *outputFile, ULo
   /* Define histograms
   ==========================================================
   ==========================================================*/
-  TH1I* hLayerDist = new TH1I("hLayerDist","Signal distribution across layers; layer;counts",8,0,8);
-  TH2D* hToTL1 = new TH2D("hToTL1","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hToTL2 = new TH2D("hToTL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hToTL3 = new TH2D("hToTL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
-  TH2D* hToTL5 = new TH2D("hToTL5","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);
+  //beautify::setStyle();
+
+  TH1I* hLayerDist = new TH1I("hLayerDist","Signal distribution across layers; layer;counts",8,0,8);// beautify::setStyleHisto<TH1>(hLayerDist);
+  TH2D* hToTL1 = new TH2D("hToTL1","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);// beautify::setStyleHisto<TH2>(hToTL1);
+  TH2D* hToTL2 = new TH2D("hToTL2","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);// beautify::setStyleHisto<TH2>(hToTL2);
+  TH2D* hToTL3 = new TH2D("hToTL3","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);// beautify::setStyleHisto<TH2>(hToTL3);
+  TH2D* hToTL5 = new TH2D("hToTL5","ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,1000,0,100);// beautify::setStyleHisto<TH2>(hToTL5);
 
   TH2D* hDFiber15VsToT1NoCuts = new TH2D("hDFiber15VsToT1NoCuts","fiber distance L1-L5 vs ToT L1;ToT L1;#Delta x L1-L5",1000,0,100,64,-32,32);
   TH2D* hDFiber15VsToT5NoCuts = new TH2D("hDFiber15VsToT5NoCuts","fiber distance L1-L5 vs ToT L5;ToT L5;#Delta x L1-L5",1000,0,100,64,-32,32);
@@ -112,6 +114,7 @@ void getEfficiencyFromConfig2(const char *inputFile, const char *outputFile, ULo
 
   TH1I* hNCandidatesL3 = new TH1I("hNCandidatesL3","number of signals within time window on layer 3; n candidates;counts",100,0,100);
   TH1I* hNCandidatesL5 = new TH1I("hNCandidatesL5","number of signals within time window on layer 5; n candidates;counts",100,0,100);
+
   /*========================================================
   ==========================================================*/
 
@@ -221,7 +224,7 @@ void getEfficiencyFromConfig2(const char *inputFile, const char *outputFile, ULo
           hDFiber13VsToT3TimeCut->Fill(ToT3, fiberNr1-fiberNr3);
           sigCounterGoodL3++;
           if(found15Pair) {
-            hDFiber13VsToT3TimeCut15Found->Fill(ToT3, fiberNr1-fiberNr3); // here are still event with multiple hit candidates per layer!!
+            hDFiber13VsToT3TimeCut15Found->Fill(ToT3, fiberNr1-fiberNr3); // here are still events with multiple hit candidates per layer!!
             hMeanDFiber15VsFiberL2TimeCut->Fill(fiberNr3, meanDFiber15);
           }
         }

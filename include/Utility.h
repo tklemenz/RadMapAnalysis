@@ -49,6 +49,15 @@ namespace mapping
 
 } // namespace mapping
 
+namespace beautify
+{
+  void setStyle();
+
+  template <class T>
+  void setStyleHisto(T* histo);
+
+} // namespace beautify
+
 /// This namespace holds some useless text modifications for terminal output.
 namespace text
 {
