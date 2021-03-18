@@ -78,7 +78,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
   for(Int_t i = 0; i<8; i++) {
-    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution of first signals vs fiber;fiber;ToT",33,0,33,600,40,70));
+    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,600,10,28));
   }
 
   std::vector<TH1D*> totLayerGausMean{};
@@ -137,6 +137,7 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
       }// end layer switch
   }// end of loop over file
 
+  Int_t histCounter = 0;
   // loop over TH2D from above, fit 1D ToT distribution for all fibers and extract the mean value
   // meanwhile only take the layers that actually have data and leave the rest ignored
   for(auto& hist : totLayerVec) {                                                             // loop over histos
@@ -151,8 +152,23 @@ void getToTCalibrationValuesForPionData(const char *inputFile, const char *outpu
       for(Int_t i=0; i<totLayerGausMean.back()->GetSize(); i++) {
         fitContent.back().emplace_back((*totLayerGausMean.back())[i]);                        // extract fit results
       }
+      histCounter++;
     }
   }
+
+  TCanvas *c1 = new TCanvas("cToTDists","cToTDists");
+  c1->DivideSquare(histCounter);
+
+  Int_t padIter = 1;
+  for(auto& hist : totLayerVec) {
+    if(hist->GetEntries() == 0) { continue; }
+    c1->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  fout->WriteObject(c1, c1->GetName());
 
   fout->Close();
 
