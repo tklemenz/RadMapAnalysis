@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(RadMapAnalysis)
 
-#set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11)
 
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
@@ -20,6 +20,7 @@ set(SRCS
    src/CTSEvent.cxx
    src/Module.cxx
    src/Utility.cxx
+   src/Constants.cxx
    src/Cluster.cxx
    src/CTSEventClusters.cxx
    src/Track.cxx
@@ -36,6 +37,7 @@ set(HEADERS
    include/CTSEvent.h
    include/Module.h
    include/Utility.h
+   include/Constants.h
    include/Cluster.h
    include/CTSEventClusters.h
    include/Track.h
@@ -65,11 +67,13 @@ set(EXE_SRCS
     macros/plotClusterEvent.C
     macros/convertToClusterEvents.C
     macros/plotCtsEventCluster.C
-    macros/getToTCalibrationValuesForPionData.C
+    macros/getToTCalibrationValues.C
     macros/convertToCalibratedCTSEvents.C
     macros/getPadiwaGainMap.C
     macros/getEfficiencyFromConfig0.C
     macros/getEfficiencyFromConfig2.C
+    macros/applyPadiwaGainCorrectionToSignals.C
+    macros/getModuleGain.C
     )
 
 set(EXE_NAMES
@@ -89,6 +93,8 @@ set(EXE_NAMES
     getPadiwaGainMap
     getEfficiencyFromConfig0
     getEfficiencyFromConfig2
+    applyPadiwaGainCorrectionToSignals
+    getModuleGain
     )
 
 list(LENGTH EXE_SRCS count)

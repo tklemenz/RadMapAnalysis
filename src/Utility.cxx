@@ -3,6 +3,12 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TROOT.h>
+#include <TChain.h>
+#include <TSystem.h>
+#include <TString.h>
+#include <TObjArray.h>
+
+#include <sstream>
 
 namespace mapping
 {
@@ -265,7 +271,66 @@ Int_t getY(Int_t layer, Int_t fiber)
   }
 }
 
+Padiwa getPadiwa(Int_t TDC, Int_t chID)
+{
+  switch (TDC) {
+    case 0:
+      if (chID <= 16) { return Padiwa::p1500_0; }
+      else { return Padiwa::p1500_1; }
+      break;
+    case 1:
+      if (chID <= 16) { return Padiwa::p1510_0; }
+      else { return Padiwa::p1510_1; }
+      break;
+    case 2:
+      if (chID <= 16) { return Padiwa::p1520_0; }
+      else { return Padiwa::p1520_1; }
+      break;
+    case 3:
+      if (chID <= 16) { return Padiwa::p1530_0; }
+      else { return Padiwa::p1530_1; }
+      break;
+    default:
+      printf("Invalid TDCID!!\n");
+  }
+}
+
 } /// namespace mapping
+
+namespace fileHandling
+{
+
+void makeChain(TChain& chain, const TString& input)
+{
+  TString allFiles;
+
+  if (input.EndsWith(".txt")){ allFiles=gSystem->GetFromPipe(Form("cat %s",input.Data())); }
+  else { allFiles=gSystem->GetFromPipe(Form("ls %s",input.Data())); }
+
+  TObjArray *arr = allFiles.Tokenize("\n");
+
+  for (int ifile=0; ifile<arr->GetEntriesFast(); ++ifile){
+    TString file=arr->At(ifile)->GetName();
+    chain.Add(file);
+  }
+
+  return;
+}
+
+std::vector<std::string> splitString(std::string inString, const char* delimiter)
+{
+  std::vector<std::string> outVec;
+  std::istringstream stream(inString);
+  std::string token;
+
+  while (std::getline(stream, token, *delimiter)) {
+    outVec.emplace_back(token);
+  }
+
+  return std::move(outVec);
+}
+
+} //namespace fileHandling
 
 namespace beautify
 {

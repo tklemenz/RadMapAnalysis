@@ -4,11 +4,27 @@
 #include <Rtypes.h>
 #include <utility>
 
+class TObjArray;
+class TString;
+class TChain;
+
 /// ParticleType enum class
 enum class ParticleType : char {
   Pion,       ///< particle is a pion
   Proton,     ///< particle is a proton
   Unknown     ///< unknown particle
+};
+
+/// Padiwa enum class
+enum class Padiwa : char {
+  p1500_0,    ///< TDC 0, ch 1-16
+  p1500_1,    ///< TDC 0, ch 17-32
+  p1510_0,    ///< TDC 1, ch 1-16
+  p1510_1,    ///< TDC 1, ch 17-32
+  p1520_0,    ///< TDC 2, ch 1-16
+  p1520_1,    ///< TDC 2, ch 17-32
+  p1530_0,    ///< TDC 3, ch 1-16
+  p1530_1     ///< TDC 3, ch 17-32
 };
 
 /// This namespace holds the mapping functions.
@@ -46,6 +62,15 @@ namespace mapping
 
   /// get the actual spatial coordinate in mm
   inline Float_t getCoord(Float_t meanFiber) { return 2*meanFiber-1; }
+
+  /// get padiwa
+  /// @param TDC
+  /// @param chID
+  /// @return padiwa
+  Padiwa getPadiwa(Int_t TDC, Int_t chID);
+
+  /// get channel number in padiwa
+  inline Int_t getPadiwaChannel(Int_t chID) { return chID >= 17 ? chID - 16 : chID; }
 
 } // namespace mapping
 
@@ -85,5 +110,14 @@ namespace text
   const char* const BLINK = "\e[5m";
 
 } // namespace text
+
+namespace fileHandling
+{
+
+  void makeChain(TChain& chain, const TString& input);
+
+  std::vector<std::string> splitString(std::string inString, const char* delimiter = "/");
+
+} // namespace fileHandling
 
 #endif

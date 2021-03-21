@@ -10,9 +10,11 @@
 #include <iostream>
 #include <iomanip>
 #include <unistd.h>
+#include <map>
 
 #include "CTSEvent.h"
 #include "Utility.h"
+#include "Constants.h"
 
 ///< usage: ./convertToCalibratedCTSEvents -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
@@ -71,41 +73,24 @@ void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile,
 
   printf("signals to process: %lu\t %.1f%% of the file\n", nSignals, Float_t(100*nSignals)/Float_t(signals->GetEntries()));
 
-  Double_t totCalib(0),timeCalib(0),ch1time(0);
-
-  // -------------|| Hard Coded Calibration Data ||--------------------
-
-  // Time shift on each channel relative to chID=1.
-  // Measured with pulser on Padiwa.
-  // These values are subtracted from timeStamp value to get calibrated time.
-  Double_t time_calibration[4][33] = {
-    {0,6.93889E-16,1.11542,0.8119,2.251916,-0.922404,-0.453114,0.8883776,0.155795,-0.938464,-1.540544,-0.809134,-1.552644,-0.692764,-0.464704,-2.004604,-2.406544,
-      2.517826,2.66,3.397055,4.096766,2.263641,1.699249,0.276526,1.177086,-1.945154,-0.044184,-1.795594,-1.466974,5.072366,5.563236,3.990506,1.566279},
-    {0,6.93889E-16,1.11542,1.24223,2.67931,-0.456091,-0.0149989,1.3712,0.504082,-0.370934,-1.08655,-0.454727,-1.31195,-0.195293,-0.0461142,-1.59216,-1.91812,
-      2.891333,2.330744,2.8694499,4.381363,2.458993,2.126462,0.312753,1.072663,-2.297937,-0.179747,-1.741817,-1.241587,5.008823,5.596693,4.036363,1.282623},
-    {0,6.93889E-16,1.11542,0.934946,2.728777,-0.540214,-0.227886,1.211543,0.485613,-0.730095,-1.434413,-0.420441,-1.241343,-0.531263,-0.35043,-1.803833,-2.009693,
-      2.891333,2.0,2.890576515,3.845229,1.818433,1.217863,-0.1303969,0.809853,-2.326017,-0.38771699,-2.312257,-1.806617,4.719783,5.478213,3.806037,1.246643},
-    {0,6.93889E-16,1.32542,1.16687,2.82989,-0.452611,-0.0387911,1.36946,0.700189,-0.505421,-0.957971,-0.212678,-1.27323,-0.0845989,0.0808505,-1.39277,-1.85497,
-      2.517826,3.275819,4.234145,4.983406,3.082846,2.491707,1.043966,2.101356,-1.143034,0.760086,-0.998524,-0.563224,5.807756,6.502226,4.881126,2.503614}
-  };
+  Double_t totCalib(0),timeCalib(0);
 
   // These values are generated with getToTCalibrationValuesForPionData
   // 8ns ToT cut before gaus fit
   // Always start with 0! This 0 is NOT included in the file from getToTCalibrationValuesForPionData!
   // This is a quick and dirty workaround to get the fiber mapping easily, since fibers count from 1-32.
-
-  // from single SiPM calib in lab
-  std::vector<Float_t> m_layer1={0, 0.980398, 0.978084, 0.975228, 0.988607, 0.969823, 0.969143, 0.959248, 0.995796, 0.989669, 0.991485, 0.968221, 0.997254, 1.01999, 0.98105, 0.975545, 0.978229, 1.01511, 0.96422, 0.984722, 0.987102, 1.03741, 0.971447, 0.984549, 0.986343, 0.988689, 0.96236, 0.97442, 0.983497, 0.992683, 0.982134, 0.986275, 0.987759};
+  // from single SiPM calib in lab (this goes for config 0 and 4)
+  /*std::vector<Float_t> m_layer1={0, 0.980398, 0.978084, 0.975228, 0.988607, 0.969823, 0.969143, 0.959248, 0.995796, 0.989669, 0.991485, 0.968221, 0.997254, 1.01999, 0.98105, 0.975545, 0.978229, 1.01511, 0.96422, 0.984722, 0.987102, 1.03741, 0.971447, 0.984549, 0.986343, 0.988689, 0.96236, 0.97442, 0.983497, 0.992683, 0.982134, 0.986275, 0.987759};
   std::vector<Float_t> m_layer2={0, 0.970717, 0.736973, 0.955337, 0.779739, 0.980622, 0.767107, 0.967731, 0.774137, 0.988615, 0.767526, 0.982822, 0.796816, 0.971367, 0.765580, 0.973434, 0.788902, 0.995368, 0.764792, 0.976379, 0.780512, 1.00028, 0.765414, 0.9845, 0.782801, 1.00812, 0.758892, 0.985479, 0.761687, 1.01829, 0.750317, 0.958597, 0.769731};
   std::vector<Float_t> m_layer3={0, 0.947787, 0.906891, 0.908512, 1.00018, 1.01061, 1.0069, 0.903888, 1.01331, 0.906381, 1.01163, 0.89069, 0.986111, 1.01014, 1.00063, 0.987379, 1.00999, 1.01924, 0.996947, 0.967361, 0.988597, 1.01786, 0.889358, 1.00796, 1.02296, 1.00609, 1.00598, 1.01172, 1.02444, 1.01269, 0.980039, 1.00308, 0.991231};
   std::vector<Float_t> m_layer4={0, 0.981513, 1.00926, 0.963164, 0.996509, 0.981614, 1.00857, 0.906335, 0.899273, 0.996063, 1.00505, 0.99259, 1.02693, 0.961012, 0.977713, 0.975824, 1.01636, 0.987906, 0.992124, 0.997929, 1.0082, 0.929116, 0.978803, 1.00925, 0.992574, 1.01994, 0.963573, 1.00181, 0.977544, 1.01568, 0.974182, 1.01562, 0.981291};
-  std::vector<Float_t> m_layer5={};
-  std::vector<Float_t> m_layer6={};
-  std::vector<Float_t> m_layer7={};
-  std::vector<Float_t> m_layer8={};
+  std::vector<Float_t> m_layer5={0, 0.980398, 0.978084, 0.975228, 0.988607, 0.969823, 0.969143, 0.959248, 0.995796, 0.989669, 0.991485, 0.968221, 0.997254, 1.01999, 0.98105, 0.975545, 0.978229, 1.01511, 0.96422, 0.984722, 0.987102, 1.03741, 0.971447, 0.984549, 0.986343, 0.988689, 0.96236, 0.97442, 0.983497, 0.992683, 0.982134, 0.986275, 0.987759};
+  std::vector<Float_t> m_layer6={0, 0.970717, 0.736973, 0.955337, 0.779739, 0.980622, 0.767107, 0.967731, 0.774137, 0.988615, 0.767526, 0.982822, 0.796816, 0.971367, 0.765580, 0.973434, 0.788902, 0.995368, 0.764792, 0.976379, 0.780512, 1.00028, 0.765414, 0.9845, 0.782801, 1.00812, 0.758892, 0.985479, 0.761687, 1.01829, 0.750317, 0.958597, 0.769731};
+  std::vector<Float_t> m_layer7={0, 0.947787, 0.906891, 0.908512, 1.00018, 1.01061, 1.0069, 0.903888, 1.01331, 0.906381, 1.01163, 0.89069, 0.986111, 1.01014, 1.00063, 0.987379, 1.00999, 1.01924, 0.996947, 0.967361, 0.988597, 1.01786, 0.889358, 1.00796, 1.02296, 1.00609, 1.00598, 1.01172, 1.02444, 1.01269, 0.980039, 1.00308, 0.991231};
+  std::vector<Float_t> m_layer8={0, 0.981513, 1.00926, 0.963164, 0.996509, 0.981614, 1.00857, 0.906335, 0.899273, 0.996063, 1.00505, 0.99259, 1.02693, 0.961012, 0.977713, 0.975824, 1.01636, 0.987906, 0.992124, 0.997929, 1.0082, 0.929116, 0.978803, 1.00925, 0.992574, 1.01994, 0.963573, 1.00181, 0.977544, 1.01568, 0.974182, 1.01562, 0.981291};
+*/
 
-
-  // from rigol 65ns signal in lab
+  // from rigol 65ns signal in labv --> does not work
   /*std::vector<Float_t> m_layer1={0, 0.995365, 0.99371, 0.994793, 1.00239, 0.996147, 0.996499, 0.995264, 0.999085, 1.0016, 0.995269, 0.996205, 0.99853, 1.00527, 0.998658, 0.994918, 0.999748, 1.00355, 0.994416, 0.996016, 0.99807, 1.00244, 0.996193, 0.995127, 1.00056, 0.998457, 0.996518, 0.995965, 1.0018, 0.998662, 0.996813, 0.991471, 1.00035};
   std::vector<Float_t> m_layer2={0, 0.997772, 1.09523, 0.995485, 1.09928, 1.00095, 1.10442, 0.997023, 1.09458, 1.00011, 1.11442, 0.997326, 1.06048, 0.993939, 1.08489, 0.994572, 1.05147, 0.999901, 1.10176, 0.997254, 1.14222, 0.998542, 1.07496, 0.994113, 1.06252, 0.999818, 1.06005, 0.993536, 1.0904, 1.00164, 1.09084, 0.992823, 1.06163};
   std::vector<Float_t> m_layer3={0, 0.9949, 0.993827, 0.994002, 1.00317, 0.99688, 0.994857, 0.996023, 0.998955, 1.00193, 0.994263, 0.999044, 0.998209, 1.00709, 0.999844, 0.99675, 1.00075, 1.00481, 0.994873, 0.996135, 0.995564, 1.00191, 0.997252, 0.996524, 1.00048, 0.998873, 0.996014, 0.997667, 1.00039, 1.00066, 0.996421, 0.992182, 1.00148};
@@ -133,44 +118,16 @@ void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile,
 
       module.reset();
     }
-   
-    timeCalib = (timeStamp-refTime)*1e9 - time_calibration[Int_t(TDC)][Int_t(chID)];
-    //if(timeCalib<-1e10) { printf("Layer: %g, ChID: %g, TimeStamp: %g, Calibrated: %g, refTime: %g, Calibration: %g\n",layer,chID,timeStamp,timeCalib,refTime,time_calibration[int(layer)-1][int(chID)]);}
-    if(Int_t(chID)==1) { ch1time = timeCalib; }
-    //printf("Layer:%g, ChID:%g,\t Timestamp:%1.15g,\t RefTime:%1.15g,\t timediff:%1.15g\t, timeToCh1:%1.15g\n",layer,chID,timeStamp,refTime,timeCalib,timeCalib-ch1time);
+
+    timeCalib = (timeStamp-refTime)*1e9 - constants::padiwaTimeCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
+
     ToT = ToT*1e9;
 
-    Int_t fiberNr = mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID());
-
-    //-----> Make channel mapping!
-    if (Int_t(layer) == 1){
-      if (m_layer1.size()==33) { totCalib=ToT*m_layer1.at(fiberNr); }
-      else { validCalib.at(0) = false; }
-    } else if (Int_t(layer) == 2){
-      if (m_layer2.size()==33) { totCalib=ToT*m_layer2.at(fiberNr); }
-      else { validCalib.at(1) = false; }
-    } else if (Int_t(layer) == 3){
-      if (m_layer3.size()==33) { totCalib=ToT*m_layer3.at(fiberNr); }
-      else { validCalib.at(2) = false; }
-    } else if (Int_t(layer) == 4){
-      if (m_layer4.size()==33) { totCalib=ToT*m_layer4.at(fiberNr); }
-      else { validCalib.at(3) = false; }
-    } else if (Int_t(layer) == 5){
-      if (m_layer5.size()==33) { totCalib=ToT*m_layer5.at(fiberNr); }
-      else { validCalib.at(4) = false; }
-    } else if (Int_t(layer) == 6){
-      if (m_layer6.size()==33) { totCalib=ToT*m_layer6.at(fiberNr); }
-      else { validCalib.at(5) = false; }
-    } else if (Int_t(layer) == 7){
-      if (m_layer7.size()==33) { totCalib=ToT*m_layer7.at(fiberNr); }
-      else { validCalib.at(6) = false; }
-    } else if (Int_t(layer) == 8){
-      if (m_layer8.size()==33) { totCalib=ToT*m_layer8.at(fiberNr); }
-      else { validCalib.at(7) = false; }
-    } else { printf("Unknown layer: %i! Something went REALLY wrong...\n", Int_t(layer)); }
+    totCalib = ToT*
+               constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))*
+               constants::testModuleGainCorr.at(Int_t(layer)).at(mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID()));
 
     signal = Signal(totCalib,timeCalib,signalNr,chID,layer,TDC,padiwaConfig);
-    //printf("timestamp: %g, calibStamp: %g, ToT: %g, calibToT: %g\n", timeStamp, timeCalib, ToT, totCalib);
     module.addSignal(signal);
 
     event->setEventNr(ULong_t(eventNr));
@@ -182,11 +139,11 @@ void convertToCalibratedCTSEvents(const char *inputFile, const char *outputFile,
   tree->Write("data");
   fout->Close();
 
-  Int_t layerIter = 0;
+  /*Int_t layerIter = 0;
   for(const auto& indicator : validCalib) {
     layerIter++;
     if (indicator == false) { printf("No ToT calibration provided for layer %i!\n", layerIter); }
-  }
+  }*/
 
   delete event;
   event=nullptr;

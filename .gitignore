@@ -16,6 +16,8 @@ bin/getPadiwaGainMap
 bin/calibrateCTSEventsConfig0
 bin/getEfficiencyFromConfig2
 bin/getEfficiencyFromConfig0
+bin/applyPadiwaGainCorrectionToSignals
+bin/getModuleGain
 build/CMakeCache.txt
 build/CMakeFiles/
 build/G__RMA.cxx
