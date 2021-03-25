@@ -31,3 +31,8 @@ doxygen/latex/
 logger/FairLogger
 logger/FairLogger_build
 data/
+lib/
+build/
+bin/
+cmake/
+CMakeLists_boost_fmt.txt

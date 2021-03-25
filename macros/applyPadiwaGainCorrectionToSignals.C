@@ -19,6 +19,10 @@
 ///< usage: ./applyPadiwaGainCorrectionToSignals -i inputfile -o outputfileName -n numberOfSignalsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 
+///< input: raw signals
+///< output: 1) single files with padiwa gain calibrated (ToT) signal tuples --> ToT in s
+///<         2) a file with raw and calibrated ToT distributions (in ns)
+
 extern char* optarg;
 
 void applyPadiwaGainCorrectionToSignals(const TString inputFiles, const char *outputFile, ULong_t procNr)
@@ -49,9 +53,20 @@ void applyPadiwaGainCorrectionToSignals(const TString inputFiles, const char *ou
 
   ULong_t nSignals      =  0;
 
+  /* Define histograms and other useful containers
+  ==========================================================
+  ==========================================================*/
+  std::vector<TH2D*> totLayerVec{};
+  for(Int_t i = 0; i<8; i++) {
+    totLayerVec.emplace_back(new TH2D(Form("hToTcalL%i",i+1),"padiwa gain calibrated ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50));
+  }
+
+  std::vector<TH2D*> totUncalibLayerVec{};
+  for(Int_t i = 0; i<8; i++) {
+    totUncalibLayerVec.emplace_back(new TH2D(Form("hToTrawL%i",i+1),"uncalibrated ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50));
+  }
   /*========================================================
   ==========================================================*/
-  
 
   for (Int_t ifile=0; ifile<files->GetEntriesFast(); ++ifile){
     TFile *SignalFile = new TFile(Form("%s", files->At(ifile)->GetTitle()));
@@ -94,11 +109,60 @@ void applyPadiwaGainCorrectionToSignals(const TString inputFiles, const char *ou
 
       nt->Fill(eventNr,timeCalib,totCalib,chID,TDC,layer,x,y,signalNr,padiwaConfig,refTime);
 
+      totLayerVec.at(Int_t(layer)-1)->Fill(mapping::getFiberNr(padiwaConfig, chID, TDC), totCalib*1e9);
+      totUncalibLayerVec.at(Int_t(layer)-1)->Fill(mapping::getFiberNr(padiwaConfig, chID, TDC), ToT*1e9);
+
     }// loop over input file
 
     nt->Write("Signals", 1);
     fout->Close();
   }// loop over input files
+
+  std::string outputName = std::string();
+  if (fileHandling::splitString(inputFiles.Data(), ",").size() == 1) {
+    outputName = fileHandling::splitString(fileHandling::splitString(outputFile).back().data(), ".").front().data();
+    outputName.append("_");
+    outputName.append(fileHandling::splitString(fileHandling::splitString(inputFiles.Data()).back().data(), ".").front().data());
+    outputName.append(".root");
+  }
+  TFile *fout2 = new TFile(Form("%s_padiwaCalibTotDist_%s.root",fileHandling::splitString(fileHandling::splitString(outputFile).back().data(), ".").front().data(),
+                                                                fileHandling::splitString(fileHandling::splitString(outputName).back().data(), ".").front().data()),"recreate");
+
+  Int_t histCounter = 0;
+  for(auto& hist : totLayerVec) {
+    if(hist->GetEntries() != 0) { fout2->WriteObject(hist, hist->GetName()); histCounter++; }
+  }
+  for(auto& hist : totUncalibLayerVec) {
+    if(hist->GetEntries() != 0) { fout2->WriteObject(hist, hist->GetName()); }
+  }
+
+  TCanvas *c1 = new TCanvas("cPadiwaCalibToTDistsLayers","cPadiwaCalibToTDistsLayers");
+  c1->DivideSquare(histCounter);
+
+  Int_t padIter = 1;
+  for(auto& hist : totLayerVec) {
+    if(hist->GetEntries() == 0) { continue; }
+    c1->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c2 = new TCanvas("cRawToTDistsLayers","cRawToTDistsLayers");
+  c2->DivideSquare(histCounter);
+
+  padIter = 1;
+  for(auto& hist : totUncalibLayerVec) {
+    if(hist->GetEntries() == 0) { continue; }
+    c2->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  fout2->WriteObject(c1, c1->GetName());
+  fout2->WriteObject(c2, c2->GetName());
+  fout2->Close();
 }
 
 int main(int argc, char** argv)

@@ -27,6 +27,26 @@ enum class Padiwa : char {
   p1530_1     ///< TDC 3, ch 17-32
 };
 
+enum class PadiwaSocket : char {
+  L1even,
+  L2even,
+  L3even,
+  L4even,
+  L5even,
+  L6even,
+  L7even,
+  L8even,
+  L1odd,
+  L2odd,
+  L3odd,
+  L4odd,
+  L5odd,
+  L6odd,
+  L7odd,
+  L8odd,
+};
+
+
 /// This namespace holds the mapping functions.
 namespace mapping
 {
@@ -71,6 +91,11 @@ namespace mapping
 
   /// get channel number in padiwa
   inline Int_t getPadiwaChannel(Int_t chID) { return chID >= 17 ? chID - 16 : chID; }
+
+  /// get PadiwaSocket
+  /// @param Padiwa
+  /// @param padiwa config
+  PadiwaSocket getPadiwaSocket(Padiwa padiwa, UInt_t configuration);
 
 } // namespace mapping
 

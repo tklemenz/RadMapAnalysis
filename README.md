@@ -4,6 +4,8 @@
 
 * root
 * cmake
+* fmt
+* boost
 
 ### Recommended
 
@@ -14,9 +16,11 @@
 
 1. Go to your favorite destination
 2. `git clone https://github.com/tklemenz/RadMapAnalysis`
-3. source your `thisroot.sh`
-4. `source RadMapAnalysis/compile.sh`
-5. It's that easy
+3. install fmt (https://fmt.dev/latest/usage.html up to installing the library)
+4. install boost (https://www.boost.org/doc/libs/1_55_0/doc/html/bbv2/installation.html)
+5. source your `thisroot.sh`
+6. `source RadMapAnalysis/compile.sh`
+7. It's that easy
 
 # How to use it
 

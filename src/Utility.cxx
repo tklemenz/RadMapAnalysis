@@ -295,6 +295,151 @@ Padiwa getPadiwa(Int_t TDC, Int_t chID)
   }
 }
 
+PadiwaSocket getPadiwaSocket(Padiwa padiwa, UInt_t configuration)
+{
+  switch(configuration) {
+    case 0:
+      switch(padiwa) {
+        case Padiwa::p1500_0:
+          return PadiwaSocket::L1even;
+          break;
+        case Padiwa::p1500_1:
+          return PadiwaSocket::L1odd;
+          break;
+        case Padiwa::p1510_0:
+          return PadiwaSocket::L2odd;
+          break;
+        case Padiwa::p1510_1:
+          return PadiwaSocket::L2even;
+          break;
+        case Padiwa::p1520_0:
+          return PadiwaSocket::L3even;
+          break;
+        case Padiwa::p1520_1:
+          return PadiwaSocket::L3odd;
+          break;
+        case Padiwa::p1530_0:
+          return PadiwaSocket::L4odd;
+          break;
+        case Padiwa::p1530_1:
+          return PadiwaSocket::L4even;
+          break;
+      }
+
+    case 1:
+      switch(padiwa) {
+        case Padiwa::p1500_0:
+          return PadiwaSocket::L1even;
+          break;
+        case Padiwa::p1500_1:
+          return PadiwaSocket::L1odd;
+          break;
+        case Padiwa::p1510_0:
+          return PadiwaSocket::L3even;
+          break;
+        case Padiwa::p1510_1:
+          return PadiwaSocket::L3odd;
+          break;
+        case Padiwa::p1520_0:
+          return PadiwaSocket::L5even;
+          break;
+        case Padiwa::p1520_1:
+          return PadiwaSocket::L5odd;
+          break;
+        case Padiwa::p1530_0:
+          return PadiwaSocket::L2even;
+          break;
+        case Padiwa::p1530_1:
+          return PadiwaSocket::L6even;
+          break;
+      }
+
+    case 2:
+      switch(padiwa) {
+        case Padiwa::p1500_0:
+          return PadiwaSocket::L1even;
+          break;
+        case Padiwa::p1500_1:
+          return PadiwaSocket::L1odd;
+          break;
+        case Padiwa::p1510_0:
+          return PadiwaSocket::L3even;
+          break;
+        case Padiwa::p1510_1:
+          return PadiwaSocket::L3odd;
+          break;
+        case Padiwa::p1520_0:
+          return PadiwaSocket::L5even;
+          break;
+        case Padiwa::p1520_1:
+          return PadiwaSocket::L5odd;
+          break;
+        case Padiwa::p1530_0:
+          return PadiwaSocket::L2odd;
+          break;
+        case Padiwa::p1530_1:
+          return PadiwaSocket::L2even;
+          break;
+      }
+
+    case 3:
+      switch(padiwa) {
+        case Padiwa::p1500_0:
+          return PadiwaSocket::L3even;
+          break;
+        case Padiwa::p1500_1:
+          return PadiwaSocket::L3odd;
+          break;
+        case Padiwa::p1510_0:
+          return PadiwaSocket::L4odd;
+          break;
+        case Padiwa::p1510_1:
+          return PadiwaSocket::L4even;
+          break;
+        case Padiwa::p1520_0:
+          return PadiwaSocket::L1even;
+          break;
+        case Padiwa::p1520_1:
+          return PadiwaSocket::L1odd;
+          break;
+        case Padiwa::p1530_0:
+          return PadiwaSocket::L2odd;
+          break;
+        case Padiwa::p1530_1:
+          return PadiwaSocket::L2even;
+          break;
+      }
+
+    case 4:
+      switch(padiwa) {
+        case Padiwa::p1500_0:
+          return PadiwaSocket::L5even;
+          break;
+        case Padiwa::p1500_1:
+          return PadiwaSocket::L5odd;
+          break;
+        case Padiwa::p1510_0:
+          return PadiwaSocket::L6odd;
+          break;
+        case Padiwa::p1510_1:
+          return PadiwaSocket::L6even;
+          break;
+        case Padiwa::p1520_0:
+          return PadiwaSocket::L7even;
+          break;
+        case Padiwa::p1520_1:
+          return PadiwaSocket::L7odd;
+          break;
+        case Padiwa::p1530_0:
+          return PadiwaSocket::L8odd;
+          break;
+        case Padiwa::p1530_1:
+          return PadiwaSocket::L8even;
+          break;
+      }
+  }
+}
+
 } /// namespace mapping
 
 namespace fileHandling
@@ -305,6 +450,7 @@ void makeChain(TChain& chain, const TString& input)
   TString allFiles;
 
   if (input.EndsWith(".txt")){ allFiles=gSystem->GetFromPipe(Form("cat %s",input.Data())); }
+  else if (splitString(input.Data(), ",").size() > 1) { for(auto& string : splitString(input.Data(), ",")) { allFiles.Append(string + "\n");}; }
   else { allFiles=gSystem->GetFromPipe(Form("ls %s",input.Data())); }
 
   TObjArray *arr = allFiles.Tokenize("\n");

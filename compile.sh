@@ -51,6 +51,17 @@ if [ $MAKE -ne 0 ]; then
   echo""
 fi
 
+#make install
+#INSTA=$?
+#if [ $INSTA -ne 0 ]; then
+#  cd ${WD}
+#  echo""
+#  echo""
+#  echo -e "${RED}${BOLD}make install failed!!${RST}"
+#  echo""
+#  echo""
+#fi
+
 cd ${WD}
 echo ""
 echo ""

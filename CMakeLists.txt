@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 project(RadMapAnalysis)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -7,10 +7,18 @@ list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
 find_package(ROOT REQUIRED COMPONENTS MathCore RIO Hist Tree Net)
 
-include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS})
-add_definitions(${ROOT_CXX_FLAGS})
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_BUILD_TYPE_SHARED_LIBS ON)
 
+#find_package(fmt REQUIRED)
+
+#set(Boost_USE_STATIC_LIBS OFF)
+#set(Boost_USE_MULTITHREADED ON)
+#set(Boost_USE_STATIC_RUNTIME OFF)
+#find_package(Boost 1.65.0 COMPONENTS log)
+
+add_definitions(${ROOT_CXX_FLAGS})
+
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS})# ${Boost_INCLUDE_DIRS})
 
 set(SRCS
    src/Dummy.cxx
@@ -48,10 +56,11 @@ set(HEADERS
 
 ROOT_GENERATE_DICTIONARY(G__RMA ${HEADERS} LINKDEF include/LinkDef.h)
 add_library(RadMapAna SHARED ${SRCS} G__RMA)
-#set_target_properties(RadMapAna
-#                      PROPERTIES
-#                      LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-target_link_libraries(RadMapAna ${ROOT_LIBRARIES}) 
+target_link_libraries(RadMapAna ${ROOT_LIBRARIES})
+                                #fmt::fmt
+                                #${Boost_LIBRARIES})
+
+#install(TARGETS RadMapAna ${INSTALL_OPTS})
 
 # Create main programs using the library
 
@@ -103,8 +112,8 @@ foreach(i RANGE ${count})
   list(GET EXE_SRCS ${i} src)
   list(GET EXE_NAMES ${i} name)
   add_executable(${name} ${src})
+  target_link_libraries(${name} RadMapAna)
   set_target_properties(${name}
                       PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-  target_link_libraries(${name} RadMapAna)
 endforeach()

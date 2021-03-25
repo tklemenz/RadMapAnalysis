@@ -72,19 +72,27 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   ==========================================================
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
+  std::vector<TH1F*> gainSpreadLayerVec{};
   for(Int_t i = 0; i<8; i++) {
     totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50));
+    gainSpreadLayerVec.emplace_back(new TH1F(Form("hGainDistL%i",i+1),Form("gain distribution layer %i",i+1),100,0,2));
   }
 
   std::vector<TH2D*> totPadiwaVec0{};
   std::vector<TH2D*> totPadiwaVec4{};
+  std::vector<TH1F*> gainSpreadPadiwaVec0{};
+  std::vector<TH1F*> gainSpreadPadiwaVec4{};
   for(auto& name : constants::padiwaNames) {
     totPadiwaVec0.emplace_back(new TH2D(Form("hToTPadiwa%s_C0",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50));
     totPadiwaVec4.emplace_back(new TH2D(Form("hToTPadiwa%s_C4",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50));
+    gainSpreadPadiwaVec0.emplace_back(new TH1F(Form("hGainDistPadiwa%s_C0",name.c_str()),Form("gain distribution padiwa %s",name.c_str()),100,0,2));
+    gainSpreadPadiwaVec4.emplace_back(new TH1F(Form("hGainDistPadiwa%s_C4",name.c_str()),Form("gain distribution padiwa %s",name.c_str()),100,0,2));
   }
 
   TH2D* gainMapHor = new TH2D("hGainHor","Gain Map Rel (horizontal); U; V",68,0,34,8,0,8);
   TH2D* gainMapVer = new TH2D("hGainVer","Gain Map Rel (vertical); U; V",68,0,34,8,0,8);
+
+  TH1F* gainDist = new TH1F("hGainDist","gain distribution",100,0,2);
 
   std::vector<TH1D*> totLayerGausMean{};
   std::vector<std::vector<Float_t>> fitContentLayer{};
@@ -198,33 +206,33 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       hist->FitSlicesY(0,2,33);                                                               // fit 1D distributions with gaus
       totLayerGausMean.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
       fout->WriteObject(totLayerGausMean.back(), totLayerGausMean.back()->GetName());         // write fit results to file
-      fitContentLayer.emplace_back(std::vector<Float_t>());                                        // prepare extraction of fit results
+      fitContentLayer.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
       for(Int_t i=0; i<totLayerGausMean.back()->GetSize(); i++) {
-        fitContentLayer.back().emplace_back((*totLayerGausMean.back())[i]);                        // extract fit results
+        fitContentLayer.back().emplace_back((*totLayerGausMean.back())[i]);                   // extract fit results
       }
       histCounter++;
     }
   }
 
-  for(auto& hist : totPadiwaVec0) {                                                             // loop over histos
-    fout->WriteObject(hist, hist->GetName());                                               // write ToT vs channel to file
-    hist->FitSlicesY(0,2,17);                                                               // fit 1D distributions with gaus
+  for(auto& hist : totPadiwaVec0) {                                                           // loop over histos
+    fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
+    hist->FitSlicesY(0,2,17);                                                                 // fit 1D distributions with gaus
     totPadiwaGausMean0.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
-    fout->WriteObject(totPadiwaGausMean0.back(), totPadiwaGausMean0.back()->GetName());         // write fit results to file
-    fitContentPadiwa0.emplace_back(std::vector<Float_t>());                                        // prepare extraction of fit results
+    fout->WriteObject(totPadiwaGausMean0.back(), totPadiwaGausMean0.back()->GetName());       // write fit results to file
+    fitContentPadiwa0.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
     for(Int_t i=0; i<totPadiwaGausMean0.back()->GetSize(); i++) {
-      fitContentPadiwa0.back().emplace_back((*totPadiwaGausMean0.back())[i]);                        // extract fit results
+      fitContentPadiwa0.back().emplace_back((*totPadiwaGausMean0.back())[i]);                 // extract fit results
     }
   }
 
-  for(auto& hist : totPadiwaVec4) {                                                             // loop over histos
-    fout->WriteObject(hist, hist->GetName());                                               // write ToT vs channel to file
-    hist->FitSlicesY(0,2,17);                                                               // fit 1D distributions with gaus
+  for(auto& hist : totPadiwaVec4) {                                                           // loop over histos
+    fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
+    hist->FitSlicesY(0,2,17);                                                                 // fit 1D distributions with gaus
     totPadiwaGausMean4.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
-    fout->WriteObject(totPadiwaGausMean4.back(), totPadiwaGausMean4.back()->GetName());         // write fit results to file
-    fitContentPadiwa4.emplace_back(std::vector<Float_t>());                                        // prepare extraction of fit results
+    fout->WriteObject(totPadiwaGausMean4.back(), totPadiwaGausMean4.back()->GetName());       // write fit results to file
+    fitContentPadiwa4.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
     for(Int_t i=0; i<totPadiwaGausMean4.back()->GetSize(); i++) {
-      fitContentPadiwa4.back().emplace_back((*totPadiwaGausMean4.back())[i]);                        // extract fit results
+      fitContentPadiwa4.back().emplace_back((*totPadiwaGausMean4.back())[i]);                 // extract fit results
     }
   }
 
@@ -284,6 +292,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     for (Int_t i=2;i<content.size()-1;i++) {
       calibOutput << refValue/content.at(i);
       calibOutput << ", ";
+      gainSpreadPadiwaVec0.at(fitIter)->Fill(content.at(i)/refValue);
     }
     calibOutput << "\n";
     fitIter++;
@@ -297,6 +306,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     for (Int_t i=2;i<content.size()-1;i++) {
       calibOutput << refValue/content.at(i);
       calibOutput << ", ";
+      gainSpreadPadiwaVec4.at(fitIter)->Fill(content.at(i)/refValue);
     }
     calibOutput << "\n";
     fitIter++;
@@ -312,41 +322,43 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       Float_t corrVal = refValue/content.at(i);
       calibOutput << corrVal;
       calibOutput << ", ";
+      gainSpreadLayerVec.at(fitIter)->Fill(1./corrVal);
+      gainDist->Fill(1./corrVal);
       Int_t layer = fitIter+1;
       Int_t maxLayerBin = 9;
       if (corrVal > 2) { binIter+=2; continue; }
       switch(layer) {
         case 1:
-          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, corrVal);
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
           break;
         case 2:
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
-          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
           break;
         case 3:
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
-          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
           break;
         case 4:
-          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, corrVal);
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
           break;
         case 5:
-          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, corrVal);
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
           break;
         case 6:
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
-          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
           break;
         case 7:
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
-          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
           break;
         case 8:
-          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, corrVal);
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
           break;
         default:
           printf("What happened?? layer: %i\n", layer);
@@ -371,6 +383,45 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   gainMapVer->GetZaxis()->SetRangeUser(0,2);
   gainMapVer->Draw("COLZ");
 
+
+  TCanvas *c5 = new TCanvas("cGainDistLayer","cGainDistLayer");
+  c5->DivideSquare(histCounter);
+
+  padIter = 1;
+  for(auto& hist : gainSpreadLayerVec) {
+    if(hist->GetEntries() == 0) { continue; }
+    c5->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c6 = new TCanvas("cGainDistPadiwa_C0","cGainDistPadiwa_C0");
+  c6->DivideSquare(8);
+
+  padIter = 1;
+  for(auto& hist : gainSpreadPadiwaVec0) {
+    c6->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c7 = new TCanvas("cGainDistPadiwa_C4","cGainDistPadiwa_C4");
+  c7->DivideSquare(8);
+
+  padIter = 1;
+  for(auto& hist : gainSpreadPadiwaVec4) {
+    c7->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  fout->WriteObject(c5, c5->GetName());
+  fout->WriteObject(c6, c6->GetName());
+  fout->WriteObject(c7, c7->GetName());
+  fout->WriteObject(gainDist, gainDist->GetName());
   fout->WriteObject(c4, c4->GetName());
 
   fout->Close();
@@ -378,8 +429,8 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
 int main(int argc, char** argv)
 {
-  char    inputFile0[512]="";
-  char    inputFile4[512]="";
+  char    inputFile0[1024]="";
+  char    inputFile4[1024]="";
   char    outputFile[512]="getModuleGain_output.root";
   ULong_t procNr=-1;
   char    outputCalib[512]="getModuleGain_output.txt";
@@ -391,10 +442,10 @@ int main(int argc, char** argv)
         ///TODO: write usage function
         exit(EXIT_FAILURE);
       case 'i':
-        strncpy(inputFile0, optarg, 512);
+        strncpy(inputFile0, optarg, 1024);
         break;
       case 'j':
-        strncpy(inputFile4, optarg, 512);
+        strncpy(inputFile4, optarg, 1024);
         break;
       case 'o':
         strncpy(outputFile, optarg, 512);

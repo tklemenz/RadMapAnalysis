@@ -63,12 +63,14 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
   for(Int_t i = 0; i<8; i++) {
-    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50));
+    if ( i == 7 ) { totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,200,0,20)); }
+    else { totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50)); }
   }
 
   std::vector<TH2D*> totPadiwaVec{};
   for(auto& name : constants::padiwaNames) {
-    totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50));
+    if ( name == "1530_0" ) { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,200,0,20)); }
+    else { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50)); }
   }
 
   std::vector<TH1D*> totLayerGausMean{};
