@@ -65,9 +65,12 @@ void plotCTSEvent(const TString inputFiles, const char *outputFile, ULong_t proc
     outputName.append(fileHandling::splitString(fileHandling::splitString(inputFiles.Data()).back().data(), ".").front().data());
     outputName.append(".root");
   }
-  else { outputName = outputFile; }
+  else { 
+    outputName = fileHandling::splitString(fileHandling::splitString(outputFile).back().data(), ".").front().data();
+    outputName.append(".root");
+  }
 
-  TFile *fout = new TFile(Form("%s.root", outputName.c_str()));
+  TFile *fout = new TFile(Form("%s", outputName.c_str()), "recreate");
 
   for (Int_t ifile=0; ifile<files->GetEntriesFast(); ++ifile){
     TFile *EventFile = new TFile(Form("%s", files->At(ifile)->GetTitle()));

@@ -22,7 +22,7 @@
 
 extern char* optarg;
 
-static Int_t   totCut = 4;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
+static Int_t   totCut = 0;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
 static Float_t synchrotronTimeWindow = 4.2; // 3 sigma von da Vadeilung
 static Int_t   spaceCut = 2;
 static Int_t   fiberLowerCut = 0;
@@ -161,13 +161,27 @@ void getEfficiencyFromConfig0(const TString inputFiles, const char *outputFile, 
   std::vector<TH1I*> eventQualityVsDistVecL2{};
   std::vector<TH1I*> eventQualityVsDistVecL3{};
   std::vector<TH1I*> eventQualityVsDistVecL4{};
+  std::vector<TH2D*> totVsDistVecL1{};
+  std::vector<TH2D*> totVsDistVecL2{};
+  std::vector<TH2D*> totVsDistVecL3{};
+  std::vector<TH2D*> totVsDistVecL4{};
   for(auto& dist : distNames) {
     eventQualityVsDistVec.emplace_back(new TH1I(Form("hEventQuality_%s",dist.c_str()),"Multiplicity indicator;bin nr;counts",4,0,4));
     eventQualityVsDistVecL1.emplace_back(new TH1I(Form("hEventQualityL1_%s",dist.c_str()),Form("Multiplicity indicator %s;bin nr;counts", dist.c_str()),4,0,4));
     eventQualityVsDistVecL2.emplace_back(new TH1I(Form("hEventQualityL2_%s",dist.c_str()),Form("Multiplicity indicator %s;bin nr;counts", dist.c_str()),4,0,4));
     eventQualityVsDistVecL3.emplace_back(new TH1I(Form("hEventQualityL3_%s",dist.c_str()),Form("Multiplicity indicator %s;bin nr;counts", dist.c_str()),4,0,4));
     eventQualityVsDistVecL4.emplace_back(new TH1I(Form("hEventQualityL4_%s",dist.c_str()),Form("Multiplicity indicator %s;bin nr;counts", dist.c_str()),4,0,4));
+    totVsDistVecL1.emplace_back(new TH2D(Form("hToTL1_%s", dist.c_str()),Form("ToT distribution vs fiber in L1, %s;fiber;ToT", dist.c_str()),33,0,33,500,0,50));
+    totVsDistVecL2.emplace_back(new TH2D(Form("hToTL2_%s", dist.c_str()),Form("ToT distribution vs fiber in L2, %s;fiber;ToT", dist.c_str()),33,0,33,500,0,50));
+    totVsDistVecL3.emplace_back(new TH2D(Form("hToTL3_%s", dist.c_str()),Form("ToT distribution vs fiber in L3, %s;fiber;ToT", dist.c_str()),33,0,33,500,0,50));
+    totVsDistVecL4.emplace_back(new TH2D(Form("hToTL4_%s", dist.c_str()),Form("ToT distribution vs fiber in L4, %s;fiber;ToT", dist.c_str()),33,0,33,500,0,50));
   }
+
+  for(auto& hist : totVsDistVecL1) { beautify::setStyleHisto<TH2>(hist); }
+  for(auto& hist : totVsDistVecL2) { beautify::setStyleHisto<TH2>(hist); }
+  for(auto& hist : totVsDistVecL3) { beautify::setStyleHisto<TH2>(hist); }
+  for(auto& hist : totVsDistVecL4) { beautify::setStyleHisto<TH2>(hist); }
+  for(auto& hist : totLayerVec)    { beautify::setStyleHisto<TH2>(hist); }
 
   TH3D* hTimeDiffDistMultL2 = new TH3D("hTimeDiffDistMultL2","TimeDiff btw L1 and L2 vs L1 sig number;sig nr;time diff",50,0,50,40,-25,25, 1.7e4, 0, 1.7e4);
   TH3D* hTimeDiffDistMultL3 = new TH3D("hTimeDiffDistMultL3","TimeDiff btw L1 and L3 vs L1 sig number;sig nr;time diff",50,0,50,40,-25,25, 1.7e4, 0, 1.7e4);
@@ -263,7 +277,7 @@ void getEfficiencyFromConfig0(const TString inputFiles, const char *outputFile, 
                 nSigCounterPerLayer.at(1) += 1;
                 break;
               case 3:
-                if ( signal.getPadiwaConfig()==0 && fiberNr == 11 ) { continue; }
+                if ( signal.getConfiguration()==0 && fiberNr == 11 ) { continue; }
                 sigBufferL3.emplace_back(signal);
                 if (!foundLayer1Sig) { continue; }
                 totLayerVec.at(2)->Fill(fiberNr, ToT);
@@ -410,6 +424,11 @@ void getEfficiencyFromConfig0(const TString inputFiles, const char *outputFile, 
             eventQualityVsDistVecL2.at(std::get<1>(dists))->Fill(1);
             eventQualityVsDistVecL3.at(std::get<0>(dists))->Fill(1);
             eventQualityVsDistVecL4.at(std::get<1>(dists))->Fill(1);
+            totVsDistVecL1.at(std::get<0>(dists))->Fill(fiberNr1, hits.at(0).at(0).getToT());
+            totVsDistVecL2.at(std::get<1>(dists))->Fill(fiberNr2, hits.at(1).at(0).getToT());
+            totVsDistVecL3.at(std::get<0>(dists))->Fill(fiberNr3, hits.at(2).at(0).getToT());
+            totVsDistVecL4.at(std::get<1>(dists))->Fill(fiberNr4, hits.at(3).at(0).getToT());
+
           } // space cut is good --> nice track
           else { 
             hEventQuality2->Fill(2);
@@ -685,10 +704,55 @@ void getEfficiencyFromConfig0(const TString inputFiles, const char *outputFile, 
     padIter++;
   }
 
+  TCanvas *c8 = new TCanvas("cToTvsDistL1","cToTVsDistL1");
+  c8->DivideSquare(8);
+  padIter = 1;
+  for(auto& hist : totVsDistVecL1) {
+    c8->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c9 = new TCanvas("cToTvsDistL2","cToTVsDistL2");
+  c9->DivideSquare(8);
+  padIter = 1;
+  for(auto& hist : totVsDistVecL2) {
+    c9->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c10 = new TCanvas("cToTvsDistL3","cToTVsDistL3");
+  c10->DivideSquare(8);
+  padIter = 1;
+  for(auto& hist : totVsDistVecL3) {
+    c10->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
+  TCanvas *c11 = new TCanvas("cToTvsDistL4","cToTVsDistL4");
+  c11->DivideSquare(8);
+  padIter = 1;
+  for(auto& hist : totVsDistVecL4) {
+    c11->cd(padIter);
+    gPad->SetLogz();
+    hist->Draw("COLZ");
+    padIter++;
+  }
+
   fout->WriteObject(c4, c4->GetName());
   fout->WriteObject(c5, c5->GetName());
   fout->WriteObject(c6, c6->GetName());
   fout->WriteObject(c7, c7->GetName());
+  fout->WriteObject(c8, c8->GetName());
+  fout->WriteObject(c9, c9->GetName());
+  fout->WriteObject(c10, c10->GetName());
+  fout->WriteObject(c11, c11->GetName());
+
   fout->Close();
 
   printf("\n\nhEventquality 0: Number of events with exactly one signal on three layers, meeting time cuts, but no signal on the other layer:\n%s%i%s\n\n", text::BOLD,bin0Counter,text::RESET);

@@ -28,7 +28,7 @@
 extern char* optarg;
 
 static Int_t   totCut = 5;   // cut away all signals with ToT<totCut to get rid of possible bias for gaus fit
-static Float_t pullTo = 15;  // calib value that is written to file is pullTo/gausMean
+static Float_t pullTo = 24;  // calib value that is written to file is pullTo/gausMean (15 for pions, 24 for fully penetrating )
 
 void getToTCalibrationValues(const TString inputFiles, const char *outputFile, const char *outputCalib, ULong_t procNr)
 {
@@ -72,6 +72,11 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
     if ( name == "1530_0" ) { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,200,0,20)); }
     else { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50)); }
   }
+
+  TH1F* meanToTDist1 = new TH1F("hMeanToTDistL1","mean ToT distribution",300,0,30);
+  TH1F* meanToTDist2 = new TH1F("hMeanToTDistL2","mean ToT distribution",300,0,30);
+  TH1F* meanToTDist3 = new TH1F("hMeanToTDistL3","mean ToT distribution",300,0,30);
+  TH1F* meanToTDist4 = new TH1F("hMeanToTDistL4","mean ToT distribution",300,0,30);
 
   std::vector<TH1D*> totLayerGausMean{};
   std::vector<std::vector<Float_t>> fitContentLayer{};
@@ -186,18 +191,75 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
 
   fout->Close();
 
+  // get mean of measured values --> refValue for calibration
+  Int_t fitIter = 0;
+  for (auto& content : fitContentLayer) {
+    for (Int_t i=2;i<content.size()-1;i++) {
+      if (fitIter == 0) {
+        meanToTDist1->Fill(content.at(i));
+      }
+      else if (fitIter == 1 && (i%2)) {
+        meanToTDist2->Fill(content.at(i));
+      }
+      else if (fitIter == 2) {
+        if (i != 12) {
+          meanToTDist3->Fill(content.at(i));
+        }
+      }
+      else if (fitIter == 3) {
+        meanToTDist4->Fill(content.at(i));
+      }
+      else {printf("what?\n");}
+    }
+    fitIter++;
+  }
+
+  float meanL1 = meanToTDist1->GetMean();
+  float meanL2 = meanToTDist2->GetMean();
+  float meanL3 = meanToTDist3->GetMean();
+  float meanL4 = meanToTDist4->GetMean();
+
   // write fit results to file
   std::ofstream calibOutput;
   calibOutput.open(outputCalib);
   calibOutput << "This file contains calibration corrections in Padiwa and Fiber (in layer) mapping.";
   calibOutput << "Multiply the value for each fiber with the uncalibrated ToT value to pull everything to 15 ns.\n";
   calibOutput << "DO NOT FORGET TO REMOVE THE LAST COMMA FOR EACH PADIWA/LAYER!!!\n";
-  Int_t fitIter = 0;
+  fitIter = 0;
 
   for (auto& content : fitContentPadiwa) {
     calibOutput << "Padiwa ";
     calibOutput << constants::padiwaNames.at(fitIter);
     calibOutput << "\n";
+    switch(fitIter) {
+      case 0:
+        pullTo = meanL1;
+        break;
+      case 1:
+        pullTo = meanL1;
+        break;
+      case 2:
+        pullTo = meanL2;
+        break;
+      case 3:
+        pullTo = meanL2;
+        break;
+      case 4:
+        pullTo = meanL3;
+        break;
+      case 5:
+        pullTo = meanL3;
+        break;
+      case 6:
+        pullTo = meanL4;
+        break;
+      case 7:
+        pullTo = meanL4;
+        break;
+      default:
+        printf("What in case?\n");
+        break;
+    }
     for (Int_t i=2;i<content.size()-1;i++) {
       calibOutput << pullTo/content.at(i);
       calibOutput << ", ";
@@ -211,6 +273,23 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
     calibOutput << "Layer ";
     calibOutput << layerMarker.at(fitIter);
     calibOutput << "\n";
+    switch(fitIter) {
+      case 0:
+        pullTo = meanL1;
+        break;
+      case 1:
+        pullTo = meanL2;
+        break;
+      case 2:
+        pullTo = meanL3;
+        break;
+      case 3:
+        pullTo = meanL4;
+        break;
+      default:
+        printf("What in case?\n");
+        break;
+    }
     for (Int_t i=2;i<content.size()-1;i++) {
       calibOutput << pullTo/content.at(i);
       calibOutput << ", ";

@@ -2,6 +2,7 @@
 #include <TFile.h>
 #include <TH1.h>
 #include <TH2.h>
+#include <TF1.h>
 #include <Rtypes.h>
 #include <TCanvas.h>
 #include <TNtupleD.h>
@@ -14,6 +15,7 @@
 #include <iomanip>
 #include <unistd.h>
 #include <map>
+#include <math.h>
 
 #include "Utility.h"
 #include "Constants.h"
@@ -68,13 +70,15 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
   ULong_t nEvents       =  0;
 
+  Float_t refValue      =  0;
+
   /* Define histograms and other useful containers
   ==========================================================
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
   std::vector<TH1F*> gainSpreadLayerVec{};
   for(Int_t i = 0; i<8; i++) {
-    totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50));
+    totLayerVec.emplace_back(new TH2D(Form("hSigL%i",i+1),"amplitude distribution vs fiber;fiber;amplitude [mV]",33,0,33,1500,0,150));
     gainSpreadLayerVec.emplace_back(new TH1F(Form("hGainDistL%i",i+1),Form("gain distribution layer %i",i+1),100,0,2));
   }
 
@@ -83,16 +87,26 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   std::vector<TH1F*> gainSpreadPadiwaVec0{};
   std::vector<TH1F*> gainSpreadPadiwaVec4{};
   for(auto& name : constants::padiwaNames) {
-    totPadiwaVec0.emplace_back(new TH2D(Form("hToTPadiwa%s_C0",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50));
-    totPadiwaVec4.emplace_back(new TH2D(Form("hToTPadiwa%s_C4",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50));
+    totPadiwaVec0.emplace_back(new TH2D(Form("hSigPadiwa%s_C0",name.c_str()),"amplitude distribution vs padiwa channel;channel;amplitude [mV]",17,0,17,1500,0,150));
+    totPadiwaVec4.emplace_back(new TH2D(Form("hSigPadiwa%s_C4",name.c_str()),"amplitude distribution vs padiwa channel;channel;amplitude [mV]",17,0,17,1500,0,150));
     gainSpreadPadiwaVec0.emplace_back(new TH1F(Form("hGainDistPadiwa%s_C0",name.c_str()),Form("gain distribution padiwa %s",name.c_str()),100,0,2));
     gainSpreadPadiwaVec4.emplace_back(new TH1F(Form("hGainDistPadiwa%s_C4",name.c_str()),Form("gain distribution padiwa %s",name.c_str()),100,0,2));
   }
 
-  TH2D* gainMapHor = new TH2D("hGainHor","Gain Map Rel (horizontal); U; V",68,0,34,8,0,8);
-  TH2D* gainMapVer = new TH2D("hGainVer","Gain Map Rel (vertical); U; V",68,0,34,8,0,8);
+  TH2D* gainMapHor = new TH2D("hGainHor","Gain Map Rel (horizontal); U; V",68,0,34,8,0,8); beautify::setStyleHisto<TH2>(gainMapHor);
+  TH2D* gainMapVer = new TH2D("hGainVer","Gain Map Rel (vertical); U; V",68,0,34,8,0,8);   beautify::setStyleHisto<TH2>(gainMapVer);
 
-  TH1F* gainDist = new TH1F("hGainDist","gain distribution",100,0,2);
+  std::vector<TH1F*> meanToTDistVec0{};
+  std::vector<TH1F*> meanToTDistVec4{};
+  for(Int_t i = 0; i<8; i++) {
+    meanToTDistVec0.emplace_back(new TH1F(Form("hMeanToTDistL%i_C0", i+1),Form("mean ToT distribution L%i", i+1),1000,0,100));
+    meanToTDistVec4.emplace_back(new TH1F(Form("hMeanToTDistL%i_C4", i+1),Form("mean ToT distribution L%i", i+1),1000,0,100));
+  }
+
+  std::vector<TH1F*> meanToTDistVec{};
+  for(Int_t i = 0; i<8; i++) {
+    meanToTDistVec.emplace_back(new TH1F(Form("hMeanToTDistL%i", i+1),Form("mean ToT distribution L%i", i+1),1000,0,100));
+  }
 
   std::vector<TH1D*> totLayerGausMean{};
   std::vector<std::vector<Float_t>> fitContentLayer{};
@@ -143,6 +157,14 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
       if (signalNr != 1) { continue; }
       fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
+      if (layer == 3 && fiberNr == 11) { continue; }
+      if (layer == 3 && fiberNr == 30) { continue; }
+
+      ///This is a not really working conversion from ToT to signal height
+      //ToT = (ToT-8.46)/1.69;
+
+      ///This is from the proper measurement with single SiPM (positive signal) and threshold 100 for different light intensities
+      ToT = 0.667*exp(0.146*ToT);
 
       totPadiwaVec0.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);
@@ -185,6 +207,14 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
       if (signalNr != 1) { continue; }
       fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
+      if (layer == 3 && fiberNr == 11) { continue; }
+      if (layer == 3 && fiberNr == 30) { continue; }
+
+      ///This is a not really working conversion from ToT to signal height
+      //ToT = (ToT-8.46)/1.69;
+
+      ///This is from the proper measurement with single SiPM (positive signal) and threshold 100 for different light intensities
+      ToT = 0.667*exp(0.146*ToT);
 
       totPadiwaVec4.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);
@@ -194,6 +224,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   /// Create output file and get output content
   //===========================================
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
+  TF1* landau = new TF1("fit","landau",10,150);                /// CAUTION: If this macro is used for Pions, the lower limit should be lower than 10!!
 
   Int_t histCounter = 0;
   // loop over TH2D from above, fit 1D ToT distribution for all fibers and extract the mean value
@@ -203,7 +234,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     if(hist->GetEntries() != 0) {
       layerMarker.emplace_back(layerIter);                                                    // write down which layers are used
       fout->WriteObject(hist, hist->GetName());                                               // write ToT vs fiber to file
-      hist->FitSlicesY(0,2,33);                                                               // fit 1D distributions with gaus
+      hist->FitSlicesY(landau,2,33,0,"QNR");                                                               // fit 1D distributions with gaus
       totLayerGausMean.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
       fout->WriteObject(totLayerGausMean.back(), totLayerGausMean.back()->GetName());         // write fit results to file
       fitContentLayer.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
@@ -216,7 +247,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
   for(auto& hist : totPadiwaVec0) {                                                           // loop over histos
     fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
-    hist->FitSlicesY(0,2,17);                                                                 // fit 1D distributions with gaus
+    hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
     totPadiwaGausMean0.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
     fout->WriteObject(totPadiwaGausMean0.back(), totPadiwaGausMean0.back()->GetName());       // write fit results to file
     fitContentPadiwa0.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
@@ -227,7 +258,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
   for(auto& hist : totPadiwaVec4) {                                                           // loop over histos
     fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
-    hist->FitSlicesY(0,2,17);                                                                 // fit 1D distributions with gaus
+    hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
     totPadiwaGausMean4.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
     fout->WriteObject(totPadiwaGausMean4.back(), totPadiwaGausMean4.back()->GetName());       // write fit results to file
     fitContentPadiwa4.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
@@ -274,6 +305,34 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   fout->WriteObject(c2, c2->GetName());
   fout->WriteObject(c3, c3->GetName());
 
+  // get mean of measured values --> refValue for calibration
+  Int_t fitIter = 0;
+  for (auto& content : fitContentLayer) {
+    for (Int_t i=2;i<content.size()-1;i++) {
+      if (content.at(i) == 0) { continue; }
+        meanToTDistVec.at(fitIter)->Fill(content.at(i));
+      }
+    fitIter++;
+  }
+
+  fitIter = 0;
+  for (auto& content : fitContentPadiwa0) {
+    for (Int_t i=2;i<content.size()-1;i++) {
+      if (content.at(i) == 0) { continue; }
+        meanToTDistVec0.at(fitIter)->Fill(content.at(i));
+      }
+    fitIter++;
+  }
+
+  fitIter = 0;
+  for (auto& content : fitContentPadiwa4) {
+    for (Int_t i=2;i<content.size()-1;i++) {
+      if (content.at(i) == 0) { continue; }
+        meanToTDistVec4.at(fitIter)->Fill(content.at(i));
+      }
+    fitIter++;
+  }
+
   // write fit results to file
   std::ofstream calibOutput;
   calibOutput.open(outputCalib);
@@ -281,16 +340,18 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   calibOutput << "Multiply the value for each fiber with the padiwa gain calibrated ToT value.\n";
   calibOutput << "DO NOT FORGET TO REMOVE THE LAST COMMA FOR EACH PADIWA/LAYER!!!\n\n\n";
   calibOutput << "Measurement with padiwa config 0:\n";
-  Int_t fitIter = 0;
+  
 
-  Float_t refValue = fitContentPadiwa0.at(0).at(2);
+  //Float_t refValue = fitContentPadiwa0.at(0).at(2);
+  fitIter = 0;
 
   for (auto& content : fitContentPadiwa0) {
     calibOutput << "Padiwa ";
     calibOutput << constants::padiwaNames.at(fitIter);
     calibOutput << "\n";
+    refValue = meanToTDistVec0.at(fitIter)->GetMean();
     for (Int_t i=2;i<content.size()-1;i++) {
-      calibOutput << refValue/content.at(i);
+      calibOutput << content.at(i)/refValue;
       calibOutput << ", ";
       gainSpreadPadiwaVec0.at(fitIter)->Fill(content.at(i)/refValue);
     }
@@ -303,8 +364,9 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     calibOutput << "Padiwa ";
     calibOutput << constants::padiwaNames.at(fitIter);
     calibOutput << "\n";
+    refValue = meanToTDistVec4.at(fitIter)->GetMean();
     for (Int_t i=2;i<content.size()-1;i++) {
-      calibOutput << refValue/content.at(i);
+      calibOutput << content.at(i)/refValue;
       calibOutput << ", ";
       gainSpreadPadiwaVec4.at(fitIter)->Fill(content.at(i)/refValue);
     }
@@ -317,48 +379,49 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     calibOutput << "Layer ";
     calibOutput << layerMarker.at(fitIter);
     calibOutput << "\n";
+    refValue = meanToTDistVec.at(fitIter)->GetMean();
     Int_t binIter = 1;
     for (Int_t i=2;i<content.size()-1;i++) {
-      Float_t corrVal = refValue/content.at(i);
+      Float_t corrVal = content.at(i)/refValue;
       calibOutput << corrVal;
       calibOutput << ", ";
-      gainSpreadLayerVec.at(fitIter)->Fill(1./corrVal);
-      gainDist->Fill(1./corrVal);
+      gainSpreadLayerVec.at(fitIter)->Fill(corrVal);
+      //meanToTDist->Fill(corrVal);
       Int_t layer = fitIter+1;
       Int_t maxLayerBin = 9;
-      if (corrVal > 2) { binIter+=2; continue; }
+      if (corrVal == 0) { binIter+=2; continue; }
       switch(layer) {
         case 1:
-          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
           break;
         case 2:
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
-          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
           break;
         case 3:
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
-          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
           break;
         case 4:
-          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
           break;
         case 5:
-          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
           break;
         case 6:
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
-          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
           break;
         case 7:
-          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
-          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, 1./corrVal);
+          gainMapHor->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
+          gainMapHor->SetBinContent(binIter+2, maxLayerBin-layer, corrVal);
           break;
         case 8:
-          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, 1./corrVal);
-          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, 1./corrVal);
+          gainMapVer->SetBinContent(binIter, maxLayerBin-layer, corrVal);
+          gainMapVer->SetBinContent(binIter+1, maxLayerBin-layer, corrVal);
           break;
         default:
           printf("What happened?? layer: %i\n", layer);
@@ -418,11 +481,34 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     padIter++;
   }
 
+  TCanvas *c9 = new TCanvas("cMeanSigDist","cMeanSigDist");
+  c9->DivideSquare(8);
+
+  padIter = 1;
+  for(auto& hist : meanToTDistVec) {
+    c9->cd(padIter);
+    padIter++;
+    hist->Draw("COLZ");
+  }
+
   fout->WriteObject(c5, c5->GetName());
   fout->WriteObject(c6, c6->GetName());
   fout->WriteObject(c7, c7->GetName());
-  fout->WriteObject(gainDist, gainDist->GetName());
+  fout->WriteObject(c9, c9->GetName());
   fout->WriteObject(c4, c4->GetName());
+
+  TCanvas *c8 = new TCanvas("cGainMapModuleSmallerRange","cGainMapModuleSmallerRange");
+  c8->Divide(2,1);
+  c8->cd(1);
+  gainMapHor->SetStats(0);
+  gainMapHor->GetZaxis()->SetRangeUser(0.8,1.2);
+  gainMapHor->Draw("COLZ");
+  c8->cd(2);
+  gainMapVer->SetStats(0);
+  gainMapVer->GetZaxis()->SetRangeUser(0.8,1.2);
+  gainMapVer->Draw("COLZ");
+
+  fout->WriteObject(c8, c8->GetName());
 
   fout->Close();
 }

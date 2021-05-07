@@ -83,6 +83,7 @@ set(EXE_SRCS
     macros/getEfficiencyFromConfig2.C
     macros/applyPadiwaGainCorrectionToSignals.C
     macros/getModuleGain.C
+    macros/compareGainMaps.C
     )
 
 set(EXE_NAMES
@@ -97,13 +98,14 @@ set(EXE_NAMES
     plotClusterEvent
     convertToClusterEvents
     plotCtsEventCluster
-    getToTCalibrationValuesForPionData
+    getToTCalibrationValues
     convertToCalibratedCTSEvents
     getPadiwaGainMap
     getEfficiencyFromConfig0
     getEfficiencyFromConfig2
     applyPadiwaGainCorrectionToSignals
     getModuleGain
+    compareGainMaps
     )
 
 list(LENGTH EXE_SRCS count)
