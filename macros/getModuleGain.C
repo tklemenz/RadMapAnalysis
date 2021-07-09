@@ -164,7 +164,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       //ToT = (ToT-8.46)/1.69;
 
       ///This is from the proper measurement with single SiPM (positive signal) and threshold 100 for different light intensities
-      ToT = 0.667*exp(0.146*ToT);
+      //ToT = 0.667*exp(0.146*ToT);
 
       totPadiwaVec0.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);
@@ -214,7 +214,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       //ToT = (ToT-8.46)/1.69;
 
       ///This is from the proper measurement with single SiPM (positive signal) and threshold 100 for different light intensities
-      ToT = 0.667*exp(0.146*ToT);
+      //ToT = 0.667*exp(0.146*ToT);
 
       totPadiwaVec4.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);
@@ -224,7 +224,7 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
   /// Create output file and get output content
   //===========================================
   TFile *fout = new TFile(Form("%s",outputFile),"recreate");
-  TF1* landau = new TF1("fit","landau",10,150);                /// CAUTION: If this macro is used for Pions, the lower limit should be lower than 10!!
+  //TF1* landau = new TF1("fit","landau",10,150);                /// CAUTION: If this macro is used for Pions, the lower limit should be lower than 10!!
 
   Int_t histCounter = 0;
   // loop over TH2D from above, fit 1D ToT distribution for all fibers and extract the mean value
@@ -234,7 +234,8 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
     if(hist->GetEntries() != 0) {
       layerMarker.emplace_back(layerIter);                                                    // write down which layers are used
       fout->WriteObject(hist, hist->GetName());                                               // write ToT vs fiber to file
-      hist->FitSlicesY(landau,2,33,0,"QNR");                                                               // fit 1D distributions with gaus
+      //hist->FitSlicesY(landau,2,33,0,"QNR");                                                               // fit 1D distributions with gaus
+      hist->FitSlicesY(0,2,33);
       totLayerGausMean.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
       fout->WriteObject(totLayerGausMean.back(), totLayerGausMean.back()->GetName());         // write fit results to file
       fitContentLayer.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
@@ -247,7 +248,8 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
   for(auto& hist : totPadiwaVec0) {                                                           // loop over histos
     fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
-    hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
+    //hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
+    hist->FitSlicesY(0,2,17);
     totPadiwaGausMean0.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
     fout->WriteObject(totPadiwaGausMean0.back(), totPadiwaGausMean0.back()->GetName());       // write fit results to file
     fitContentPadiwa0.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results
@@ -258,7 +260,8 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
 
   for(auto& hist : totPadiwaVec4) {                                                           // loop over histos
     fout->WriteObject(hist, hist->GetName());                                                 // write ToT vs channel to file
-    hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
+    //hist->FitSlicesY(landau,2,17,0,"QNR");                                                                 // fit 1D distributions with gaus
+    hist->FitSlicesY(0,2,17);
     totPadiwaGausMean4.emplace_back((TH1D*)gDirectory->Get(Form("%s_1", hist->GetName())));   // get fit mean values (written to 1D histos)
     fout->WriteObject(totPadiwaGausMean4.back(), totPadiwaGausMean4.back()->GetName());       // write fit results to file
     fitContentPadiwa4.emplace_back(std::vector<Float_t>());                                   // prepare extraction of fit results

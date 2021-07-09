@@ -28,7 +28,7 @@
 
 extern char* optarg;
 
-void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFile, const char *dataType, ULong_t procNr)
+void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFile, const char *dataType, const char *outputType, ULong_t procNr)
 {
   TChain chain("Signals", "Signals");
   fileHandling::makeChain(chain, inputFiles);
@@ -42,6 +42,15 @@ void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFi
   else if ( std::string(dataType) == std::string("protons") ) { type = ParticleType::Proton; }
   else { 
     printf("Invalid data type: chose either 'pions' or 'protons'!\n");
+    return;
+  }
+
+  Int_t outputFormat = -1;
+
+  if ( std::string(outputType) == std::string("amplitude") ) { outputFormat = 0; }
+  else if ( std::string(outputType) == std::string("tot") ) { outputFormat = 1; }
+  else {
+    printf("Invalid output format: chose either 'amplitude' or 'tot'!\n");
     return;
   }
 
@@ -136,18 +145,43 @@ void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFi
 
       ToT = ToT*1e9;
 
-      if (type==ParticleType::Pion) {
-        totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
-                   constants::testModuleGainMapping.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
-                 //constants::moduleGainConfigMap.at(Int_t(padiwaConfig)).at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
-                 ///(Int_t(layer) < 5 ? constants::testModuleGainCorrL14.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
-                 ///                  : constants::testModuleGainCorrL58.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));
+      if (outputFormat == 0) {
+        if (type==ParticleType::Pion) {
+          totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
+                     constants::testModuleGainMapping.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
+                   //constants::moduleGainConfigMap.at(Int_t(padiwaConfig)).at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
+                   ///(Int_t(layer) < 5 ? constants::testModuleGainCorrL14.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                   ///                  : constants::testModuleGainCorrL58.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));
+        }
+        else if (type==ParticleType::Proton) {
+          totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
+                     constants::testModuleGainMappingProtons.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
+        }
+        else {
+          printf("What?\n");
+          return;
+        }
       }
-      else if (type==ParticleType::Proton) {
-        totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
-                   constants::testModuleGainMappingProtons.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
+      else if (outputFormat == 1) {
+        if (type==ParticleType::Pion) {
+          totCalib = ToT*
+                     constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID)))/
+                     constants::testModuleGainMappingToT.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
+                   //constants::moduleGainConfigMap.at(Int_t(padiwaConfig)).at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
+                   ///(Int_t(layer) < 5 ? constants::testModuleGainCorrL14.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                   ///                  : constants::testModuleGainCorrL58.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));
+        }
+        else if (type==ParticleType::Proton) {
+          totCalib = ToT*
+                     constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID)))/
+                     constants::testModuleGainMappingProtonsToT.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
+        }
+        else {
+          printf("What?\n");
+          return;
+        }
       }
-      else {
+      else { 
         printf("What?\n");
         return;
       }
@@ -220,19 +254,20 @@ void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFi
 
 int main(int argc, char** argv)
 {
-  char    inputFiles[512]="";
+  char    inputFiles[1024]="";
   char    outputFile[512]="convertToCalibratedCTSEvents_output.root";
   char    dataType[512]="pions";
+  char    outputType[512]="amplitude";
   ULong_t procNr=-1;
 
   int argsforloop;
-  while ((argsforloop = getopt(argc, argv, "hi:o:n:t:")) != -1) {
+  while ((argsforloop = getopt(argc, argv, "hi:o:n:t:c:")) != -1) {
     switch (argsforloop) {
       case '?':
         ///TODO: write usage function
         exit(EXIT_FAILURE);
       case 'i':
-        strncpy(inputFiles, optarg, 512);
+        strncpy(inputFiles, optarg, 1024);
         break;
       case 'o':
         strncpy(outputFile, optarg, 512);
@@ -243,6 +278,9 @@ int main(int argc, char** argv)
       case 't':
         strncpy(dataType, optarg, 512);
         break;
+      case 'c':
+        strncpy(outputType, optarg, 512);
+        break;
       default:
         printf("\n\n%s%sdefault case%s\n\n",text::BOLD,text::RED,text::RESET);
         exit(EXIT_FAILURE);
@@ -251,7 +289,7 @@ int main(int argc, char** argv)
 
   printf("\n\n%sRunning convertToCalibratedCTSEvents%s\n\n",text::BOLD,text::RESET);
   
-  convertToCalibratedCTSEvents(inputFiles,outputFile,dataType,procNr);
+  convertToCalibratedCTSEvents(inputFiles,outputFile,dataType,outputType,procNr);
 
   printf("\n\n%s%sDONE!%s\n\n",text::BOLD,text::GRN,text::RESET);
 }

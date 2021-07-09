@@ -28,23 +28,23 @@ namespace constants
   /// calibration data for module gain in padiwa mapping for all configs
   /// This data is from the 15ns at thr 100 measurement
   /// This is THE CLOSEST TO PROPER DATA for now
-  /*const std::vector<Float_t> evenL1{0, 1.00516, 0.941679, 0.996602, 0.938697, 1.01379, 0.994034, 0.994879, 0.996319, 0.946602, 0.882979, 1.03918, 0.942259, 0.965832, 0.970083, 1.03512, 0.851115};
-  const std::vector<Float_t> oddL1 {0, 0.94986, 1.00739, 0.988728, 0.940524, 0.97609, 0.976223, 0.969559, 1.04073, 1.00081, 1.00317, 1.16354, 0.938339, 1.01191, 0.966649, 1.07643, 1.01527};
-  const std::vector<Float_t> oddL2 {0, 0.908184, 0.949028, 0.92109, 0.893274, 0.932635, 0.929634, 0.937754, 0.990187, 0.997177, 0.966501, 1.02128, 0.995851, 0.927551, 0.96848, 1.02195, 0.931882};
-  const std::vector<Float_t> evenL2{0, 0.945002, 0.951931, 1.01478, 0.977148, 1.05317, 0.979843, 0.94933, 1.02897, 1.07494, 1.00003, 1.12496, 1.06775, 1.00971, 1.05834, 1.06241, 1.06273};
-  const std::vector<Float_t> evenL3{0, 1.01542, 1.23263, 0.895245, 0.987732, 1.0101, 1.03212, 1.00866, 0.941641, 0.932012, 1.00862, 1.08677, 1.00308, 0.95071, 1.01135, 1.10522, 1.12427};
-  const std::vector<Float_t> oddL3 {0, 1.10627, 1.08424, 1.07899, 1.03873, 1.06802, 0.483441, 1.07209, 1.09021, 1.05284, 0.97325, 1.09269, 0.993522, 0.926955, 0.948832, 1.1241, 1.04274};
-  const std::vector<Float_t> oddL4 {0, 0.913229, 1.0021, 0.881695, 0.95427, 0.95506, 1.03781, 1.05169, 1.05813, 0.962686, 0.968182, 0.996458, 0.924963, 1.00067, 0.969411, 1.00694, 0.999656};
-  const std::vector<Float_t> evenL4{0, 1.06056, 1.01423, 0.989278, 1.00159, 1.0136, 0.982428, 0.987113, 0.995313, 0.968752, 1.03315, 1.06416, 0.896475, 0.879519, 1.03789, 1.06975, 0.973459};
-  const std::vector<Float_t> evenL5{0, 0.912107, 0.889598, 0.914224, 0.90943, 0.971451, 0.988836, 1.0443, 1.03953, 1.00065, 0.956255, 1.02575, 0.929022, 0.98261, 0.932769, 0.977462, 0.86774};
-  const std::vector<Float_t> oddL5 {0, 0.98678, 1.00556, 1.06211, 1.00376, 1.05522, 1.01811, 1.04177, 1.04512, 1.09802, 0.994241, 1.08788, 0.984737, 1.01599, 1.05191, 1.06833, 1.02827};
-  const std::vector<Float_t> oddL6 {0, 0.959972, 0.934731, 0.963809, 0.906432, 0.936054, 0.945976, 0.924591, 0.995694, 1.07502, 0.98929, 1.05085, 0.926802, 1.00291, 0.985536, 1.03092, 0.956101};
-  const std::vector<Float_t> evenL6{0, 1.03408, 0.965469, 1.01513, 0.945288, 1.03217, 0.978094, 1.02998, 1.0536, 1.0775, 0.966887, 1.11681, 0.947012, 1.02298, 1.00713, 1.01149, 0.9881};
-  const std::vector<Float_t> evenL7{0, 0.919742, 0.946011, 0.923928, 0.954334, 0.979316, 1.04481, 1.01167, 1.09111, 1.04175, 1.02009, 1.01209, 0.941175, 0.964628, 0.928821, 0.997715, 1.01764};
-  const std::vector<Float_t> oddL7 {0, 1.09672, 1.09313, 1.05305, 1.09032, 1.0704, 1.04564, 1.04069, 1.08907, 1.11753, 1.03083, 1.12229, 1.04372, 1.01708, 1.06314, 1.12293, 1.09072};
-  const std::vector<Float_t> oddL8 {0, 0.92899, 0.918904, 0.960584, 0.889824, 0.958196, 0.942646, 0.935016, 1.01289, 1.02634, 0.988673, 1.09515, 0.900691, 0.986994, 0.970973, 1.00001, 0.890438};
-  const std::vector<Float_t> evenL8{0, 1.04468, 1.00414, 1.03164, 1.00093, 1.02143, 0.982588, 1.05008, 1.06036, 1.04824, 0.944312, 1.07283, 0.904385, 0.946615, 0.991677, 0.971468, 0.987926};
-*/
+  const std::vector<Float_t> evenL1ToT{0, 1.00516, 0.941679, 0.996602, 0.938697, 1.01379, 0.994034, 0.994879, 0.996319, 0.946602, 0.882979, 1.03918, 0.942259, 0.965832, 0.970083, 1.03512, 0.851115};
+  const std::vector<Float_t> oddL1ToT {0, 0.94986, 1.00739, 0.988728, 0.940524, 0.97609, 0.976223, 0.969559, 1.04073, 1.00081, 1.00317, 1.16354, 0.938339, 1.01191, 0.966649, 1.07643, 1.01527};
+  const std::vector<Float_t> oddL2ToT {0, 0.908184, 0.949028, 0.92109, 0.893274, 0.932635, 0.929634, 0.937754, 0.990187, 0.997177, 0.966501, 1.02128, 0.995851, 0.927551, 0.96848, 1.02195, 0.931882};
+  const std::vector<Float_t> evenL2ToT{0, 0.945002, 0.951931, 1.01478, 0.977148, 1.05317, 0.979843, 0.94933, 1.02897, 1.07494, 1.00003, 1.12496, 1.06775, 1.00971, 1.05834, 1.06241, 1.06273};
+  const std::vector<Float_t> evenL3ToT{0, 1.01542, 1.23263, 0.895245, 0.987732, 1.0101, 1.03212, 1.00866, 0.941641, 0.932012, 1.00862, 1.08677, 1.00308, 0.95071, 1.01135, 1.10522, 1.12427};
+  const std::vector<Float_t> oddL3ToT {0, 1.10627, 1.08424, 1.07899, 1.03873, 1.06802, 0.483441, 1.07209, 1.09021, 1.05284, 0.97325, 1.09269, 0.993522, 0.926955, 0.948832, 1.1241, 1.04274};
+  const std::vector<Float_t> oddL4ToT {0, 0.913229, 1.0021, 0.881695, 0.95427, 0.95506, 1.03781, 1.05169, 1.05813, 0.962686, 0.968182, 0.996458, 0.924963, 1.00067, 0.969411, 1.00694, 0.999656};
+  const std::vector<Float_t> evenL4ToT{0, 1.06056, 1.01423, 0.989278, 1.00159, 1.0136, 0.982428, 0.987113, 0.995313, 0.968752, 1.03315, 1.06416, 0.896475, 0.879519, 1.03789, 1.06975, 0.973459};
+  const std::vector<Float_t> evenL5ToT{0, 0.912107, 0.889598, 0.914224, 0.90943, 0.971451, 0.988836, 1.0443, 1.03953, 1.00065, 0.956255, 1.02575, 0.929022, 0.98261, 0.932769, 0.977462, 0.86774};
+  const std::vector<Float_t> oddL5ToT {0, 0.98678, 1.00556, 1.06211, 1.00376, 1.05522, 1.01811, 1.04177, 1.04512, 1.09802, 0.994241, 1.08788, 0.984737, 1.01599, 1.05191, 1.06833, 1.02827};
+  const std::vector<Float_t> oddL6ToT {0, 0.959972, 0.934731, 0.963809, 0.906432, 0.936054, 0.945976, 0.924591, 0.995694, 1.07502, 0.98929, 1.05085, 0.926802, 1.00291, 0.985536, 1.03092, 0.956101};
+  const std::vector<Float_t> evenL6ToT{0, 1.03408, 0.965469, 1.01513, 0.945288, 1.03217, 0.978094, 1.02998, 1.0536, 1.0775, 0.966887, 1.11681, 0.947012, 1.02298, 1.00713, 1.01149, 0.9881};
+  const std::vector<Float_t> evenL7ToT{0, 0.919742, 0.946011, 0.923928, 0.954334, 0.979316, 1.04481, 1.01167, 1.09111, 1.04175, 1.02009, 1.01209, 0.941175, 0.964628, 0.928821, 0.997715, 1.01764};
+  const std::vector<Float_t> oddL7ToT {0, 1.09672, 1.09313, 1.05305, 1.09032, 1.0704, 1.04564, 1.04069, 1.08907, 1.11753, 1.03083, 1.12229, 1.04372, 1.01708, 1.06314, 1.12293, 1.09072};
+  const std::vector<Float_t> oddL8ToT {0, 0.92899, 0.918904, 0.960584, 0.889824, 0.958196, 0.942646, 0.935016, 1.01289, 1.02634, 0.988673, 1.09515, 0.900691, 0.986994, 0.970973, 1.00001, 0.890438};
+  const std::vector<Float_t> evenL8ToT{0, 1.04468, 1.00414, 1.03164, 1.00093, 1.02143, 0.982588, 1.05008, 1.06036, 1.04824, 0.944312, 1.07283, 0.904385, 0.946615, 0.991677, 0.971468, 0.987926};
+
 
   /// Module gain calibration from SiPM 100 threshold to signal height conversion and PION data
   const std::vector<Float_t> evenL1{0, 0.998188, 0.869224, 0.981296, 0.863594, 1.02523, 0.980131, 0.980386, 0.98999, 0.879023, 0.760695, 1.08153, 0.869402, 0.918262, 0.919989, 1.0778, 0.705153};
@@ -82,6 +82,22 @@ namespace constants
   const std::vector<Float_t> oddL8Protons {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
   const std::vector<Float_t> evenL8Protons{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
+  const std::vector<Float_t> evenL1ProtonsToT{0, 1.01057, 0.953287, 1.01332, 0.963765, 1.05319, 1.00536, 1.00369, 1.01998, 0.994007, 0.954093, 1.06204, 0.983873, 1.01299, 0.990267, 1.05762, 0.921947};
+  const std::vector<Float_t> oddL1ProtonsToT {0, 0.947272, 0.975039, 0.984596, 0.919836, 0.986507, 0.964551, 0.999916, 1.01587, 1.03925, 0.989569, 1.12761, 0.983562, 1.01648, 0.982304, 1.05264, 1.01499};
+  const std::vector<Float_t> oddL2ProtonsToT {0, 0.944598, 0.983725, 0.998393, 0.932759, 1.00009, 0.987515, 0.974722, 1.0142, 1.05672, 1.02421, 1.06627, 0.998378, 0.993601, 0.971039, 1.07449, 0.979308};
+  const std::vector<Float_t> evenL2ProtonsToT{0, 0.925113, 0.91317, 0.969782, 0.960476, 1.0428, 0.949313, 0.984762, 1.00696, 1.04619, 0.958971, 1.10722, 1.00955, 1.0003, 1.00288, 1.05199, 1.07051};
+  const std::vector<Float_t> evenL3ProtonsToT{0, 0.995827, 0, 0.917031, 0.966844, 1.01205, 0.973729, 0.968431, 0.976107, 0.989624, 1.02213, 1.0652, 0.989929, 0.951786, 0.985082, 1.09828, 1.08795};
+  const std::vector<Float_t> oddL3ProtonsToT {0, 1.0413, 1.01204, 0.978311, 0.96057, 0.991689, 0, 1.00838, 1.03157, 1.02856, 0.946844, 1.07601, 0.956634, 0.934894, 0.927116, 1.07189, 1.03419};
+  const std::vector<Float_t> oddL4ProtonsToT {0, 0.941198, 0.960171, 0.925316, 0.943235, 0.999258, 1.03473, 1.04624, 1.0413, 0.979952, 1.01062, 1.08586, 0.946007, 1.00534, 0.987022, 1.05462, 1.03914};
+  const std::vector<Float_t> evenL4ProtonsToT{0, 1.01142, 0.994083, 0.97588, 0.969063, 1.00397, 0.967519, 1.00196, 1.0009, 1.00317, 1.00607, 1.086, 0.958494, 0.915946, 1.01221, 1.0528, 1.04052};
+  const std::vector<Float_t> evenL5ProtonsToT{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> oddL5ProtonsToT {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> oddL6ProtonsToT {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> evenL6ProtonsToT{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> evenL7ProtonsToT{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> oddL7ProtonsToT {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> oddL8ProtonsToT {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<Float_t> evenL8ProtonsToT{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
   /// The E18 gain map
   const std::vector<Float_t> evenL1E18{0, 0.969561, 0.864863, 0.946059, 0.867142, 1.19787, 1.05303, 0.893182, 0.949806, 0.828129, 0.942268, 0.92256, 0.901908, 1.05569, 0.925499, 1.05727, 0.827669};
@@ -120,6 +136,25 @@ namespace constants
     { PadiwaSocket::L8odd,  oddL8  }
   };
 
+  const std::map<PadiwaSocket, std::vector<Float_t>> testModuleGainMappingToT {
+    { PadiwaSocket::L1even, evenL1ToT },
+    { PadiwaSocket::L2even, evenL2ToT },
+    { PadiwaSocket::L3even, evenL3ToT },
+    { PadiwaSocket::L4even, evenL4ToT },
+    { PadiwaSocket::L5even, evenL5ToT },
+    { PadiwaSocket::L6even, evenL6ToT },
+    { PadiwaSocket::L7even, evenL7ToT },
+    { PadiwaSocket::L8even, evenL8ToT },
+    { PadiwaSocket::L1odd,  oddL1ToT  },
+    { PadiwaSocket::L2odd,  oddL2ToT  },
+    { PadiwaSocket::L3odd,  oddL3ToT  },
+    { PadiwaSocket::L4odd,  oddL4ToT  },
+    { PadiwaSocket::L5odd,  oddL5ToT  },
+    { PadiwaSocket::L6odd,  oddL6ToT  },
+    { PadiwaSocket::L7odd,  oddL7ToT  },
+    { PadiwaSocket::L8odd,  oddL8ToT  }
+  };
+
   const std::map<PadiwaSocket, std::vector<Float_t>> testModuleGainMappingProtons {
     { PadiwaSocket::L1even, evenL1Protons },
     { PadiwaSocket::L2even, evenL2Protons },
@@ -137,6 +172,25 @@ namespace constants
     { PadiwaSocket::L6odd,  oddL6Protons  },
     { PadiwaSocket::L7odd,  oddL7Protons  },
     { PadiwaSocket::L8odd,  oddL8Protons  }
+  };
+
+  const std::map<PadiwaSocket, std::vector<Float_t>> testModuleGainMappingProtonsToT {
+    { PadiwaSocket::L1even, evenL1ProtonsToT },
+    { PadiwaSocket::L2even, evenL2ProtonsToT },
+    { PadiwaSocket::L3even, evenL3ProtonsToT },
+    { PadiwaSocket::L4even, evenL4ProtonsToT },
+    { PadiwaSocket::L5even, evenL5ProtonsToT },
+    { PadiwaSocket::L6even, evenL6ProtonsToT },
+    { PadiwaSocket::L7even, evenL7ProtonsToT },
+    { PadiwaSocket::L8even, evenL8ProtonsToT },
+    { PadiwaSocket::L1odd,  oddL1ProtonsToT  },
+    { PadiwaSocket::L2odd,  oddL2ProtonsToT  },
+    { PadiwaSocket::L3odd,  oddL3ProtonsToT  },
+    { PadiwaSocket::L4odd,  oddL4ProtonsToT  },
+    { PadiwaSocket::L5odd,  oddL5ProtonsToT  },
+    { PadiwaSocket::L6odd,  oddL6ProtonsToT  },
+    { PadiwaSocket::L7odd,  oddL7ProtonsToT  },
+    { PadiwaSocket::L8odd,  oddL8ProtonsToT  }
   };
 
   const std::map<PadiwaSocket, std::vector<Float_t>> testModuleGainMappingE18 {
