@@ -147,14 +147,15 @@ void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFi
 
       if (outputFormat == 0) {
         if (type==ParticleType::Pion) {
-          totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
+          /// amplitude, pions
+          totCalib = 0.667*exp(0.146*ToT*(ToT*constants::padiwaGainCorrSlope.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                                             +constants::padiwaGainCorrOffset.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))))/
                      constants::testModuleGainMapping.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
-                   //constants::moduleGainConfigMap.at(Int_t(padiwaConfig)).at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
-                   ///(Int_t(layer) < 5 ? constants::testModuleGainCorrL14.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
-                   ///                  : constants::testModuleGainCorrL58.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));
         }
         else if (type==ParticleType::Proton) {
-          totCalib = 0.667*exp(0.146*ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID))))/
+          /// amplitude, protons
+          totCalib = 0.667*exp(0.146*ToT*(ToT*constants::padiwaGainCorrSlope.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                                             +constants::padiwaGainCorrOffset.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))))/
                      constants::testModuleGainMappingProtons.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
         }
         else {
@@ -164,16 +165,17 @@ void convertToCalibratedCTSEvents(const TString inputFiles, const char *outputFi
       }
       else if (outputFormat == 1) {
         if (type==ParticleType::Pion) {
-          totCalib = ToT*
-                     constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID)))/
+          /// ToT, pions
+          totCalib = ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                     /*(ToT*constants::padiwaGainCorrSlope.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                         +constants::padiwaGainCorrOffset.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)))*//
                      constants::testModuleGainMappingToT.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
-                   //constants::moduleGainConfigMap.at(Int_t(padiwaConfig)).at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
-                   ///(Int_t(layer) < 5 ? constants::testModuleGainCorrL14.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
-                   ///                  : constants::testModuleGainCorrL58.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));
         }
         else if (type==ParticleType::Proton) {
-          totCalib = ToT*
-                     constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(Int_t(chID)))/
+          /// ToT, protons
+          totCalib = ToT*constants::padiwaGainCorrProton.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                     /*(ToT*constants::padiwaGainCorrSlope.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                         +constants::padiwaGainCorrOffset.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)))*//
                      constants::testModuleGainMappingProtonsToT.at(mapping::getPadiwaSocket(mapping::getPadiwa(Int_t(TDC), Int_t(chID)), UInt_t(padiwaConfig))).at(mapping::getPadiwaChannel(Int_t(chID)));
         }
         else {

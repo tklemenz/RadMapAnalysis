@@ -85,6 +85,7 @@ set(EXE_SRCS
     macros/getModuleGain.C
     macros/compareGainMaps.C
     macros/checkCalibration.C
+    macros/getLinPadiwaCalib.C
     )
 
 set(EXE_NAMES
@@ -108,6 +109,7 @@ set(EXE_NAMES
     getModuleGain
     compareGainMaps
     checkCalibration
+    getLinPadiwaCalib
     )
 
 list(LENGTH EXE_SRCS count)

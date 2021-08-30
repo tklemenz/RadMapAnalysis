@@ -15,6 +15,7 @@
 
 #include "Utility.h"
 
+///< Deprecated
 ///< usage: ./getPadiwaGainMap -i inputfilePionConfig0 -j inputfilePionConfig3 -k inputfileProtonConfig0
 ///<                           -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed

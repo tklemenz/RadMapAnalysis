@@ -105,6 +105,9 @@ void applyPadiwaGainCorrectionToSignals(const TString inputFiles, const char *ou
 
       timeCalib = (timeStamp-refTime)*1e9 - constants::padiwaTimeCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
 
+      /*totCalib = ToT*(ToT*constants::padiwaGainCorrSlope.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID))
+                         +constants::padiwaGainCorrOffset.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID)));*/
+
       totCalib = ToT*constants::padiwaGainCorr.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))).at(mapping::getPadiwaChannel(chID));
 
       nt->Fill(eventNr,timeCalib,totCalib,chID,TDC,layer,x,y,signalNr,padiwaConfig,refTime);

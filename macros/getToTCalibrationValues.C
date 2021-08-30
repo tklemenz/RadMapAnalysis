@@ -63,20 +63,21 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
   ==========================================================*/
   std::vector<TH2D*> totLayerVec{};
   for(Int_t i = 0; i<8; i++) {
-    if ( i == 7 ) { totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,200,0,20)); }
-    else { totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,500,0,50)); }
+    //if ( i == 7 ) { totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,200,0,20)); }
+    /*else {*/ totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),"ToT distribution vs fiber;fiber;ToT",33,0,33,300,5,35));// }
   }
 
   std::vector<TH2D*> totPadiwaVec{};
   for(auto& name : constants::padiwaNames) {
-    if ( name == "1530_0" ) { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,200,0,20)); }
-    else { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,500,0,50)); }
+    //if ( name == "1530_0" ) { totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,200,0,20)); }
+    /*else {*/ totPadiwaVec.emplace_back(new TH2D(Form("hToTPadiwa%s",name.c_str()),"ToT distribution vs padiwa channel;channel;ToT",17,0,17,300,5,35));// }
   }
 
   TH1F* meanToTDist1 = new TH1F("hMeanToTDistL1","mean ToT distribution",300,0,30);
   TH1F* meanToTDist2 = new TH1F("hMeanToTDistL2","mean ToT distribution",300,0,30);
   TH1F* meanToTDist3 = new TH1F("hMeanToTDistL3","mean ToT distribution",300,0,30);
   TH1F* meanToTDist4 = new TH1F("hMeanToTDistL4","mean ToT distribution",300,0,30);
+  TH1F* meanToTAll   = new TH1F("hMeanToTAll","mean ToT distribution; channel mean",300,0,30);
 
   std::vector<TH1D*> totLayerGausMean{};
   std::vector<std::vector<Float_t>> fitContentLayer{};
@@ -123,6 +124,7 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
       if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
       if (signalNr != 1) { continue; }
       fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
+      //if (layer == 4 && (fiberNr == 23 || fiberNr == 27)) { continue; }
 
       totPadiwaVec.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);
@@ -189,7 +191,7 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
   fout->WriteObject(c1, c1->GetName());
   fout->WriteObject(c2, c2->GetName());
 
-  fout->Close();
+  //fout->Close();
 
   // get mean of measured values --> refValue for calibration
   Int_t fitIter = 0;
@@ -197,33 +199,52 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
     for (Int_t i=2;i<content.size()-1;i++) {
       if (fitIter == 0) {
         meanToTDist1->Fill(content.at(i));
+        meanToTAll->Fill(content.at(i));
+      }
+      else if (fitIter == 1 && !(i%2)) {
+        meanToTDist2->Fill(content.at(i));
+        meanToTAll->Fill(content.at(i));
       }
       else if (fitIter == 1 && (i%2)) {
-        meanToTDist2->Fill(content.at(i));
+        printf("skipped high gain padiwa channel %d\n", (i-1)/2);
       }
       else if (fitIter == 2) {
         if (i != 12) {
-          meanToTDist3->Fill(content.at(i));
+          if (content.at(i) > 0) {
+            meanToTDist3->Fill(content.at(i));
+            meanToTAll->Fill(content.at(i));
+          }
         }
       }
       else if (fitIter == 3) {
         meanToTDist4->Fill(content.at(i));
+        meanToTAll->Fill(content.at(i));
       }
       else {printf("what?\n");}
     }
     fitIter++;
   }
 
+  fout->WriteObject(meanToTAll, "hMeanToTAll");
+  fout->Close();
+
   float meanL1 = meanToTDist1->GetMean();
   float meanL2 = meanToTDist2->GetMean();
   float meanL3 = meanToTDist3->GetMean();
   float meanL4 = meanToTDist4->GetMean();
+  float meanAll = meanToTAll->GetMean();
+
+  printf("mean layer 1: %g\n", meanL1);
+  printf("mean layer 2: %g\n", meanL2);
+  printf("mean layer 3: %g\n", meanL3);
+  printf("mean layer 4: %g\n", meanL4);
+  printf("mean all: %g\n", meanAll);
 
   // write fit results to file
   std::ofstream calibOutput;
   calibOutput.open(outputCalib);
-  calibOutput << "This file contains calibration corrections in Padiwa and Fiber (in layer) mapping.";
-  calibOutput << "Multiply the value for each fiber with the uncalibrated ToT value to pull everything to 15 ns.\n";
+  calibOutput << "This file contains calibration corrections in Padiwa and Fiber (in layer) mapping.\n";
+  calibOutput << "Multiply the value for each fiber with the uncalibrated ToT value to pull everything to the same mean value.\n";
   calibOutput << "DO NOT FORGET TO REMOVE THE LAST COMMA FOR EACH PADIWA/LAYER!!!\n";
   fitIter = 0;
 

@@ -20,7 +20,7 @@
 #include "Utility.h"
 #include "Constants.h"
 
-///< usage: ./getModuleGain -i inputfile1 -j inputfile2-o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
+///< usage: ./getModuleGain -i inputfile1 -j inputfile2 -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 ///< Get the gain map for a module
 ///< Input:
