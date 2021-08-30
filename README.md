@@ -4,8 +4,6 @@
 
 * root
 * cmake
-* fmt
-* boost
 
 ### Recommended
 
