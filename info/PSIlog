@@ -1,0 +1,1757 @@
+This is the PSI beamtim log file.
+DO NOT DELETE
+To fill call source /home/iss/analysis/MakeLogEntry <filename> 
+
+Beam shifted from initial position during tuning. 
+Need to check heatmap during first data run and adjust position.
+Should be <2cm in each dimension, so should be able to resolve the peak well. 
+
+
+
+
+  Detector position in degrees:0 
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Date and time (DD/HH/MM): 18/17/34 
+  Padiwa configuration: 0
+  Beam Current (muA): 2000
+  Detector current (SiPMs) in muA: 280
+  Blame: Thomas Klemenz
+  Comments: first beam ever
+
+
+
+
+dabc20262173449.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Date and time (DD/HH/MM): 18/17/34 
+  Padiwa configuration: 0
+  Beam Current (muA): 2000
+  Detector current (SiPMs) in muA: 280
+  Blame: Thomas
+  Comments: first beam
+
+
+
+
+dabc20262174045.hld + dabc20262180408.hld?
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Date and time (DD/HH/MM): 18/17/41 
+  Padiwa configuration: 0
+  Beam Current (muA): 2000
+  Detector current (SiPMs) in muA: 283
+  Blame: Thomas (and maybe a little bit Stephan because his log entry script didnt work yet)
+  Comments: none
+
+
+
+
+dabc20262185934.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Date and time (DD/HH/MM): 18/19/03 
+  Padiwa configuration: 0
+  Beam Current (muA): na
+  Detector current (SiPMs) in muA: 311
+  Blame: Stephan
+  Comments: 
+
+
+
+
+dabc20262190625.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Date and time (DD/HH/MM): 18/19/11 
+  Padiwa configuration: 0
+  Beam Current (muA): na
+  Detector current (SiPMs) in muA: 165
+  Blame: Stephan
+  Comments: 
+
+
+
+
+
+
+dabc20262194239.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Date and time (DD/HH/MM): 18/19/43 
+  Padiwa configuration: 0
+  Beam Current (muA): na
+  Detector current (SiPMs) in muA: 165
+  Blame: Stephan
+  Comments: didnt hange voltage, short file
+
+
+
+
+dabc20262194501.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Date and time (DD/HH/MM): 18/19/45 
+  Padiwa configuration: 0
+  Beam Current (muA): na
+  Detector current (SiPMs) in muA: 79,7
+  Blame: Stephan
+  Comments: 
+
+
+
+
+dabc20262200843.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Date and time (DD/MM HH/MM): 18/09 20/08 
+  Padiwa configuration: 0
+  Beam Current (muA): 30
+  Detector current (SiPMs) in muA: 550
+  Blame: Sabrina
+  Comments: zu frueh gekillt, kleines file. Das nächste läuft richtig
+
+
+
+
+dabc20262200949.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Date and time (DD/MM HH/MM): 18/9  20:35 
+  Padiwa configuration: 0
+  Beam Current (muA): 260
+  Detector current (SiPMs) in muA: 550
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20262203556.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Date and time (DD/MM HH/MM): 18/9 20:45 
+  Padiwa configuration: 0
+  Beam Current (muA): 1
+  Detector current (SiPMs) in muA: 30
+  Blame: Sabrina
+  Comments: only aiming for 10k counts per TDC. well below 1Hz rates in each channel, 1M counts would take too long.
+
+
+
+
+dabc20262204448.hld, dabc20262204751.hld, dabc20262204833.hld, dabc20262205126.hld, dabc20262205453.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Date and time (DD/MM HH/MM): 18/09 tba 
+  Padiwa configuration: 0
+  Beam Current (muA): 40
+  Detector current (SiPMs) in muA: 309
+  Blame: Stephan
+  Comments: Trigger Rate war hier für ein paar minuten bei 500kHz... sehr große files mit wahrscheinlich fast nur leeren events. 
+
+
+
+
+dabc20262205704.hld, dabc20262210023.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 500
+  Voltage(V): 29
+  Date and time (DD/MM HH/MM): 18/9 
+  Padiwa configuration: 0
+  Beam Current (muA): 510
+  Detector current (SiPMs) in muA: 312
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20262211459.hld, dabc20262211821.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 200
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date and time (DD/MM HH/MM): 18/9 
+  Padiwa configuration: 0
+  Beam Current (muA): 440
+  Detector current (SiPMs) in muA: 313
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20262224207.hld dabc20262224529.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 400
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date and time (DD/MM HH/MM): 18/09 22:48 
+  Padiwa configuration: 0
+  Beam Current (muA): 400
+  Detector current (SiPMs) in muA: 325 uA
+  Blame: Lord Voldemord (Stephan)
+  Comments: 
+
+
+
+
+dabc20262225244.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 10kHz 
+  Date and time (DD/MM HH/MM): 1809 22:54 
+  Padiwa configuration: 0
+  Beam Current (muA): 400
+  Detector current (SiPMs) in muA: see previous file
+  Blame: Stephan
+  Comments: To check events with lower trigger rate. Small file
+
+
+
+
+dabc20262225549.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 100Hz 
+  Date and time (DD/MM HH/MM): 19/9  7/18 
+  Padiwa configuration: 0
+  Beam Current (muA): 4
+  Detector current (SiPMs) in muA: 320
+  Blame: Sabrina
+  Comments: Cosmics, no beam, overnight
+
+
+
+#Following files might have wrong settings saved. Do not use for serious analysis. Measurements were repeated
+		dabc20263081955.hld +  dabc20263082423.hld + dabc20263082747.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 29
+		  Trigger rate: 50kHz 
+		  Date and time (DD/MM HH/MM): 19/9 8:29 
+		  Padiwa configuration: 0
+		  Beam Current (muA): 325
+		  Detector current (SiPMs) in muA: 325
+		  Blame: Sabrina
+		  Comments: 90 grad 
+		
+		
+		
+		
+		dabc20263082926.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 29
+		  Trigger rate: 50Khz 
+		  Date and time (DD/MM HH/MM): 19/9 8:29 
+		  Padiwa configuration: 0
+		  Beam Current (muA): na
+		  Detector current (SiPMs) in muA: 325
+		  Blame: Sabrina
+		  Comments: small file
+		
+		
+		
+		
+		dabc20263083612.hld + dabc20263084002.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 28
+		  Trigger rate: 50KHz 
+		  Date and time (DD/MM HH/MM): 19/9  8:43 
+		  Padiwa configuration: 0
+		  Beam Current (muA): na
+		  Detector current (SiPMs) in muA: 175
+		  Blame: Sabrina
+		  Comments: 
+		
+		
+		
+		
+		dabc20263084421.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 28
+		  Trigger rate: 50KHz 
+		  Date and time (DD/MM HH/MM): 19/9 8/45 
+		  Padiwa configuration: 0
+		  Beam Current (muA): na
+		  Detector current (SiPMs) in muA: 175
+		  Blame: Sabrina
+		  Comments: small file
+		
+		
+		
+		
+		dabc20263084634.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 27
+		  Trigger rate: 50kHz 
+		  Date and time (DD/MM HH/MM): 19/9 tba 
+		  Padiwa configuration: 0
+		  Beam Current (muA): 340
+		  Detector current (SiPMs) in muA: 85
+		  Blame: Sabrina
+		  Comments: , DO NOT USE, unsure of settings. measurement repeated
+		
+		
+		
+		
+		
+		dabc20263085259.hld
+		  Detector position in degrees: 90
+		  Threshold(internal units): 100
+		  Voltage(V): 27
+		  Trigger rate: 50kHz 
+		  Date and time (DD/MM HH/MM): 19/9 8/54 
+		  Padiwa configuration: 0
+		  Beam Current (muA): 340
+		  Detector current (SiPMs) in muA: 85
+		  Blame: Sabrina
+		  Comments: small file, DO NOT USE, unsure of settings. measurement repeated
+		
+#end of unsure files, repeated measurements below
+
+
+
+dabc20263090903.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 20 
+  Date and time (DD/MM HH/MM): 1909 tba 
+  Padiwa configuration: 0
+  Beam Current (muA): 
+  Detector current (SiPMs) in muA: tba
+  Blame: Sabrina & Stephan
+  Comments: Not sure if there was beam. Will be repeated. Check file to see if trigger rate in beam can be reduced from 50-20kHz
+
+
+
+
+dabc20263092209.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 20khz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/32
+  Time end (HH:MM): 9/32
+  Padiwa configuration: 0
+  Beam Current (muA): 370
+  Detector current (SiPMs) in muA: 337
+  Blame: Sabrina
+  Comments: start and end time should be 23, not 32
+
+
+
+
+dabc20263092531.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/26
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 370
+  Detector current (SiPMs) in muA: 337
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263092856.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/29
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 380
+  Detector current (SiPMs) in muA: 179
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263093129.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/32
+  Time end (HH:MM): 9/33
+  Padiwa configuration: 0
+  Beam Current (muA): 360
+  Detector current (SiPMs) in muA: 179
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263093610.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/37
+  Time end (HH:MM): 9/38
+  Padiwa configuration: 0
+  Beam Current (muA): 380
+  Detector current (SiPMs) in muA: 339
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263093910.hld, dabc20263094237.hld, dabc20263094604.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/39
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 280
+  Detector current (SiPMs) in muA: 86
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263095054.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/52
+  Time end (HH:MM): 9/52
+  Padiwa configuration: 0
+  Beam Current (muA): 280
+  Detector current (SiPMs) in muA: 87
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263095311.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/54
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 70
+  Detector current (SiPMs) in muA: 33
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263095702.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/57
+  Time end (HH:MM): 9/57
+  Padiwa configuration: 0
+  Beam Current (muA): 70
+  Detector current (SiPMs) in muA: 33
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263095854.hld, dabc20263100212.hld, dabc20263100531.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 9/59
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 630
+  Detector current (SiPMs) in muA: 624
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263114344.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 11/45
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (muA): 280
+  Detector current (SiPMs) in muA: 640
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263115313.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 11/54
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 550
+  Detector current (SiPMs) in muA: 375
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263115948.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12:00
+  Time end (HH:MM): 12:00
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 530
+  Detector current (SiPMs) in muA: 359
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263120205.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12/02
+  Time end (HH:MM): 12/02
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 820
+  Detector current (SiPMs) in muA: 655
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263120855.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12/09
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 400
+  Detector current (SiPMs) in muA: 190
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263121138.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12/11
+  Time end (HH:MM): 12/11
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 400
+  Detector current (SiPMs) in muA: 190
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263121320.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12/13
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 290
+  Detector current (SiPMs) in muA: 92
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263121749.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 12/18
+  Time end (HH:MM): 12/18
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 270
+  Detector current (SiPMs) in muA: 92
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263121951.hld
+  Detector position in degrees: 45
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 12/20
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 35
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263141233.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 14/13
+  Time end (HH:MM): tba
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 460
+  Detector current (SiPMs) in muA: 350
+  Blame: Sabrina
+  Comments: new tresholds befor starting the measurement
+
+
+
+
+dabc20263141616.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 100 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 14/16
+  Time end (HH:MM): 14/16
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 460
+  Detector current (SiPMs) in muA: 350
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263141755.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 14/18
+  Time end (HH:MM): tba
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 450
+  Detector current (SiPMs) in muA: 185
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263142021.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 14:20
+  Time end (HH:MM): 14:20
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 440
+  Detector current (SiPMs) in muA: 185
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263142307.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/9 
+  Time start (HH:MM): 14:23
+  Time end (HH:MM): tba
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 370
+  Detector current (SiPMs) in muA: 86
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263145547.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 14:56
+  Time end (HH:MM): 14:56
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 340
+  Detector current (SiPMs) in muA: 89
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263145727.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 14:57
+  Time end (HH:MM): tba
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 100
+  Detector current (SiPMs) in muA: 34
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263150037.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 15/00
+  Time end (HH:MM): 15/01
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 100
+  Detector current (SiPMs) in muA: 34
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20263150216.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 15/02
+  Time end (HH:MM): tba
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 780
+  Detector current (SiPMs) in muA: 640
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20263150457.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 19/09 
+  Time start (HH:MM): 15:05
+  Time end (HH:MM): 15:05
+  Padiwa configuration: 3
+  Beam Current (Hz in TDC): 950
+  Detector current (SiPMs) in muA: 640
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264073848.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 7/58
+  Time end (HH:MM): tba
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 550
+  Detector current (SiPMs) in muA: 348
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264080132.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/02
+  Time end (HH:MM): tba
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 520
+  Detector current (SiPMs) in muA: 183
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264080353.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/04
+  Time end (HH:MM): 8/04
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 520
+  Detector current (SiPMs) in muA: 183
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264080615.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/06
+  Time end (HH:MM): 8/06
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 560
+  Detector current (SiPMs) in muA: 350
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264080744.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/07
+  Time end (HH:MM): tba
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 450
+  Detector current (SiPMs) in muA: 87
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264081153.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/12
+  Time end (HH:MM): 8/12
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 400
+  Detector current (SiPMs) in muA: 86
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264081823.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/18
+  Time end (HH:MM): tba
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 100
+  Detector current (SiPMs) in muA: 33
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264082216.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/22
+  Time end (HH:MM): 8/22
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 100
+  Detector current (SiPMs) in muA: 33
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264082359.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/24
+  Time end (HH:MM): tba
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 740
+  Detector current (SiPMs) in muA: 644
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264082914.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 8/29
+  Time end (HH:MM): 8/29
+  Padiwa configuration: 0 layer 5-8
+  Beam Current (Hz in TDC): 644
+  Detector current (SiPMs) in muA: 750
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264085904.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/02
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 530
+  Detector current (SiPMs) in muA: 312
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264090517.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50khz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/05
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 480
+  Detector current (SiPMs) in muA: 164
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264090757.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 28
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/08
+  Time end (HH:MM): 9/08
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 460
+  Detector current (SiPMs) in muA: 166
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264090915.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50khz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/09
+  Time end (HH:MM): 9/09
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 550?
+  Detector current (SiPMs) in muA: 324
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264091031.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/10
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 400
+  Detector current (SiPMs) in muA: 78
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264091314.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 27
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/13
+  Time end (HH:MM): 9/13
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 400
+  Detector current (SiPMs) in muA: 81
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264091517.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/15
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 31
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264092326.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 26
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/23
+  Time end (HH:MM): 9/23
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 31
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264092444.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/24
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 600
+  Detector current (SiPMs) in muA: 623
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264092727.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 30
+  Trigger rate: 50khz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/27
+  Time end (HH:MM): 9/27
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 600
+  Detector current (SiPMs) in muA: 650
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264093444.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50khz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/34
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 300
+  Detector current (SiPMs) in muA: 346
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264093747.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/37
+  Time end (HH:MM): 9/37
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 300
+  Detector current (SiPMs) in muA: 348
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264094134.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/41
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 120
+  Detector current (SiPMs) in muA: 353
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264094800.hld
+  Detector position in degrees: 90
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 50khz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 9/48
+  Time end (HH:MM): tba
+  Padiwa configuration: 3 layer 5-8
+  Beam Current (Hz in TDC): 190
+  Detector current (SiPMs) in muA: 363
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264103849.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 10/39
+  Time end (HH:MM): tba
+  Padiwa configuration: 2
+  Beam Current (Hz in TDC): 520
+  Detector current (SiPMs) in muA: 326
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264114314.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 11/43
+  Time end (HH:MM): tba
+  Padiwa configuration: 1
+  Beam Current (Hz in TDC): 530
+  Detector current (SiPMs) in muA: 360
+  Blame: Sabrina
+  Comments: 
+
+
+
+
+dabc20264121232.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 20/09 
+  Time start (HH:MM): 12/12
+  Time end (HH:MM): 12/12
+  Padiwa configuration: 1
+  Beam Current (Hz in TDC): 530
+  Detector current (SiPMs) in muA: 387
+  Blame: Sabrina
+  Comments: small file
+
+
+
+
+dabc20264122651.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 1458
+  Time end (HH:MM): 1503
+  Padiwa configuration: 1
+  Beam Current (Hz in TDC): 550
+  Detector current (SiPMs) in muA: 400
+  Blame: Stephan
+  Comments: Das ist die richtige (zweiote) mit dieser konfiguration
+
+
+
+
+dabc20264194320.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 10kHuz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 1947
+  Time end (HH:MM): 1950
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): na
+  Detector current (SiPMs) in muA: na
+  Blame: Stephan
+  Comments: Calibration trigger file
+
+
+
+
+dabc20264194936.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2007
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 230
+  Detector current (SiPMs) in muA: 312
+  Blame: Stephan
+  Comments: 
+
+
+
+
+dabc20264201852.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2018
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 100
+  Detector current (SiPMs) in muA: 350
+  Blame: Stephan
+  Comments: protons
+
+
+
+
+dabc20264202617.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2026
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 150
+  Detector current (SiPMs) in muA: 360
+  Blame: Stephan
+  Comments: protons
+
+
+
+
+dabc20264203735.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 500
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2037
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 190
+  Detector current (SiPMs) in muA: 370
+  Blame: Stephan
+  Comments: protons
+
+
+
+
+dabc20264204803.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 500
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2048
+  Time end (HH:MM): 2048
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 180
+  Detector current (SiPMs) in muA: 376
+  Blame: Stephan
+  Comments: small file
+
+
+
+
+dabc20264204937.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 400
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2050
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 195
+  Detector current (SiPMs) in muA: 375
+  Blame: Stephan
+  Comments: protons
+
+
+
+
+dabc20264205756.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 400
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2049
+  Time end (HH:MM): 2049
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 190
+  Detector current (SiPMs) in muA: 377
+  Blame: Stephan
+  Comments: small file
+
+
+
+
+dabc20264205938.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 200
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2100
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 250
+  Detector current (SiPMs) in muA: 380
+  Blame: Stephan
+  Comments: protons
+
+
+
+
+dabc20264210639.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 200
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2106
+  Time end (HH:MM): 2107
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 250
+  Detector current (SiPMs) in muA: 378
+  Blame: Stephan
+  Comments: small file protons
+
+
+
+
+dabc20264210808.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2116
+  Time end (HH:MM): 2116
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 384
+  Blame: Stephan
+  Comments: small file, should hit 3 layers protons
+
+
+
+
+dabc20264211727.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2118
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 384
+  Blame: Stephan
+  Comments: 3 layers protons
+
+
+
+
+dabc20264213643.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2136
+  Time end (HH:MM): 2136
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 90
+  Detector current (SiPMs) in muA: 386
+  Blame: Stephan
+  Comments: 3 layers small file protons, had to stop early for dinner. Taking pion background over dinner at same beam setting.
+
+
+
+
+dabc20264214854.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 1kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2151
+  Time end (HH:MM): 2151
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 10
+  Detector current (SiPMs) in muA: 386
+  Blame: Stephan
+  Comments: discard, pion background measurement but with too high offset. will let run at offset 100
+
+
+
+
+dabc20264215218.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2152
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 10
+  Detector current (SiPMs) in muA: 386
+  Blame: Stephan
+  Comments: pion background measurement. Same settings as proton beam, but with plasitc window in front of beam. running at 1000 to get the background at the exact same settings example file:dabc20264211727.hld#thomasistpingeligabercorrect
+
+
+
+
+
+
+dabc20264224137.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2242
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 200
+  Detector current (SiPMs) in muA: 390
+  Blame: Stephan
+  Comments: protons, 3 layers
+
+
+
+
+dabc20264225324.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009# 
+  Time start (HH:MM): 2257
+  Time end (HH:MM): 2257
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 386
+  Blame: Stephan
+  Comments: short file protons 4layers?
+
+
+
+
+dabc20264230017.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2300
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 60
+  Detector current (SiPMs) in muA: 392
+  Blame: Stephan
+  Comments: protons 3 layers full
+
+
+
+
+dabc20264231612.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2317
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 150
+  Detector current (SiPMs) in muA: 390
+  Blame: Stephan
+  Comments: protons 3 layersfull
+
+
+
+
+dabc20264232048.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2321
+  Time end (HH:MM): tba#
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 80
+  Detector current (SiPMs) in muA: 390
+  Blame: Stephan
+  Comments: protons 3 layers full, shorter file for time constraints 1/3 statistics
+
+
+
+
+dabc20264232515.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2329
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 330
+  Detector current (SiPMs) in muA: 410
+  Blame: Stephan
+  Comments: protons, higher rate, shooting through all 4 layers
+
+
+
+
+dabc20264233046.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2332
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 300
+  Detector current (SiPMs) in muA: 410
+  Blame: Stephan
+  Comments: discard, douplicate settings. super short
+
+
+
+
+dabc20264233126.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 750
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2333
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 375
+  Detector current (SiPMs) in muA: 410
+  Blame: Stephan
+  Comments: protons, shooting through
+
+
+
+
+dabc20264233438.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 100
+  Voltage(V): 29
+  Trigger rate: 50 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2335
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 1000
+  Detector current (SiPMs) in muA: 410
+  Blame: Stephan
+  Comments: protons, deeply penetrating
+
+
+
+
+dabc20264234143.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 0
+  Voltage(V): 0
+  Trigger rate: 0 
+  Date (DD/MM): 0 
+  Time start (HH:MM): 0
+  Time end (HH:MM): 0
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 0
+  Detector current (SiPMs) in muA: 0
+  Blame: Stephan
+  Comments: ignore, discarded for possibly unstable beam config (turned off in themiddle possibly):wq
+
+
+
+
+dabc20264234342.hld
+  Detector position in degrees: 0
+  Threshold(internal units): 1000
+  Voltage(V): 29
+  Trigger rate: 50kHz 
+  Date (DD/MM): 2009 
+  Time start (HH:MM): 2344
+  Time end (HH:MM): tba
+  Padiwa configuration: 0
+  Beam Current (Hz in TDC): 1
+  Detector current (SiPMs) in muA: 410
+  Blame: Stephan
+  Comments: SiPM current is actually 397, i typed wrong. This is a background measurement after the beam was turned off, just to have another set with the higher threshold.
+
