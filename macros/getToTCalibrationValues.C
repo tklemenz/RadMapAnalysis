@@ -124,7 +124,7 @@ void getToTCalibrationValues(const TString inputFiles, const char *outputFile, c
       if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
       if (signalNr != 1) { continue; }
       fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
-      //if (layer == 4 && (fiberNr == 23 || fiberNr == 27)) { continue; }
+      if (layer == 4 && (fiberNr == 23 || fiberNr == 27)) { continue; }
 
       totPadiwaVec.at(constants::padiwaPosMap.at(mapping::getPadiwa(Int_t(TDC), Int_t(chID))))->Fill(mapping::getPadiwaChannel(chID), ToT);
       totLayerVec.at(Int_t(layer)-1)->Fill(fiberNr, ToT);

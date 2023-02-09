@@ -20,7 +20,7 @@
 #include "Utility.h"
 #include "Constants.h"
 
-///< usage: ./getModuleGain -i inputfile1 -j inputfile2 -o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
+///< usage: ./getModuleGain -i inputfile1 -j inputfile2-o outputfile -c outputfileForCalibData -n numberOfEventsToBeProcessed
 ///< n = -1 by default which means the whole file is processed
 ///< Get the gain map for a module
 ///< Input:
@@ -207,8 +207,8 @@ void getModuleGain(const TString inputFiles0, const TString inputFiles4, const c
       if (ToT < totCut) { continue; }                             // do not use small ToT values to not have gaus fit biased by noise
       if (signalNr != 1) { continue; }
       fiberNr = mapping::getFiberNr(padiwaConfig, chID, TDC);
-      if (layer == 3 && fiberNr == 11) { continue; }
-      if (layer == 3 && fiberNr == 30) { continue; }
+      //if (layer == 3 && fiberNr == 11) { continue; }
+      //if (layer == 3 && fiberNr == 30) { continue; }
 
       ///This is a not really working conversion from ToT to signal height
       //ToT = (ToT-8.46)/1.69;

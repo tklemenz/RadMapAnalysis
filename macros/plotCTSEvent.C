@@ -56,6 +56,11 @@ void plotCTSEvent(const TString inputFiles, const char *outputFile, ULong_t proc
     totLayerVec.emplace_back(new TH2D(Form("hToTL%i",i+1),Form("ToT distribution of first signals vs fiber in L%i;fiber;ToT",i+1),33,0,33,500,0,50));
     timeLayerVec.emplace_back(new TH2D(Form("hTimeL%i",i+1),Form("TimeStamp distribution of first signals vs fiber in L%i;fiber;ToT",i+1),33,0,33,200000,0,200000));
   }
+
+  std::vector<Signal> L1{};
+  std::vector<Signal> L2{};
+
+  TH2D* hBeamPos = new TH2D("hBeamPos","Beam position;fiber nr x;fiber nr y",33,0,33,33,0,33);
   /*========================================================
   ==========================================================*/
 
@@ -104,9 +109,22 @@ void plotCTSEvent(const TString inputFiles, const char *outputFile, ULong_t proc
             Float_t fiberNr = mapping::getFiberNr(signal.getConfiguration(),signal.getChannelID(),signal.getTDCID());
             totLayerVec.at(layer-1)->Fill(fiberNr, signal.getToT());
             timeLayerVec.at(layer-1)->Fill(fiberNr, signal.getTimeStamp()*-1);
+            if (layer == 1 && 8 < signal.getToT() < 25) { L1.emplace_back(signal); }
+            if (layer == 2 && 8 < signal.getToT() < 25) { L2.emplace_back(signal); }
           }
         } // loop over signals in fiber
       } // loop over fibers in module
+      for (auto& sigL1 : L1) {
+        Double_t timeL1 = sigL1.getTimeStamp();
+        Double_t fiberL1 = mapping::getFiberNr(sigL1.getConfiguration(), sigL1.getChannelID(), sigL1.getTDCID());
+        for (auto& sigL2 : L2) {
+          if (std::abs(timeL1-sigL2.getTimeStamp()) < 10) {
+            hBeamPos->Fill(fiberL1, mapping::getFiberNr(sigL2.getConfiguration(), sigL2.getChannelID(), sigL2.getTDCID()));
+          }
+        }
+      }
+      L1.clear();
+      L2.clear();
     } // loop over file
   } // loop over all files
 
@@ -127,6 +145,7 @@ void plotCTSEvent(const TString inputFiles, const char *outputFile, ULong_t proc
   }
 
   fout->WriteObject(c1, c1->GetName());
+  fout->WriteObject(hBeamPos, hBeamPos->GetName());
 
   fout->Close();
 }
